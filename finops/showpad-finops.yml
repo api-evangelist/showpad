@@ -1,0 +1,84 @@
+name: Showpad FinOps
+description: Financial operations guidance for managing Showpad API and platform costs. Showpad pricing is seat-based, billed annually per user. All pricing is negotiated directly with Showpad sales; no self-serve purchasing is available. API access is included with platform subscriptions and does not carry separate usage-based costs.
+url: https://www.showpad.com/pricing
+created: '2026-06-13'
+modified: '2026-06-13'
+
+model: seat-based
+billing: annual
+currency: USD
+selfServe: false
+publicPricing: false
+
+costDrivers:
+  - name: Seat Count
+    description: Primary cost driver is the number of licensed users (sellers, coaches, managers, admins). All plans are priced per user per month billed annually.
+    impact: high
+    notes:
+      - Negotiate seat count based on active user projections
+      - Unused seats cannot be reduced mid-contract
+      - New seats added mid-contract are prorated to contract end date
+
+  - name: Plan Tier Selection
+    description: Choosing between Content ($25/user/mo), Coach ($37/user/mo), and Complete ($50/user/mo) has significant cost impact. Organizations needing both content and coaching capabilities should evaluate Complete vs purchasing both separately.
+    impact: high
+    notes:
+      - Complete plan is more cost-effective than purchasing Content + Coach separately
+      - Evaluate actual feature usage to avoid over-purchasing
+      - Coach-only licenses are appropriate for enablement teams that do not need content distribution
+
+  - name: Contract Term
+    description: Showpad contracts are annual. Multi-year commitments (2-3 years) may unlock additional discounts from the sales team.
+    impact: medium
+    notes:
+      - Annual billing is standard
+      - Multi-year deals can yield larger discounts (20-35% off list)
+      - No monthly billing option available
+
+  - name: Implementation and Onboarding
+    description: Professional services for implementation, configuration, and training are not included in the base license. Budget 5-10% of annual license cost for onboarding services.
+    impact: medium
+    notes:
+      - Implementation complexity scales with CRM integration requirements
+      - SCIM 2.0 setup for identity provisioning may require IT resources
+      - Training investment improves adoption and ROI
+
+  - name: Integration Costs
+    description: CRM integrations (Salesforce, HubSpot, Microsoft Dynamics) and marketing automation connections may require additional configuration. Check if CRM connectors are included in the selected plan tier.
+    impact: low-medium
+    notes:
+      - Full CRM integration is available on Complete plan
+      - API usage for custom integrations is included with platform subscription
+      - No per-API-call charges; API access is bundled with license
+
+costOptimization:
+  - strategy: Negotiate Aggressively
+    description: Showpad does not publish pricing publicly. Enterprise buyers typically negotiate 15-35% off list pricing. Use competitive sales enablement providers as leverage.
+    savings: 15-35% off list
+
+  - strategy: Right-Size Plan Selection
+    description: Evaluate whether all users need the Complete plan or if a split of Content and Coach licenses can reduce costs. Sellers may only need Content while managers need Coach.
+    savings: variable
+
+  - strategy: Audit Active Users Before Renewal
+    description: Before contract renewal, audit which licensed seats are actively used. Remove inactive users before negotiating seat count for the new term.
+    savings: variable
+
+  - strategy: Multi-Year Commitment
+    description: Commit to a 2-3 year term in exchange for deeper discounts. Only appropriate if Showpad adoption is strong and the platform is strategic.
+    savings: additional 5-15% beyond standard negotiated rate
+
+  - strategy: Bundle Content and Coach
+    description: If both content management and coaching are needed, the Complete plan at $50/user/mo is more cost-effective than purchasing Content ($25) + Coach ($37) = $62/user/mo separately.
+    savings: approximately $12/user/month
+
+benchmarks:
+  - metric: Median Annual Contract Value
+    value: '$32,497'
+    source: CostBench / VendorBenchmark aggregate data 2026
+  - metric: Typical Negotiated Discount
+    value: 15-35% below list
+    source: VendorBenchmark 2026
+  - metric: List Price Range
+    value: $25-$50 per user per month (billed annually)
+    source: CostBench 2026

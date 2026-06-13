@@ -1,0 +1,70 @@
+name: Showpad Plans and Pricing
+description: Showpad offers three primary plan tiers for its sales enablement platform. Pricing is per user per month billed annually. Showpad does not publicly publish list pricing; all contracts are quoted and negotiated directly with their sales team. Enterprise organizations routinely negotiate 15-35% below list pricing.
+url: https://www.showpad.com/pricing
+created: '2026-06-13'
+modified: '2026-06-13'
+
+plans:
+  - name: Content
+    description: Core sales content management plan for mid-market teams. Provides content management, sales content sharing, interactive content experiences, and basic engagement analytics. Suitable for organizations focused on content-driven sales motions.
+    price: '25.00'
+    unit: user/month
+    billing: annual
+    currency: USD
+    features:
+      - Sales content management and asset organization
+      - Mobile access for field sales teams
+      - Sales content sharing with prospects
+      - Interactive content experiences
+      - Basic content engagement analytics
+      - Buyer intent signals
+      - Digital sales rooms
+      - CRM-embedded content surfacing
+      - ShowQL content query language
+      - Asset tagging and organization
+
+  - name: Coach
+    description: Sales coaching and training plan for enablement teams. Provides sales training, coaching tools, skill assessments, and learning paths to develop and improve seller performance.
+    price: '37.00'
+    unit: user/month
+    billing: annual
+    currency: USD
+    features:
+      - All Content plan features
+      - Sales training programs
+      - Coaching tools and workflows
+      - Skill assessments
+      - Learning paths
+      - Roleplay AI practice scenarios
+      - Manager coaching dashboards
+      - Lesson progress tracking
+      - Coaching analytics and reporting
+      - Field Meeting AI features
+
+  - name: Complete
+    description: Full sales enablement platform combining Content and Coach capabilities. Designed for enterprise organizations needing a unified revenue effectiveness platform with advanced analytics and deep CRM integration.
+    price: '50.00'
+    unit: user/month
+    billing: annual
+    currency: USD
+    features:
+      - All Content and Coach plan features
+      - Advanced analytics and Report Builder
+      - Full CRM integration and automation
+      - Marketing automation connectivity
+      - Audit log and compliance tracking
+      - Page insights
+      - AI-native revenue effectiveness tools
+      - Genie Assistant Field features
+      - Custom homepage configuration
+      - Enterprise SSO and SCIM 2.0 provisioning
+      - Dedicated customer success support
+
+notes:
+  - Showpad does not publicly publish pricing; contact sales for a quote
+  - Annual per-seat costs approximate Content at $300/yr, Coach at $444/yr, Complete at $600/yr
+  - Median customer contract value is approximately $32,497 annually
+  - Enterprise buyers typically negotiate 15-35% below list pricing
+  - No free tier is available
+  - Implementation and training costs estimated at 5-10% of license costs
+  - All plans billed annually; monthly billing not available

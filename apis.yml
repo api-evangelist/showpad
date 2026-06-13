@@ -1,0 +1,117 @@
+aid: showpad
+name: Showpad
+description: Showpad is a sales enablement and coaching platform offering a REST API for managing sales content, training programs, meeting analytics, and buyer engagement. The API supports content management with ShowQL query language, buyer engagement through shares and digital sales rooms, seller effectiveness via CRM recommendation rules, user management with SCIM 2.0, and analytics covering content reporting and coaching insights across the sales cycle.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/showpad/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Sales Enablement
+  - Sales Coaching
+  - Content Management
+  - Buyer Engagement
+  - Sales Analytics
+  - Training
+  - CRM Integration
+apis:
+  - aid: showpad:showpad-content-api
+    name: Showpad Content API
+    description: Manage assets, query content with ShowQL, get content recommendations, and handle buyer engagement through shares, sharing themes, and digital shared spaces.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developer.showpad.com/docs/apis/
+    baseURL: https://{subdomain}.showpad.biz/api/v3
+    tags:
+      - Content Management
+      - Asset Management
+      - Buyer Engagement
+      - Shares
+      - Digital Sales Rooms
+    properties:
+      - type: Documentation
+        url: https://developer.showpad.com/docs/apis/
+      - type: OpenAPI
+        url: https://docs.api.showpad.com/docs/apps/references/app-portal/v1
+      - type: Authentication
+        url: https://developer.showpad.com/docs/apis/concepts/authentication
+      - type: Versioning
+        url: https://developer.showpad.com/docs/apis/concepts/versions
+      - type: APIv4Reference
+        url: https://developer.showpad.com/docs/apis/references/v4
+    contact:
+      - FN: Showpad Developer Support
+        url: https://help.showpad.com
+  - aid: showpad:showpad-coach-api
+    name: Showpad Coach API
+    description: Access analytics and insights for coaching and training programs, including learning paths, skill assessments, roleplay AI analysis, and coach analytics data.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developer.showpad.com/docs/apis/
+    baseURL: https://{subdomain}.showpad.biz/api/v3
+    tags:
+      - Coaching
+      - Training
+      - Analytics
+      - Learning
+      - Skill Assessment
+    properties:
+      - type: Documentation
+        url: https://developer.showpad.com/docs/apis/
+      - type: Authentication
+        url: https://developer.showpad.com/docs/apis/concepts/authentication
+    contact:
+      - FN: Showpad Developer Support
+        url: https://help.showpad.com
+  - aid: showpad:showpad-user-management-api
+    name: Showpad User Management API
+    description: Create and manage users, groups, divisions, and permissions with full SCIM 2.0 support for automated identity provisioning and deprovisioning.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://developer.showpad.com/docs/apis/
+    baseURL: https://{subdomain}.showpad.biz/api/v3
+    tags:
+      - User Management
+      - SCIM
+      - Identity
+      - Provisioning
+      - Permissions
+    properties:
+      - type: Documentation
+        url: https://developer.showpad.com/docs/apis/
+      - type: Authentication
+        url: https://developer.showpad.com/docs/apis/concepts/authentication
+    contact:
+      - FN: Showpad Developer Support
+        url: https://help.showpad.com
+common:
+  - type: Portal
+    url: https://developer.showpad.com/
+  - type: Documentation
+    url: https://developer.showpad.com/docs/apis/
+  - type: Fundamentals
+    url: https://developer.showpad.com/docs/apis/concepts/fundamentals
+  - type: Authentication
+    url: https://developer.showpad.com/docs/apis/concepts/authentication
+  - type: Versioning
+    url: https://developer.showpad.com/docs/apis/concepts/versions
+  - type: Webhooks
+    url: https://developer.showpad.com/docs/webhooks/
+  - type: Integrations
+    url: https://developer.showpad.com/docs/integrations/
+  - type: Changelog
+    url: https://developer.showpad.com/docs/changelog/index
+  - type: Status
+    url: https://status.showpad.com
+  - type: Blog
+    url: https://www.showpad.com/blog/
+  - type: HelpCenter
+    url: https://help.showpad.com
+  - type: ReleaseNotes
+    url: https://help.showpad.com/hc/en-us/articles/115003975693-Showpad-Release-Notes
+  - type: Plans
+    url: plans/showpad-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/showpad-rate-limits.yml
+  - type: FinOps
+    url: finops/showpad-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

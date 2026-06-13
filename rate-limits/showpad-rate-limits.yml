@@ -1,0 +1,57 @@
+name: Showpad API Rate Limits
+description: Showpad enforces rate limits on its REST API to ensure platform stability. The API returns HTTP 429 Too Many Requests when rate limits are exceeded. Specific numeric thresholds are not publicly documented; Showpad recommends implementing exponential backoff and retry logic when 429 responses are encountered.
+url: https://developer.showpad.com/docs/apis/concepts/fundamentals
+created: '2026-06-13'
+modified: '2026-06-13'
+
+rateLimits:
+  - name: General API Rate Limit
+    description: Showpad enforces rate limiting across all API v3 and v4 endpoints. When the allowed request volume within a time window is exceeded, the API responds with HTTP 429 Too Many Requests. The specific request-per-second or request-per-minute thresholds are not publicly disclosed.
+    type: requests
+    window: unspecified
+    limit: unspecified
+    httpStatusOnExceed: 429
+    headerOnExceed: null
+    notes:
+      - Specific numeric rate limit thresholds are not publicly documented
+      - HTTP 429 is returned when too many requests have been sent within a specific amount of time
+      - Implement exponential backoff with retry logic when 429 responses are received
+      - Access tokens expire after 1 hour; refresh tokens expire after 14 days
+      - Use token refresh flows to avoid authentication-related request failures
+
+  - name: OAuth Token Limits
+    description: Access tokens are valid for 1 hour. Refresh tokens are valid for 14 days. Personal API tokens may have an optional expiration date set by the administrator.
+    type: token_lifetime
+    accessTokenLifetime: 1 hour
+    refreshTokenLifetime: 14 days
+    personalApiTokenLifetime: configurable (optional expiration)
+    notes:
+      - Access tokens must be refreshed via the refresh token flow before expiry
+      - Refresh tokens expire after 14 days requiring re-authentication
+      - Personal API tokens are generated in Admin App under Settings > API Tokens
+
+pagination:
+  description: The Showpad API uses offset-based pagination for list endpoints.
+  parameters:
+    - name: limit
+      description: Number of resources to return per page
+      default: unspecified
+      maximum: unspecified
+    - name: offset
+      description: Number of resources to skip from the start of the collection
+      default: 0
+  example: '?limit=25&offset=10'
+
+errorHandling:
+  - code: 429
+    name: Too Many Requests
+    description: Rate limit exceeded; too many requests sent within a specific time window
+    action: Implement exponential backoff and retry after a delay
+  - code: 401
+    name: Unauthorized
+    description: Invalid or expired access token
+    action: Refresh the access token using the refresh token flow
+  - code: 403
+    name: Forbidden
+    description: Valid token but insufficient permissions or scope
+    action: Verify OAuth scopes include required permissions for the endpoint
