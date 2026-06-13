@@ -1,0 +1,78 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Showpad",
+  "description": "Showpad is a sales enablement and coaching platform offering a REST API for managing sales content, training programs, meeting analytics, and buyer engagement. The API supports content management with ShowQL query language, buyer engagement through shares and digital sales rooms, seller effectiveness via CRM recommendation rules, user management with SCIM 2.0, and analytics covering content reporting and coaching insights across the sales cycle.",
+  "url": "https://www.showpad.com",
+  "sameAs": [
+    "https://developer.showpad.com/",
+    "https://help.showpad.com",
+    "https://status.showpad.com"
+  ],
+  "knowsAbout": [
+    "Sales Enablement",
+    "Sales Coaching",
+    "Content Management",
+    "Buyer Engagement",
+    "Sales Analytics",
+    "Training",
+    "CRM Integration",
+    "SCIM 2.0",
+    "Digital Sales Rooms"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Showpad APIs",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Showpad Content API",
+        "description": "Manage assets, query content with ShowQL, get content recommendations, and handle buyer engagement through shares, sharing themes, and digital shared spaces.",
+        "url": "https://developer.showpad.com/docs/apis/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Showpad Coach API",
+        "description": "Access analytics and insights for coaching and training programs, including learning paths, skill assessments, roleplay AI analysis, and coach analytics data.",
+        "url": "https://developer.showpad.com/docs/apis/"
+      },
+      {
+        "@type": "Offer",
+        "name": "Showpad User Management API",
+        "description": "Create and manage users, groups, divisions, and permissions with full SCIM 2.0 support for automated identity provisioning and deprovisioning.",
+        "url": "https://developer.showpad.com/docs/apis/"
+      }
+    ]
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "url": "https://developer.showpad.com/"
+  },
+  "subjectOf": [
+    {
+      "@type": "WebPage",
+      "name": "Showpad Developer Portal",
+      "url": "https://developer.showpad.com/"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Showpad API Documentation",
+      "url": "https://developer.showpad.com/docs/apis/"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Showpad Webhooks",
+      "url": "https://developer.showpad.com/docs/webhooks/"
+    },
+    {
+      "@type": "WebPage",
+      "name": "Showpad Changelog",
+      "url": "https://developer.showpad.com/docs/changelog/index"
+    },
+    {
+      "@type": "Blog",
+      "name": "Showpad Blog",
+      "url": "https://www.showpad.com/blog/"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "provider": "showpad",
+  "blog_url": "https://www.showpad.com/blog/",
+  "fetched": "2026-06-13",
+  "posts": [
+    {
+      "title": "Agentic B2B SaaS: From rigid workflows to manageable mass customization",
+      "url": "https://www.showpad.com/blog/agentic-b2b-saas-from-rigid-workflows-to-manageable-mass-customization",
+      "category": "AI"
+    },
+    {
+      "title": "Showpad vs. Seismic: Which sales enablement platform is best for field sales teams?",
+      "url": "https://www.showpad.com/blog/showpad-vs-seismic-which-sales-enablement-platform-is-best-for-field-sales-teams",
+      "category": "Empowered sellers"
+    },
+    {
+      "title": "Salesforce Headless 360 and Showpad: What the agent shift means for field-selling teams",
+      "url": "https://www.showpad.com/blog/salesforce-headless-360-and-showpad-what-the-agent-shift-means-for-field-selling-teams",
+      "category": "Aligned revenue teams"
+    },
+    {
+      "title": "Why legacy sales enablement is no longer enough for modern field teams",
+      "url": "https://www.showpad.com/blog/why-legacy-sales-enablement-is-no-longer-enough-for-modern-field-teams",
+      "category": "Sales Content Management"
+    },
+    {
+      "title": "What are safe, trusted AI tools for enterprise sales and marketing teams?",
+      "url": "https://www.showpad.com/blog/what-are-safe-trusted-ai-tools-for-enterprise-sales-and-marketing-teams",
+      "category": "AI"
+    },
+    {
+      "title": "Showpad defines the AI-native revenue effectiveness category with first end-to-end platform for field sales organizations",
+      "url": "https://www.showpad.com/blog/showpad-defines-the-ai-native-revenue-effectiveness-category",
+      "category": "Press Release"
+    },
+    {
+      "title": "For teams who sell what the world relies on, you can rely on the new Showpad",
+      "url": "https://www.showpad.com/blog/for-teams-who-sell-what-the-world-relies-on",
+      "category": "Revenue effectiveness"
+    },
+    {
+      "title": "Revenue effectiveness starts here: Showpad Spring Release 2026",
+      "url": "https://www.showpad.com/blog/revenue-effectiveness-starts-here-showpad-spring-release-2026",
+      "category": "Product announcements"
+    },
+    {
+      "title": "The AI sales simulator that ensures sellers are ready for anything: Roleplay AI",
+      "url": "https://www.showpad.com/blog/the-ai-sales-simulator-that-ensures-sellers-are-ready-for-anything-roleplay-ai",
+      "category": "AI"
+    },
+    {
+      "title": "How Genie Assistant deep research delivers intelligence to revenue teams",
+      "url": "https://www.showpad.com/blog/how-genie-assistant-deep-research-agents-deliver-intelligence-to-revenue-teams",
+      "category": "AI"
+    },
+    {
+      "title": "Most AI is built for a seller who's not in your organization",
+      "url": "https://www.showpad.com/blog/most-ai-is-built-for-a-seller-whos-not-in-your-organization",
+      "category": "AI"
+    },
+    {
+      "title": "The AI architect: Why enablement is the new trust engineer",
+      "url": "https://www.showpad.com/blog/the-ai-architect-why-enablement-is-the-new-trust-engineer",
+      "category": "Sales Coaching"
+    }
+  ]
+}
