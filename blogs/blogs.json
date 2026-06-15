@@ -1,7 +1,7 @@
 {
   "provider": "showpad",
   "blog_url": "https://www.showpad.com/blog/",
-  "fetched": "2026-06-13",
+  "fetched": "2026-06-14T20:42:17Z",
   "posts": [
     {
       "title": "Agentic B2B SaaS: From rigid workflows to manageable mass customization",
@@ -63,5 +63,16 @@
       "url": "https://www.showpad.com/blog/the-ai-architect-why-enablement-is-the-new-trust-engineer",
       "category": "Sales Coaching"
     }
-  ]
+  ],
+  "repo": "showpad",
+  "feeds": [
+    {
+      "source": "https://status.showpad.com",
+      "feed_url": "https://status.showpad.com/history.atom",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 0
 }
