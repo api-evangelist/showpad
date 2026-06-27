@@ -96,7 +96,7 @@ common:
     url: https://developer.showpad.com/docs/webhooks/
   - type: Integrations
     url: https://developer.showpad.com/docs/integrations/
-  - type: Changelog
+  - type: ChangeLog
     url: https://developer.showpad.com/docs/changelog/index
   - type: Status
     url: https://status.showpad.com
