@@ -82,6 +82,8 @@ apis:
       - FN: Showpad Developer Support
         url: https://help.showpad.com
 common:
+  - type: DomainSecurity
+    url: security/showpad-domain-security.yml
   - type: Portal
     url: https://developer.showpad.com/
   - type: Documentation
