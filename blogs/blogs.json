@@ -6,7 +6,8 @@
       "feed_url": "https://www.showpad.com/blog/",
       "title": "",
       "saved": 0,
-      "method": "none"
+      "method": "none",
+      "error": "parse_failed"
     },
     {
       "source": "https://status.showpad.com/history.atom",
@@ -23,6 +24,6 @@
       "method": "discovered"
     }
   ],
-  "fetched": "2026-08-06T14:08:46Z",
+  "fetched": "2026-08-15T12:11:08Z",
   "post_count": 20
 }
