@@ -1,0 +1,53 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/apis/concepts/testing
+summary: >-
+  Showpad ships an interactive API console inside its own documentation, but no sandbox
+  environment and no test mode. There are no test credentials, no test-vs-live key prefixes,
+  no fixture or trigger tooling and no time simulation. Every request made from the console
+  runs against a real Showpad organization with a real API token and real data — Showpad's
+  own framing is "use real data to get real results."
+console:
+  name: Test API Requests
+  kind: in-docs interactive console
+  url: https://developer.showpad.com/docs/apis/concepts/testing
+  reference: https://developer.showpad.com/docs/apis/references
+  versions_supported:
+    - v3
+    - v4
+  inputs:
+    - name: Subdomain
+      description: The Showpad organization subdomain to target; sets the Production server.
+    - name: Token
+      description: A personal API token valid for that subdomain.
+  action: Send API Request
+  response_views:
+    - Preview
+    - Raw
+  multi_org: >-
+    A different Showpad organization can be tested by changing the Subdomain value; each
+    subdomain requires its own API token.
+  prerequisites:
+    plan: Ultimate, Advanced, or Expert
+    permissions: Administrator access to Showpad's Admin App
+    credentials: An OAuth client or a personal API token
+test_mode:
+  exists: false
+  key_prefixes: []
+  note: >-
+    Showpad does not separate test and live credentials. Personal API tokens are issued per
+    organization in the Admin App with an optional expiry date, and there is no test-mode
+    equivalent.
+magic_test_values: []
+test_clocks:
+  supported: false
+fixtures:
+  supported: false
+app_development_sandbox:
+  note: >-
+    The Showpad Apps platform does have a local development flow — since Experience App SDK
+    3.0.0 an extension point can be served from localhost and loaded in the correct context in
+    the web app or admin platform (the `localLabels` local testing flow). That is an app
+    development affordance, not an API sandbox.
+  sdk: "@showpad/experience-app-sdk"
+  sdk_changelog: https://developer.showpad.com/docs/changelog/sdk

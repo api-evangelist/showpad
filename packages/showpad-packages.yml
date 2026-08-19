@@ -1,0 +1,96 @@
+generated: '2026-08-14'
+method: searched
+source: https://registry.npmjs.org + https://developer.showpad.com/docs/appsv2/developer-tools/sdk
+note: >-
+  Showpad's first-party client libraries are all published to npm under the @showpad scope.
+  They target the Showpad Apps / Experience App extension platform and the CLI — Showpad
+  ships no server-side REST API SDK for the v3/v4 APIs in any language. Nothing was found on
+  PyPI, RubyGems, crates.io, NuGet or Maven Central; the Packagist results for "showpad" are
+  third-party community clients, not Showpad-published.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@showpad/cli"
+    url: https://www.npmjs.com/package/@showpad/cli
+    install: npm install -g @showpad/cli
+    official: true
+    version: 1.0.7
+    published: '2025-04-18'
+    description: Showpad CLI for building, bundling, uploading and assigning Showpad Apps.
+    docs: https://developer.showpad.com/docs/appsv2/references/cli/cli-commands
+    see: cli/showpad-cli.yml
+  - language: typescript
+    registry: npm
+    name: "@showpad/experience-app-sdk"
+    url: https://www.npmjs.com/package/@showpad/experience-app-sdk
+    install: npm i @showpad/experience-app-sdk
+    official: true
+    version: 3.3.0
+    published: '2025-12-15'
+    description: >-
+      TypeScript library for using ShowpadJS inside Experience Apps (Showpad Apps v2).
+      Targets ES2022; runs inside the Showpad iframe host.
+    docs: https://developer.showpad.com/docs/appsv2/developer-tools/sdk
+  - language: typescript
+    registry: npm
+    name: "@showpad/experience-app-types"
+    url: https://www.npmjs.com/package/@showpad/experience-app-types
+    install: npm i @showpad/experience-app-types
+    official: true
+    version: 0.2.0
+    published: '2025-12-09'
+    description: Shared TypeScript type definitions for Experience Apps.
+  - language: javascript
+    registry: npm
+    name: "@showpad/content-picker"
+    url: https://www.npmjs.com/package/@showpad/content-picker
+    install: npm i @showpad/content-picker
+    official: true
+    version: 0.1.1
+    published: '2025-04-28'
+    description: >-
+      Showpad Content Picker SDK — embeds Showpad content picking and sharing into
+      third-party applications.
+    docs: https://developer.showpad.com/docs/integrations/platform-independent/content-pick-share
+  - language: javascript
+    registry: npm
+    name: "@showpad/experience-app-cli"
+    url: https://www.npmjs.com/package/@showpad/experience-app-cli
+    install: npm i -g @showpad/experience-app-cli
+    official: true
+    version: 3.1.1
+    published: '2023-08-03'
+    status: superseded
+    description: >-
+      Legacy Experience App CLI for Showpad Apps v1. Showpad's own docs state it "may not
+      function correctly (or at all)" for Apps v2 and direct developers to @showpad/cli.
+  - language: javascript
+    registry: npm
+    name: "@showpad/experience-app-internal"
+    url: https://www.npmjs.com/package/@showpad/experience-app-internal
+    install: npm i @showpad/experience-app-internal
+    official: true
+    version: 1.0.17
+    published: '2022-06-21'
+    status: internal
+    description: Internal library for experience apps; not a documented integration surface.
+registries_checked:
+  - registry: npm
+    result: 6 first-party @showpad packages
+  - registry: pypi
+    result: none (showpad -> HTTP 404)
+  - registry: rubygems
+    result: none (showpad -> HTTP 404)
+  - registry: nuget
+    result: none (0 hits)
+  - registry: maven-central
+    result: none
+  - registry: crates.io
+    result: none
+  - registry: packagist
+    result: third-party only (woutersioen/showpad-api-buzz, turanct/showpad-api) — not first-party
+currency_note: >-
+  The maintained developer-facing packages are @showpad/cli (1.0.7, 2025-04-18) and
+  @showpad/experience-app-sdk (3.3.0, 2025-12-15). Both predate the v4 REST API surface
+  documented in 2026, which they do not wrap — the Apps SDK and the REST API are separate
+  products, so this is not by itself an abandonment signal for the REST API.

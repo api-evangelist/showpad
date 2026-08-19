@@ -1,0 +1,72 @@
+# Showpad Developer Portal
+
+> Showpad is a sales enablement platform that helps sales and marketing teams engage buyers and drive revenue.
+
+This is the official developer documentation for the Showpad platform. It covers the REST API, Showpad Apps, Webhooks, and Integrations including the Showpad MCP server for AI assistants.
+
+## Getting Started
+
+- [API Fundamentals](https://developer.showpad.com/docs/apis/concepts/fundamentals): Core REST API concepts, base endpoints, HTTP methods, headers, and response formats for v3 and v4.
+- [Authentication](https://developer.showpad.com/docs/apis/concepts/authentication): OAuth 2.0 setup, supported grant types (Authorization Code, Client Credentials), token management, and API scopes.
+- [API Versions](https://developer.showpad.com/docs/apis/concepts/versions): Comparison of API v3 and v4, when to use each, and key differences.
+- [Error Codes](https://developer.showpad.com/docs/apis/concepts/error-codes): HTTP status codes, Showpad error code categories (parameter, persistence, validation, body), and troubleshooting guidance.
+- [CORS](https://developer.showpad.com/docs/apis/concepts/cors): Cross-origin resource sharing configuration for browser-based applications.
+- [Test API Requests](https://developer.showpad.com/docs/apis/concepts/testing): Interactive API testing tool built into the documentation.
+- [Analytics & Insights](https://developer.showpad.com/docs/apis/reporting): Overview of Showpad's reporting APIs, covering content reporting and coach reporting.
+
+## API Reference
+
+- [API Reference](https://developer.showpad.com/docs/apis/references): Interactive OpenAPI documentation for Showpad API v4 and v3. Explore all endpoints, parameters, and response schemas.
+- [OpenAPI v4 Spec (YAML)](https://developer.showpad.com/openapi/openapi.v4.yaml): Machine-readable OpenAPI 3.0 specification for Showpad API v4 (preferred).
+- [OpenAPI v4 Spec (JSON)](https://developer.showpad.com/openapi/openapi.v4.json): Machine-readable OpenAPI 3.0 specification for Showpad API v4 in JSON format.
+- [OpenAPI v3 Spec (YAML)](https://developer.showpad.com/openapi/openapi.v3.yaml): Machine-readable OpenAPI 3.0 specification for Showpad API v3.
+- [OpenAPI v3 Spec (JSON)](https://developer.showpad.com/openapi/openapi.v3.json): Machine-readable OpenAPI 3.0 specification for Showpad API v3 in JSON format.
+
+## Showpad Apps
+
+- [Showpad Apps Overview](https://developer.showpad.com/docs/appsv2/intro/showpad-apps-overview): What Showpad Apps are, types of apps you can build, and platform capabilities.
+- [Development Environment](https://developer.showpad.com/docs/appsv2/intro/environment): How to set up your local development environment and required tools.
+- [The Manifest File](https://developer.showpad.com/docs/appsv2/concepts/app-manifest): The app manifest configuration file — the control center for defining extensions and resources.
+- [Extension Types](https://developer.showpad.com/docs/appsv2/concepts/extension-types): Overview of all available extension point types in the Showpad platform.
+- [Experience Extension](https://developer.showpad.com/docs/appsv2/concepts/extension-types/experience-type): Build custom UI experiences for sellers and buyers inside Showpad.
+- [Admin Settings Extension](https://developer.showpad.com/docs/appsv2/concepts/extension-types/admin-settings): Build admin-facing configuration interfaces in the Showpad Online Platform.
+- [Shared Space Extension](https://developer.showpad.com/docs/appsv2/concepts/extension-types/shared-space-extension): Add Quick Actions to Shared Spaces (digital sales rooms).
+- [AppsDB](https://developer.showpad.com/docs/appsv2/developer-tools/appsdb): Key/value store for offline-capable data persistence within Showpad Apps.
+- [Glossary](https://developer.showpad.com/docs/appsv2/concepts/glossary): Definitions of key terms used throughout the Showpad Apps documentation.
+
+## Webhooks
+
+- [Subscriptions](https://developer.showpad.com/docs/webhooks/subscriptions): How to create and manage webhook subscriptions to receive real-time event notifications.
+- [Notifications](https://developer.showpad.com/docs/webhooks/notifications): Webhook payload structure, event types, and example notification objects.
+- [Verification](https://developer.showpad.com/docs/webhooks/verification): How to validate webhook authenticity using HMAC-SHA256 signature verification.
+
+## Integrations
+
+- [Showpad MCP](https://developer.showpad.com/docs/integrations/platform-independent/mcp): Connect AI assistants (Claude, Cursor, and others) to Showpad using the Model Context Protocol (MCP). Enables AI tools to query Showpad content and data directly.
+- [Custom CRM Connector](https://developer.showpad.com/docs/integrations/crm): Build a custom CRM connector to integrate Showpad with any CRM system. Enables contact search, activity logging, and content recommendations.
+- [Content Picker SDK](https://developer.showpad.com/docs/integrations/platform-independent/content-pick-share): Embed Showpad content picking and sharing into third-party applications.
+- [Embed Insights](https://developer.showpad.com/docs/integrations/platform-independent/embed): Embed Showpad recommendations and insights into external platforms via iFrame.
+
+## OpenAPI Specs
+
+The full OpenAPI specifications are available for direct use in AI coding tools, API clients, and code generators:
+
+- [openapi.v4.yaml](https://developer.showpad.com/openapi/openapi.v4.yaml)
+- [openapi.v4.json](https://developer.showpad.com/openapi/openapi.v4.json)
+- [openapi.v3.yaml](https://developer.showpad.com/openapi/openapi.v3.yaml)
+- [openapi.v3.json](https://developer.showpad.com/openapi/openapi.v3.json)
+
+## Full Documentation
+
+- [llms-full.txt](https://developer.showpad.com/llms-full.txt): Complete Showpad developer documentation in a single file, optimized for AI consumption.
+
+## Support
+
+- Help Center: https://help.showpad.com
+- Support: https://help.showpad.com/hc/en-us/requests/new
+- System Status: https://status.showpad.com
+
+## Legal
+
+- Terms of Service: https://www.showpad.com/terms-of-service
+- Privacy Policy: https://www.showpad.com/privacy-policy

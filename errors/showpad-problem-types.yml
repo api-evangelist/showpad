@@ -1,0 +1,119 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/apis/concepts/error-codes
+derived_from:
+  - openapi/showpad-v4-openapi-original.yml
+  - openapi/showpad-v3-openapi-original.yml
+docs: https://developer.showpad.com/docs/apis/concepts/error-codes
+format: rfc9457
+notes:
+  - Showpad API v4 returns RFC 9457 Problem Details as application/problem+json on every
+    documented 4xx and default response (Problem schema in components.schemas of the v4 spec).
+  - Showpad API v3 returns a legacy envelope with a response object carrying code, name and
+    message; it is not RFC 9457.
+envelopes:
+  - version: v4
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/Problem
+    required: [title, detail, status]
+    optional: [meta]
+    example:
+      title: Invalid Payload
+      detail: Property value provided is not a valid.
+      status: 400
+  - version: v3
+    media_type: application/json
+    shape: |
+      {
+        "response": {
+          "code": 3004,
+          "name": "ResourceNotFoundError",
+          "message": "Resource with given ID doesn't exist"
+        }
+      }
+problems:
+  - status: 400
+    title: Bad Request
+    detail: Returned when the request payload is invalid or incomplete. The response provides
+      structured error details to help identify and correct the issue.
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/BadRequest
+    operation_count: 23
+    source_operation: openapi/showpad-v4-openapi-original.yml#getDivisions
+  - status: 401
+    title: Unauthorized
+    detail: The request lacks valid authentication credentials, or the provided token has expired.
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/Unauthorized
+    operation_count: 44
+    source_operation: openapi/showpad-v4-openapi-original.yml#getDivisions
+    remediation: Refresh the access token; Showpad access tokens expire after 1 hour.
+  - status: 403
+    title: Forbidden
+    detail: The server understood the request but refuses to authorize it. The authenticated
+      user does not have the necessary permissions to perform this action.
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/Forbidden
+    operation_count: 38
+    source_operation: openapi/showpad-v4-openapi-original.yml#getDivisions
+    remediation: Check that the OAuth client was granted the scope covering this resource
+      (see scopes/showpad-scopes.yml).
+  - status: 404
+    title: Not Found
+    detail: Returned when the requested resource does not exist or the user does not have
+      permission to access it.
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/NotFound
+    operation_count: 29
+    source_operation: openapi/showpad-v4-openapi-original.yml#getDivisionById
+  - status: 409
+    title: Conflict
+    detail: Conflict. Tag already exists.
+    media_type: application/problem+json
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/Conflict
+    operation_count: 6
+    source_operation: openapi/showpad-v4-openapi-original.yml#postTags
+  - status: 429
+    title: Too Many Requests
+    detail: Too many requests have been sent within a specific amount of time. Wait before
+      retrying and check the response headers for retry timing information.
+    source: https://developer.showpad.com/docs/apis/concepts/error-codes
+    remediation: Implement exponential backoff and retry.
+  - status: 500
+    title: Internal Server Error
+    detail: Server-side error.
+    source: https://developer.showpad.com/docs/apis/concepts/error-codes
+# Showpad's own numeric error-code registry (v3 envelope `response.code`), captured from the
+# published error reference. Categories are documented as 2xxx parameter, 3xxx persistence,
+# 4xxx validation, 5xxx body.
+error_codes:
+  - category: parameter
+    range: 2xxx
+    codes:
+      - {code: 2001, name: InvalidParameterError, meaning: Parameter value is invalid}
+      - {code: 2002, name: NegativeParameterError, meaning: Parameter cannot be negative}
+      - {code: 2003, name: NotNumericParameterError, meaning: Parameter must be a number}
+      - {code: 2004, name: NotIntegerParameterError, meaning: Parameter must be an integer}
+  - category: persistence
+    range: 3xxx
+    codes:
+      - {code: 3000, name: PersistenceError, meaning: General persistence error}
+      - {code: 3001, name: RelationshipDoesNotExistError, meaning: Referenced relationship doesn't exist}
+      - {code: 3002, name: RelationshipExistsError, meaning: Relationship already exists}
+      - {code: 3003, name: RelationshipNotFound, meaning: Relationship not found}
+      - {code: 3004, name: ResourceNotFoundError, meaning: Resource with given ID doesn't exist}
+      - {code: 3005, name: SubcollectionNotFoundError, meaning: Subcollection not found}
+      - {code: 3006, name: UnableToDeleteError, meaning: Resource cannot be deleted}
+      - {code: 3007, name: RelationshipUnsupportedError, meaning: Relationship type not supported}
+      - {code: 3008, name: ResourceNotModifiableError, meaning: Resource cannot be modified}
+  - category: validation
+    range: 4xxx
+    codes: []
+    note: The published reference states 30 validation error codes exist but does not enumerate
+      them in the machine-readable docs surface; not captured rather than guessed.
+  - category: body
+    range: 5xxx
+    codes:
+      - {code: 5000, name: InvalidBodyError, meaning: Request body is invalid}
+      - {code: 5001, name: InvalidJsonBodyError, meaning: JSON syntax is malformed}
+      - {code: 5002, name: TooManyResourcesInBodyError, meaning: Too many items in request body}

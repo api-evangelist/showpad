@@ -1,0 +1,91 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  openapi/showpad-v4-openapi-original.yml, openapi/showpad-v3-openapi-original.yml,
+  https://developer.showpad.com/docs/apis/concepts/authentication,
+  https://trust.bigtincan.com/
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: Both published specs declare openapi 3.0.3 (v4 65 operations, v3 200 operations).
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      v3 spec declares an oauth2 securityScheme with password and authorizationCode flows;
+      Showpad documents authorization code, refresh token and user credentials grants.
+  - id: oauth2-pkce
+    conforms: true
+    evidence: >-
+      MCP authorization server metadata advertises code_challenge_methods_supported: [S256].
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: true
+    evidence: https://mcp.showpad.com/.well-known/oauth-authorization-server returns 200 JSON.
+  - id: rfc9728-oauth-protected-resource-metadata
+    conforms: true
+    evidence: >-
+      https://mcp.showpad.com/.well-known/oauth-protected-resource/mcp/v1 returns 200 JSON with
+      resource, authorization_servers, bearer_methods_supported and scopes_supported.
+  - id: rfc6750-bearer-token
+    conforms: true
+    evidence: 'Authorization: Bearer <token>; bearerAuth http/bearer scheme in both specs.'
+  - id: rfc9457-problem-details
+    conforms: true
+    evidence: >-
+      v4 returns application/problem+json on all documented 400/401/403/404/409/default
+      responses with a Problem schema requiring title, detail and status. v3 does NOT — it
+      uses a legacy {response:{code,name,message}} envelope.
+    partial: true
+  - id: mcp
+    conforms: true
+    evidence: >-
+      Hosted remote MCP server at https://mcp.showpad.com/mcp/v1 with OAuth; documented tool
+      set and MCP Apps widgets. Live tools/list is auth-gated (401).
+  - id: scim-2.0
+    conforms: true
+    evidence: >-
+      Showpad publishes SCIM 2.0 support for automated user provisioning and deprovisioning
+      (developer portal User Management section; SCIM listed as a platform capability on
+      https://www.showpad.com/security).
+    docs: https://developer.showpad.com/docs/apis/users/SCIM
+  - id: saml-2.0
+    conforms: true
+    evidence: Single sign-on with SAML 2.0-compliant identity providers.
+  - id: hmac-sha256-webhook-signing
+    conforms: true
+    evidence: >-
+      x-showpad-signature-v1 / x-showpad-signature-timestamp with a 5-minute replay window.
+  - id: cloudevents
+    conforms: false
+    partial: true
+    evidence: >-
+      The webhook envelope carries CloudEvents-shaped fields (type, specversion, id, time,
+      data) but Showpad does not claim CloudEvents conformance and specversion is emitted as
+      an integer (1) rather than a CloudEvents version string.
+  - id: asyncapi
+    conforms: false
+    evidence: A webhook surface exists but no AsyncAPI document is published.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation headers are documented; no sunset dates published.
+  - id: idempotency-key
+    conforms: false
+    evidence: No idempotency-key header or parameter in either spec, and none documented.
+  - id: json-api
+    conforms: false
+  - id: odata
+    conforms: false
+  - id: graphql
+    conforms: false
+  - id: grpc
+    conforms: false
+compliance:
+  published: true
+  page: https://www.showpad.com/security
+  trust_center: https://trust.bigtincan.com/
+  certifications:
+    - SOC 2 Type II
+    - ISO 27001
+    - ISO 27701
+  regulatory:
+    - GDPR
+  see: security/showpad-trust-center.yml

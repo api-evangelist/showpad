@@ -1,0 +1,102 @@
+generated: '2026-08-14'
+method: searched
+source: openapi/showpad-v3-openapi-original.yml
+docs: https://developer.showpad.com/docs/apis/concepts/authentication
+also_published_at: https://mcp.showpad.com/.well-known/oauth-protected-resource/mcp/v1
+note: >-
+  Baseline derived from the v3 OpenAPI oauth2 flows, then enriched from the published
+  authentication page and the MCP protected-resource metadata. The same seven scopes govern
+  the REST API and the Showpad MCP server; the authentication page adds an eighth,
+  appsdb_online_integrations, which appears in neither the spec nor the MCP metadata.
+schemes:
+  - name: oAuth
+    source: openapi/showpad-v3-openapi-original.yml
+    flows:
+      - flow: password
+        tokenUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/token
+      - flow: authorizationCode
+        authorizationUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/authorize
+        tokenUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/token
+  - name: Showpad MCP
+    source: well-known/showpad-oauth-protected-resource.json
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://mcp.showpad.com/oauth/v1/auth
+        tokenUrl: https://mcp.showpad.com/oauth/v1/token
+        pkce: S256
+scopes:
+  - scope: refresh_token
+    description: Allows the refresh of access tokens.
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: read_user_management
+    description: Allows read access for user data (includes users, usergroups and user permissions).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: write_user_management
+    description: Allows write access for user data (includes users, usergroups and user permissions).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: read_contentprofile_management
+    description: >-
+      Allows read access for content profile-related resources (content profiles, assets,
+      tags, tickets and comments).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: write_contentprofile_management
+    description: >-
+      Allows write access for content profile-related resources (content profiles, assets,
+      tags, tickets and comments).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: read_division_management
+    description: Allows read access for Division-related resources (Divisions and Division permissions).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: write_division_management
+    description: Allows write access for Division-related resources (Divisions and Division permissions).
+    flows: [password, authorizationCode]
+    surfaces: [rest, mcp]
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+      - well-known/showpad-oauth-protected-resource.json
+  - scope: appsdb_online_integrations
+    description: Enables usage of AppsDB without a Showpad App. This feature requires activation.
+    flows: []
+    surfaces: [rest]
+    sources:
+      - https://developer.showpad.com/docs/apis/concepts/authentication
+    note: Documented on the authentication page only; absent from the OpenAPI flow scope maps.
+spec_anomalies:
+  - scope: read_content_profile_management
+    detail: >-
+      Appears once in a v3 operation security requirement but is not declared in either oauth2
+      flow's scopes map and does not appear in Showpad's scope reference. Almost certainly a
+      typo for read_contentprofile_management. Recorded, not corrected.
+    source: openapi/showpad-v3-openapi-original.yml
+scope_count: 8

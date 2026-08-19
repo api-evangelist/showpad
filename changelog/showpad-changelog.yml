@@ -1,0 +1,106 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/news
+note: >-
+  Showpad runs two dated change surfaces on the developer portal: a product-level Developer
+  Blog / news feed (announcements of new API capability, with RSS/Atom/JSON feeds) and
+  per-component Keep-a-Changelog pages for the Experience App SDK, the CLI and AppsDB. There
+  is no single versioned changelog for the REST API itself — v3/v4 changes are announced on
+  the news feed.
+scheme: semver (per component); dated announcements (platform)
+current_versions:
+  rest_api: '4'
+  experience_app_sdk: 3.3.0
+  cli: 1.0.7
+  experience_app_cli: 3.1.1
+surfaces:
+  - name: Developer Blog / News
+    url: https://developer.showpad.com/news
+    feeds:
+      rss: https://developer.showpad.com/news/rss.xml
+      atom: https://developer.showpad.com/news/atom.xml
+      json: https://developer.showpad.com/news/feed.json
+  - name: SDK Changelog
+    url: https://developer.showpad.com/docs/changelog/sdk
+    format: Keep a Changelog + Semantic Versioning
+  - name: CLI Changelog
+    url: https://developer.showpad.com/docs/changelog/cli-v1
+    format: Keep a Changelog + Semantic Versioning
+  - name: AppsDB Changelog
+    url: https://developer.showpad.com/docs/changelog/appsdb
+  - name: Showpad Release Notes (product)
+    url: https://help.showpad.com/hc/en-us/articles/115003975693-Showpad-Release-Notes
+entries:
+  - date: '2026-07-15'
+    title: Showpad MCP Tools & Apps
+    kind: addition
+    highlight: Additional MCP tools and MCP Apps (interactive widgets) on the Showpad MCP server.
+  - date: '2026-04-01'
+    title: Showpad MCP
+    kind: addition
+    highlight: Launch of the Showpad MCP server for connecting AI assistants over the Model
+      Context Protocol.
+  - date: '2026-03-11'
+    title: AI Roleplay Asset Type
+    kind: addition
+  - date: '2025-12-03'
+    title: Showpad API user provisioning change
+    kind: change
+  - date: '2025-11-05'
+    title: List of Shared Spaces Enhancement
+    kind: addition
+  - date: '2025-10-27'
+    title: Showpad API user provisioning update
+    kind: change
+  - date: '2025-08-19'
+    title: Showpad API user language update
+    kind: change
+  - date: '2025-08-06'
+    title: Add content to Shared Spaces via API
+    kind: addition
+  - date: '2025-02-05'
+    title: Auto-create Shared Spaces via templates & API
+    kind: addition
+  - date: '2024-12-04'
+    title: Streamline Sharing with a Content Picker Integration
+    kind: addition
+  - date: '2024-08-07'
+    title: New webhooks for dynamic sharing links
+    kind: addition
+  - date: '2024-07-18'
+    title: More for your Showpad Apps v2
+    kind: addition
+sdk_entries:
+  - version: 3.3.0
+    date: '2025-12-09'
+    breaking: true
+    highlight: >-
+      Removed addAssetsToSharedSpace from the SDK; use addAssetsToSharedSpaces instead.
+  - version: 3.2.3
+    date: '2025-11-26'
+    breaking: false
+    highlight: >-
+      getGlobalStoreEntries and getGlobalStoreEntryValue now fall back to showpadjs when
+      offline.
+  - version: 3.2.2
+    date: '2025-11-14'
+    breaking: false
+    highlight: Updated @showpad/experience-app-types 0.1.0 -> 0.1.1 to fix a jsonpath-plus vulnerability.
+  - version: 3.2.1
+    date: '2025-09-01'
+    breaking: false
+    highlight: Clarified AppsDB offline error message on iOS, Android and WDA.
+  - version: 3.2.0
+    date: '2025-07-16'
+    breaking: false
+    highlight: Added getAssetThumbnailUrl / getAssetThumbnail and a thumbnailUrl property on EnrichedAsset.
+  - version: 3.1.4
+    date: '2025-05-15'
+    breaking: false
+    highlight: Fixed wrong-password handling in getShowpadOAuthInstanceInteractive.
+  - version: 3.0.0
+    date: '2023-12-01'
+    breaking: true
+    highlight: >-
+      parseConfig/parseEnrichedConfig now honour localLabels in production; Proxy App and the
+      Showpadize option removed for local development.

@@ -1,0 +1,106 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/integrations/platform-independent/mcp
+status: published
+
+deployment:
+  mode: remote
+  endpoint: https://mcp.showpad.com/mcp/v1
+  auth: oauth
+  verified: probed
+  note: >-
+    Showpad publishes two forms of the same remote endpoint — a tenant form,
+    https://{subdomain}.showpad.biz/mcp/v1, and a generic form,
+    https://mcp.showpad.com/mcp/v1. No stdio/npx package is published, so this is a
+    remote-only agent surface.
+
+server:
+  name: Showpad MCP Server
+  transport: http
+  url: https://mcp.showpad.com/mcp/v1
+  tenant_url: https://{subdomain}.showpad.biz/mcp/v1
+  docs: https://developer.showpad.com/docs/integrations/platform-independent/mcp
+
+authorization:
+  model: OAuth 2.0 with PKCE
+  registration: >-
+    A Client ID and Client Secret are issued in the Showpad Admin App; the MCP client is
+    configured with the Client ID, Client Secret, MCP Server URL and Redirect URL.
+  authorization_server: https://mcp.showpad.com
+  authorization_endpoint: https://mcp.showpad.com/oauth/v1/auth
+  token_endpoint: https://mcp.showpad.com/oauth/v1/token
+  grant_types:
+    - authorization_code
+    - refresh_token
+  code_challenge_methods:
+    - S256
+  bearer_methods:
+    - header
+  scopes:
+    - read_user_management
+    - write_user_management
+    - read_contentprofile_management
+    - write_contentprofile_management
+    - read_division_management
+    - write_division_management
+    - refresh_token
+  metadata_documents:
+    - path: /.well-known/oauth-authorization-server
+      file: well-known/showpad-oauth-authorization-server.json
+      status: 200
+    - path: /.well-known/oauth-protected-resource/mcp/v1
+      file: well-known/showpad-oauth-protected-resource.json
+      status: 200
+
+introspection:
+  attempted: true
+  date: '2026-08-14'
+  result: gated
+  http_status: 401
+  detail: >-
+    POST tools/list to https://mcp.showpad.com/mcp/v1 returns HTTP 401 Authorization Required
+    (openresty behind CloudFront) without a bearer token. The live tool schemas therefore
+    require an authenticated introspection; the tool list below is taken verbatim from
+    Showpad's published MCP documentation (names + descriptions only, no inputSchema).
+
+tools:
+  - name: search
+    description: Finds Showpad assets by name, type, description, or content.
+    category: content
+  - name: fetch
+    description: "Retrieves an asset's content by ID: text transcription, page content, or a URL."
+    category: content
+  - name: showpad_showql_guide
+    description: Returns the ShowQL syntax reference.
+    category: content
+  - name: showpad_showql_filter
+    description: >-
+      Filters assets by structured metadata — type, tags, dates, size, language, share flags,
+      and engagement.
+    category: content
+  - name: showpad_ask_a_question
+    description: Returns AI-generated answers with cited sources.
+    category: ai
+  - name: showpad_whoami
+    description: "Returns the current user's identity: name, email, and account type."
+    category: identity
+  - name: showpad_shared_spaces_list
+    description: Lists shared spaces with filtering support.
+    category: shared-spaces
+  - name: showpad_shared_spaces_get
+    description: Returns full shared space details.
+    category: shared-spaces
+  - name: showpad_shared_spaces_get_engagement
+    description: Returns engagement insights for a shared space.
+    category: shared-spaces
+
+mcp_apps:
+  note: Interactive widgets published alongside the tools.
+  widgets:
+    - showpad_browse
+    - showpad_browse_filter
+    - showpad_shared_space_card
+
+clients_documented:
+  - Claude
+  - Cursor

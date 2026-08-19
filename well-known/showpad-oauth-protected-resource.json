@@ -1,0 +1,15 @@
+{
+        "resource": "https://mcp.showpad.com/mcp/v1",
+        "resource_name": "Showpad MCP Server",
+        "authorization_servers": ["https://mcp.showpad.com"],
+        "bearer_methods_supported": ["header"],
+        "scopes_supported": [
+            "read_user_management", 
+            "write_user_management", 
+            "read_contentprofile_management", 
+            "write_contentprofile_management", 
+            "read_division_management", 
+            "write_division_management",
+            "refresh_token"
+        ]
+    }

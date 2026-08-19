@@ -1,0 +1,51 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Showpad API v3
+  version: 1.0.0
+extends: openapi/showpad-v3-openapi-original.yml
+x-provenance:
+  generated: '2026-08-14'
+  method: generated
+  source: >-
+    Derived from API Evangelist artifacts in all/showpad/. The harvested spec is never
+    mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: showpad
+      x-apievangelist-artifacts:
+        conventions: conventions/showpad-conventions.yml
+        errors: errors/showpad-problem-types.yml
+        lifecycle: lifecycle/showpad-lifecycle.yml
+        authentication: authentication/showpad-authentication.yml
+        scopes: scopes/showpad-scopes.yml
+        conformance: conformance/showpad-conformance.yml
+        data_model: data-model/showpad-data-model.yml
+      x-api-lifecycle:
+        version: '3'
+        status: stable, feature-complete
+        note: >-
+          Showpad states there are no plans to deprecate v3, but it receives no further
+          feature updates and 30 of its 200 operations are already flagged deprecated in the
+          published spec.
+        deprecated_operation_count: 30
+        sunset_header: false
+      x-error-format: legacy-envelope
+      x-error-envelope: '{ "response": { "code": <int>, "name": "<ErrorName>", "message": "<text>" } }'
+      x-error-code-registry: errors/showpad-problem-types.yml
+      x-idempotency: none published
+  - target: $.servers[0]
+    update:
+      x-base-url-note: >-
+        Templated per customer subdomain. Showpad also documents
+        https://{subdomain}.showpad.com/api/v3 as an equivalent v3 host.
+  - target: $.components.securitySchemes.oAuth
+    update:
+      x-scope-reference: https://developer.showpad.com/docs/apis/concepts/authentication
+      x-token-lifetimes:
+        access_token: 1 hour
+        refresh_token: 14 days
+      x-additional-scope: appsdb_online_integrations
+      x-additional-scope-note: >-
+        Documented on the authentication page but absent from the spec's flow scope maps;
+        requires activation.

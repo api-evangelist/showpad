@@ -1,0 +1,232 @@
+generated: '2026-08-14'
+method: derived
+source: openapi/showpad-v4-openapi-original.yml, openapi/showpad-v3-openapi-original.yml
+note: >-
+  Derived from path hierarchy and path-parameter names in the two published OpenAPIs. The v4
+  spec declares only 13 shared components (Count, User, UserId, CreatedAt, UpdatedAt,
+  TimestampProperties, Problem, ProblemMeta and the five error shapes) — request and response
+  bodies are otherwise inline — so relationships are read from nesting and id parameters
+  rather than from $ref graphs. Nothing is inferred beyond what a path states.
+identifiers:
+  format: 32-character lowercase hex (v3/v4 resource ids)
+  example: c143c05d12c1433ba1358c7eb2e07c75
+  alternate: >-
+    ULIDs are used for Showpad Apps and webhook subscriptions (e.g.
+    01ARZ3NDEKTSV4RRFFQ69G5FAV, 01GVZ8663CJAREF2SJE5XQRX7W).
+  id_prefixes: none
+timestamps:
+  created: createdAt
+  updated: updatedAt
+  format: ISO-8601 (UTC)
+entities:
+  - name: Asset
+    api: v4
+    path: /assets
+    id_param: assetId
+    operations: [getAssets, postAssets, postAssetsQuery, getAsset, updateAsset, deleteAsset]
+    description: A piece of sales content. Queryable with ShowQL via postAssetsQuery.
+  - name: AssetFile
+    api: v4
+    path: /assets/{assetId}/files
+    id_param: fileId
+    operations: [getAssetFiles, postAssetFiles, getAssetFileById]
+  - name: Tag
+    api: v4
+    path: /tags
+    id_param: tagId
+    operations: [getTags, postTags, getTag, updateTag, deleteTag]
+  - name: TagCategory
+    api: v4
+    path: /tag-categories
+    id_param: tagCategoryId
+    operations: [getTagCategories, postTagCategories, getTagCategory, updateTagCategory, deleteTagCategory, updateTagCategoryTags]
+  - name: Division
+    api: v4
+    path: /divisions
+    id_param: divisionId
+    operations: [getDivisions, getDivisionById]
+  - name: User
+    api: v4
+    path: /users
+    id_param: userId
+    schema: openapi/showpad-v4-openapi-original.yml#/components/schemas/User
+    operations: [getUsers, getUserById]
+  - name: UserGroup
+    api: v3
+    path: /usergroups.json
+    operations: [get_usergroups, post_usergroups, get_usergroups_id, put_usergroups_id, delete_usergroups_id]
+  - name: Channel
+    api: v3
+    path: /channels.json
+    operations: [get_channels, get_channels_id, get_channels_id_assets]
+  - name: Share
+    api: v4
+    path: /shares
+    operations: [create-share]
+  - name: SharedSpace
+    api: v4
+    path: /shared-spaces
+    id_param: shareId
+    operations: [shared-spaces-list, shared-space-create, shared-space-get, shared-space-update, shared-space-delete, shared-space-transfer-ownership]
+    description: Digital sales room.
+  - name: SharedSpaceItem
+    api: v4
+    path: /shared-spaces/{shareId}/items
+    operations: [shared-spaces-items-add]
+  - name: SharedSpaceTemplate
+    api: v4
+    path: /shared-space-templates
+    id_param: templateId
+    operations: [shared-space-templates-list, shared-space-templates-get]
+  - name: QuickAction
+    api: v4
+    path: /shared-spaces/{shareId}/quick-actions
+    id_param: quickActionId
+    operations: [shared-spaces-quick-actions-list, create-shared-space-quick-action, get-shared-spaces-quick-action, update-shared-spaces-quick-action, delete-shared-spaces-quick-action]
+  - name: Theme
+    api: v4
+    path: /themes
+    id_param: themeId
+    operations: [theme-list, theme-get]
+    description: Sharing theme applied to shares and shared spaces.
+  - name: MutualActionPlan
+    api: v4
+    path: /mutual-action-plan
+    id_param: mutualActionPlanId
+    operations: [postMap, gesMaps, deleteMap]
+  - name: Milestone
+    api: v4
+    path: /mutual-action-plan/{mutualActionPlanId}/milestones
+    id_param: milestoneId
+    operations: [postMilestone, updateMilestone, deleteMilestone]
+  - name: Action
+    api: v4
+    path: /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions
+    id_param: actionId
+    operations: [postAction, updateAction, deleteAction]
+  - name: Assignee
+    api: v4
+    path: /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions/{actionId}/assignees
+    id_param: assigneeId
+    operations: [postAssignee, deleteAssignee]
+  - name: Participant
+    api: v4
+    path: /mutual-action-plan/{mutualActionPlanId}/participants
+    operations: [getParticipants, getParticipantSelf, getParticipantSettings, updateParticipantSettings]
+  - name: RecommendationRule
+    api: v4
+    path: /crm/recommendations/rules
+    id_param: ruleId
+    operations: [recommendation-rules-list, create-recommendation-rule, get-recommendation-rule, update-recommendation-rule, recommendation-rules-delete]
+  - name: Comment
+    api: v3
+    path: /comments.json
+    operations: [get_comments, get_assets_id_comments, post_assets_id_comments]
+  - name: Ticket
+    api: v3
+    path: /tickets.json
+    operations: [get_tickets, get_users_me_tickets]
+    description: Asynchronous processing handle returned by v3 asset creation; eliminated in v4.
+  - name: DivisionPermission
+    api: v3
+    path: /divisionpermissions.json
+    operations: [get_divisionpermissions, get_users_id_divisionpermissions, post_users_id_divisionpermissions]
+  - name: Export
+    api: v3
+    path: /exports/*.json
+    operations: [get_exports_assets, get_exports_channels, get_exports_collections]
+    description: Reporting export endpoints backing Content Reporting.
+  - name: WebhookSubscription
+    api: webhooks-v1
+    path: /webhooks/v1/subscriptions
+    operations: [createSubscription, subscriptions, getSubscriptionById, updateSubscription, deleteSubscription, getSubscriptionLogs]
+relationships:
+  - from: Asset
+    to: AssetFile
+    type: has_many
+    via: /assets/{assetId}/files
+  - from: Asset
+    to: Tag
+    type: has_many
+    via: /assets/{id}/tags.json (v3)
+  - from: Asset
+    to: Comment
+    type: has_many
+    via: /assets/{id}/comments.json (v3)
+  - from: TagCategory
+    to: Tag
+    type: has_many
+    via: /tag-categories/{tagCategoryId}/tags
+  - from: Division
+    to: Asset
+    type: has_many
+    via: /divisions/{id}/assets.json (v3)
+  - from: Division
+    to: User
+    type: has_many
+    via: /divisions/{id}/users.json (v3)
+  - from: User
+    to: UserGroup
+    type: has_many
+    via: /users/{id}/usergroups.json (v3)
+  - from: User
+    to: Division
+    type: has_many
+    via: /users/{id}/divisions.json (v3)
+  - from: User
+    to: DivisionPermission
+    type: has_many
+    via: /users/{id}/divisionpermissions.json (v3)
+  - from: User
+    to: Channel
+    type: has_many
+    via: /users/{id}/channels.json (v3)
+  - from: UserGroup
+    to: Division
+    type: has_many
+    via: /usergroups/{id}/divisions.json (v3)
+  - from: UserGroup
+    to: User
+    type: has_many
+    via: /usergroups/{id}/users.json (v3)
+  - from: Channel
+    to: Asset
+    type: has_many
+    via: /channels/{id}/assets.json (v3)
+  - from: SharedSpace
+    to: SharedSpaceItem
+    type: has_many
+    via: /shared-spaces/{shareId}/items
+  - from: SharedSpace
+    to: QuickAction
+    type: has_many
+    via: /shared-spaces/{shareId}/quick-actions
+  - from: SharedSpace
+    to: SharedSpaceTemplate
+    type: belongs_to
+    via: template reference on shared-space-create
+  - from: SharedSpace
+    to: User
+    type: belongs_to
+    via: owner (shared-space-transfer-ownership)
+  - from: MutualActionPlan
+    to: Milestone
+    type: has_many
+    via: /mutual-action-plan/{mutualActionPlanId}/milestones
+  - from: Milestone
+    to: Action
+    type: has_many
+    via: /milestones/{milestoneId}/actions
+  - from: Action
+    to: Assignee
+    type: has_many
+    via: /actions/{actionId}/assignees
+  - from: MutualActionPlan
+    to: Participant
+    type: has_many
+    via: /mutual-action-plan/{mutualActionPlanId}/participants
+  - from: Share
+    to: Theme
+    type: belongs_to
+    via: sharing theme
+render: null

@@ -1,0 +1,110 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/apis/concepts/fundamentals
+derived_from:
+  - openapi/showpad-v4-openapi-original.yml
+  - openapi/showpad-v3-openapi-original.yml
+docs:
+  fundamentals: https://developer.showpad.com/docs/apis/concepts/fundamentals
+  authentication: https://developer.showpad.com/docs/apis/concepts/authentication
+  versions: https://developer.showpad.com/docs/apis/concepts/versions
+  errors: https://developer.showpad.com/docs/apis/concepts/error-codes
+  cors: https://developer.showpad.com/docs/apis/concepts/cors
+
+authentication:
+  style: bearer-token
+  header: 'Authorization: Bearer <token>'
+  mechanisms:
+    - OAuth 2.0 authorization code
+    - OAuth 2.0 refresh token
+    - OAuth 2.0 user credentials (password grant)
+    - Personal API token (generated in the Admin App)
+  access_token_lifetime: 1 hour
+  refresh_token_lifetime: 14 days
+  see: authentication/showpad-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  note: Showpad publishes no idempotency-key contract. No Idempotency-Key header or parameter
+    appears in either the v3 or the v4 OpenAPI, and the fundamentals page does not document
+    request replay semantics. Recorded as an honest absence — no Idempotency pointer is
+    emitted for this provider.
+
+pagination:
+  style: limit-offset
+  parameters:
+    - name: limit
+      in: query
+      description: Limits the number of retrieved resources.
+    - name: offset
+      in: query
+      description: Offsets the retrieved Resource Links to skip initial results.
+  response_fields:
+    - meta.count
+    - response.items
+  example_envelope: |
+    {
+      "meta": { "count": 2 },
+      "response": { "items": [ ... ] }
+    }
+
+field_selection:
+  supported: true
+  parameter: fields
+  description: A comma separated list of attributes to be returned in the response. Typically
+    used to make the response lighter.
+
+query_language:
+  name: ShowQL
+  description: Showpad Query Language, used to query and filter content via the assets query
+    endpoints (postAssetsQuery in v4).
+  docs: https://developer.showpad.com/docs/apis/content/showql
+
+response_envelope:
+  v3: '{ "meta": { ... }, "response": { ... } }'
+  v4: Resource representations are returned directly; errors use RFC 9457 application/problem+json.
+
+error_envelope:
+  v4: application/problem+json (RFC 9457) with title, detail, status and optional meta
+  v3: '{ "response": { "code": <int>, "name": "<ErrorName>", "message": "<description>" } }'
+  see: errors/showpad-problem-types.yml
+
+versioning:
+  scheme: uri-path
+  current: v4
+  also_supported: v3
+  note: v3 and v4 run in hybrid mode and can be combined. Showpad states there are no plans
+    to deprecate v3, but v3 receives no further feature updates.
+  see: lifecycle/showpad-lifecycle.yml
+
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  documented_headers: []
+  note: The docs instruct callers to "check the response headers for retry timing information"
+    but do not name the headers or publish numeric thresholds.
+  see: rate-limits/showpad-rate-limits.yml
+
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation header is documented.
+
+content_types:
+  - application/json
+  - application/www-url-encoded
+  - multipart/form-data
+
+cors:
+  supported: true
+  note: Custom origins can be added per Showpad organization.
+  docs: https://developer.showpad.com/docs/apis/concepts/cors
+
+webhook_signing:
+  algorithm: HMAC-SHA256
+  headers:
+    - x-showpad-signature-v1
+    - x-showpad-signature-timestamp
+  signed_payload: '<raw body> + "." + <x-showpad-signature-timestamp>'
+  encoding: base64
+  replay_window: 5 minutes
+  see: asyncapi/showpad-webhooks.yml

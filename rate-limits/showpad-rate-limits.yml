@@ -1,57 +1,62 @@
 name: Showpad API Rate Limits
-description: Showpad enforces rate limits on its REST API to ensure platform stability. The API returns HTTP 429 Too Many Requests when rate limits are exceeded. Specific numeric thresholds are not publicly documented; Showpad recommends implementing exponential backoff and retry logic when 429 responses are encountered.
+description: >-
+  Showpad rate-limits its REST API but publishes no numbers. The documentation states only that
+  HTTP 429 is returned when "too many requests have been sent within a specific amount of time"
+  and instructs callers to "check the response headers for retry timing information" — without
+  naming those headers. No X-RateLimit-*, RateLimit-* or Retry-After header is documented, and
+  no window, quota or burst allowance is published for any plan.
 url: https://developer.showpad.com/docs/apis/concepts/fundamentals
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://developer.showpad.com/docs/apis/concepts/fundamentals,
+  https://developer.showpad.com/docs/apis/concepts/error-codes
 created: '2026-06-13'
-modified: '2026-06-13'
+modified: '2026-08-14'
+limit_count: 0
+limit_count_note: >-
+  Zero published numeric limits. This is an honest zero: the limit exists and is enforced, but
+  Showpad discloses no threshold an integrator could design against.
+headers_documented: false
+status_on_exhaustion: 429
 
 rateLimits:
   - name: General API Rate Limit
-    description: Showpad enforces rate limiting across all API v3 and v4 endpoints. When the allowed request volume within a time window is exceeded, the API responds with HTTP 429 Too Many Requests. The specific request-per-second or request-per-minute thresholds are not publicly disclosed.
+    description: >-
+      Applies across API v3 and v4. Exceeding the allowed request volume within an undisclosed
+      window returns HTTP 429 Too Many Requests.
+    scope: unspecified
     type: requests
     window: unspecified
-    limit: unspecified
+    limit: null
+    burst: null
     httpStatusOnExceed: 429
-    headerOnExceed: null
-    notes:
-      - Specific numeric rate limit thresholds are not publicly documented
-      - HTTP 429 is returned when too many requests have been sent within a specific amount of time
-      - Implement exponential backoff with retry logic when 429 responses are received
-      - Access tokens expire after 1 hour; refresh tokens expire after 14 days
-      - Use token refresh flows to avoid authentication-related request failures
+    responseHeaders: []
+    remediation: Implement exponential backoff with retry logic on 429.
+    source: https://developer.showpad.com/docs/apis/concepts/error-codes
 
-  - name: OAuth Token Limits
-    description: Access tokens are valid for 1 hour. Refresh tokens are valid for 14 days. Personal API tokens may have an optional expiration date set by the administrator.
-    type: token_lifetime
-    accessTokenLifetime: 1 hour
-    refreshTokenLifetime: 14 days
-    personalApiTokenLifetime: configurable (optional expiration)
-    notes:
-      - Access tokens must be refreshed via the refresh token flow before expiry
-      - Refresh tokens expire after 14 days requiring re-authentication
-      - Personal API tokens are generated in Admin App under Settings > API Tokens
+token_limits:
+  - name: OAuth access token lifetime
+    value: 1 hour
+    source: https://developer.showpad.com/docs/apis/concepts/authentication
+  - name: OAuth refresh token lifetime
+    value: 14 days
+    source: https://developer.showpad.com/docs/apis/concepts/authentication
+  - name: Personal API token lifetime
+    value: configurable (optional expiry set at creation)
+    source: https://developer.showpad.com/docs/apis/concepts/authentication
+  - name: OAuth client refresh token lifetime
+    value: configurable per OAuth client at registration
+    source: https://developer.showpad.com/docs/apis/concepts/authentication
 
-pagination:
-  description: The Showpad API uses offset-based pagination for list endpoints.
-  parameters:
-    - name: limit
-      description: Number of resources to return per page
-      default: unspecified
-      maximum: unspecified
-    - name: offset
-      description: Number of resources to skip from the start of the collection
-      default: 0
-  example: '?limit=25&offset=10'
-
-errorHandling:
-  - code: 429
-    name: Too Many Requests
-    description: Rate limit exceeded; too many requests sent within a specific time window
-    action: Implement exponential backoff and retry after a delay
-  - code: 401
-    name: Unauthorized
-    description: Invalid or expired access token
-    action: Refresh the access token using the refresh token flow
-  - code: 403
-    name: Forbidden
-    description: Valid token but insufficient permissions or scope
-    action: Verify OAuth scopes include required permissions for the endpoint
+webhook_retries:
+  note: Delivery retry schedule for outbound webhooks; not a request rate limit.
+  max_attempts: 3
+  schedule:
+    - attempt: 1
+      delay: 3s
+    - attempt: 2
+      delay: 7.5s
+    - attempt: 3
+      delay: 14.25s
+  source: https://developer.showpad.com/docs/webhooks

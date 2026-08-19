@@ -1,0 +1,210 @@
+generated: '2026-08-14'
+method: derived
+source: mcp/showpad-mcp.yml + openapi/showpad-v4-openapi-original.yml + openapi/showpad-v3-openapi-original.yml
+note: >-
+  The live MCP tools/list is auth-gated (HTTP 401 at https://mcp.showpad.com/mcp/v1), so tool
+  input schemas could not be read. Tools are mapped to backing OpenAPI operations by name and
+  documented semantics; confidence is set accordingly and nothing is asserted beyond what the
+  published tool descriptions and the specs support.
+
+surfaces:
+  openapi:
+    - file: openapi/showpad-v4-openapi-original.yml
+      version: '4'
+      operations: 65
+      base: https://{subdomain}.api.showpad.com/v4
+    - file: openapi/showpad-v3-openapi-original.yml
+      version: '3'
+      operations: 200
+      base: https://{subdomain}.showpad.biz/api/v3
+  graphql:
+    present: false
+  mcp:
+    url: https://mcp.showpad.com/mcp/v1
+    gated: true
+    http_status: 401
+    tools_source: https://developer.showpad.com/docs/integrations/platform-independent/mcp
+
+crosswalk:
+  - tool: search
+    category: content
+    rest:
+      - postAssetsQuery
+      - getAssets
+    binding: rest
+    confidence: high
+    note: >-
+      Asset search by name, type, description or content maps to the v4 assets query endpoint
+      (POST /assets/query) with GET /assets as the unfiltered listing form.
+  - tool: fetch
+    category: content
+    rest:
+      - getAsset
+      - getAssetFiles
+      - getAssetFileById
+    binding: rest
+    confidence: high
+    note: >-
+      Retrieving an asset's content by ID fans out across the asset record and its file
+      representations (text transcription / page content / URL).
+  - tool: showpad_showql_filter
+    category: content
+    rest:
+      - postAssetsQuery
+    binding: rest
+    confidence: high
+    note: >-
+      ShowQL structured metadata filtering is the query body accepted by POST /assets/query.
+  - tool: showpad_whoami
+    category: identity
+    rest:
+      - get_users_me
+    binding: rest
+    confidence: high
+    note: >-
+      v3 GET /users/me.json returns the calling user's identity. v4 exposes getUsers and
+      getUserById but no self endpoint.
+  - tool: showpad_shared_spaces_list
+    category: shared-spaces
+    rest:
+      - shared-spaces-list
+    binding: rest
+    confidence: high
+  - tool: showpad_shared_spaces_get
+    category: shared-spaces
+    rest:
+      - shared-space-get
+    binding: rest
+    confidence: high
+  - tool: showpad_shared_spaces_get_engagement
+    category: shared-spaces
+    rest:
+      - shared-space-records-list
+    binding: rest
+    confidence: medium
+    note: >-
+      Engagement insights for a shared space are exposed over REST through the CRM shared-space
+      records endpoint; the MCP tool may aggregate additional reporting data that has no
+      one-to-one REST operation.
+
+mcp_only:
+  - tool: showpad_ask_a_question
+    reason: >-
+      AI-generated answers with cited sources. No public REST operation performs retrieval-
+      augmented question answering; this is a server-side composite over the content index.
+  - tool: showpad_showql_guide
+    reason: >-
+      Returns the ShowQL syntax reference as tool output. Documentation content, not a REST
+      resource.
+  - tool: showpad_browse
+    reason: MCP App (interactive widget), not an API operation.
+  - tool: showpad_browse_filter
+    reason: MCP App (interactive widget), not an API operation.
+  - tool: showpad_shared_space_card
+    reason: MCP App (interactive widget), not an API operation.
+
+rest_only:
+  - capability: Asset lifecycle (create, update, delete, upload files)
+    operations:
+      - postAssets
+      - updateAsset
+      - deleteAsset
+      - postAssetFiles
+  - capability: Tags and tag categories
+    operations:
+      - getTags
+      - postTags
+      - getTag
+      - updateTag
+      - deleteTag
+      - getTagCategories
+      - postTagCategories
+      - getTagCategory
+      - updateTagCategory
+      - deleteTagCategory
+      - updateTagCategoryTags
+  - capability: Divisions
+    operations:
+      - getDivisions
+      - getDivisionById
+  - capability: Users and user groups (incl. SCIM-adjacent provisioning over v3)
+    operations:
+      - getUsers
+      - getUserById
+      - get_users
+      - post_users
+      - put_users_id
+      - delete_users_id
+      - get_usergroups
+      - post_usergroups
+  - capability: Shared space write path, templates, themes and quick actions
+    operations:
+      - shared-space-create
+      - shared-space-update
+      - shared-space-delete
+      - shared-space-transfer-ownership
+      - shared-spaces-items-add
+      - shared-space-templates-list
+      - shared-space-templates-get
+      - theme-list
+      - theme-get
+      - shared-spaces-quick-actions-list
+      - create-shared-space-quick-action
+      - get-shared-spaces-quick-action
+      - update-shared-spaces-quick-action
+      - delete-shared-spaces-quick-action
+  - capability: Shares
+    operations:
+      - create-share
+  - capability: CRM recommendation rules
+    operations:
+      - recommendation-rules-list
+      - create-recommendation-rule
+      - get-recommendation-rule
+      - update-recommendation-rule
+      - recommendation-rules-delete
+      - share-records-list
+  - capability: Mutual Action Plans (milestones, actions, assignees, participants)
+    operations:
+      - postMap
+      - gesMaps
+      - deleteMap
+      - getParticipants
+      - getParticipantSelf
+      - getParticipantSettings
+      - updateParticipantSettings
+      - postMilestone
+      - updateMilestone
+      - deleteMilestone
+      - postAction
+      - updateAction
+      - deleteAction
+      - postAssignee
+      - deleteAssignee
+  - capability: Locale reference data
+    operations:
+      - getLanguages
+      - getCountries
+  - capability: Channels, comments, exports, tickets, division permissions (v3 only)
+    operations:
+      - get_channels
+      - get_comments
+      - get_exports_assets
+      - get_tickets
+      - get_divisionpermissions
+    note: >-
+      Representative v3 operationIds for capability families with no MCP tool; the v3 spec
+      carries 200 operations in total.
+
+coverage:
+  tools_named: 12
+  tools_bound_to_rest: 7
+  mcp_only: 5
+  rest_operations_total: 265
+  rest_operations_v4: 65
+  rest_operations_v3: 200
+  rest_operations_with_a_tool: 10
+  note: >-
+    The MCP surface is a read-oriented projection over content, identity and shared spaces.
+    Every write path in the REST API — asset lifecycle, tags, users, shared space creation,
+    Mutual Action Plans, CRM rules — is REST-only and unreachable from the MCP server.

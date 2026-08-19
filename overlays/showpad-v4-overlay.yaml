@@ -1,0 +1,55 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Showpad API v4
+  version: 1.0.0
+extends: openapi/showpad-v4-openapi-original.yml
+x-provenance:
+  generated: '2026-08-14'
+  method: generated
+  source: >-
+    Derived from API Evangelist artifacts in all/showpad/ — conventions, errors, lifecycle,
+    authentication, conformance, mcp and rate-limits. The harvested spec is never mutated.
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: showpad
+      x-apievangelist-artifacts:
+        conventions: conventions/showpad-conventions.yml
+        errors: errors/showpad-problem-types.yml
+        lifecycle: lifecycle/showpad-lifecycle.yml
+        authentication: authentication/showpad-authentication.yml
+        scopes: scopes/showpad-scopes.yml
+        conformance: conformance/showpad-conformance.yml
+        data_model: data-model/showpad-data-model.yml
+        mcp: mcp/showpad-mcp.yml
+        webhooks: asyncapi/showpad-webhooks.yml
+        rate_limits: rate-limits/showpad-rate-limits.yml
+      x-api-lifecycle:
+        version: '4'
+        status: active
+        deprecation_policy: none published
+        sunset_header: false
+      x-error-format: rfc9457
+      x-idempotency: none published
+  - target: $.servers[0]
+    update:
+      x-base-url-note: >-
+        Templated per customer subdomain. The v4 host differs from v3 — v4 is
+        {subdomain}.api.showpad.com, v3 is {subdomain}.showpad.biz.
+  - target: $.components
+    update:
+      x-rate-limit-signal:
+        status_on_exhaustion: 429
+        headers_documented: false
+      x-pagination:
+        style: limit-offset
+        parameters: [limit, offset]
+        response_fields: [meta.count, response.items]
+      x-field-selection:
+        parameter: fields
+  - target: $.tags
+    update:
+      x-agent-surface:
+        mcp_server: https://mcp.showpad.com/mcp/v1
+        mcp_gated: true
+        crosswalk: mcp/showpad-tool-crosswalk.yml

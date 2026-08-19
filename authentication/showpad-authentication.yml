@@ -1,0 +1,96 @@
+generated: '2026-08-14'
+method: searched
+source: openapi/showpad-v3-openapi-original.yml, openapi/showpad-v4-openapi-original.yml
+docs: https://developer.showpad.com/docs/apis/concepts/authentication
+summary:
+  types: [http, oauth2]
+  http_schemes: [bearer]
+  oauth2_flows: [authorizationCode, password, refresh_token]
+  api_key_in: []
+  header: 'Authorization: Bearer <token>'
+  tenant_scoped: true
+  tenant_note: >-
+    Every authentication endpoint is tenant-scoped to the customer's Showpad subdomain; there
+    is no shared authorization host for the REST API.
+schemes:
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    description: >-
+      Bearer token identifying the requesting user. Accepts either an OAuth 2.0 access token
+      or a personal API token.
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+      - openapi/showpad-v4-openapi-original.yml
+  - name: oAuth
+    type: oauth2
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/authorize
+        tokenUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/token
+        scopes: 6
+      - flow: password
+        tokenUrl: https://{subdomain}.showpad.biz/api/v3/oauth2/token
+        scopes: 7
+    sources:
+      - openapi/showpad-v3-openapi-original.yml
+    docs: https://developer.showpad.com/docs/apis/concepts/authentication
+  - name: Showpad MCP OAuth
+    type: oauth2
+    surface: mcp
+    issuer: https://mcp.showpad.com
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://mcp.showpad.com/oauth/v1/auth
+        tokenUrl: https://mcp.showpad.com/oauth/v1/token
+        code_challenge_methods: [S256]
+        scopes: 7
+    token_endpoint_auth_methods: [none, client_secret_post]
+    grant_types: [authorization_code, refresh_token]
+    sources:
+      - well-known/showpad-oauth-authorization-server.json
+      - well-known/showpad-oauth-protected-resource.json
+methods:
+  - name: OAuth 2.0 Authorization Code
+    use: Server-side apps where users log in with their Showpad credentials.
+  - name: OAuth 2.0 Refresh Token
+    use: Obtaining new access tokens when the current one expires.
+  - name: OAuth 2.0 User Credentials (password grant)
+    use: Backend services that control both the application and the user credentials.
+  - name: Personal API Token
+    use: >-
+      Direct API access without an OAuth flow. Generated in Admin App -> Settings -> API
+      Tokens with a descriptive name and an optional expiry date. Displayed once only.
+token_lifetimes:
+  access_token: 1 hour
+  refresh_token: 14 days
+  refresh_token_configurable: true
+  refresh_token_configurable_note: Set per OAuth client at registration.
+  personal_api_token: optional expiry set at creation
+client_registration:
+  location: Admin App -> Settings -> Manage OAuth Clients
+  fields:
+    - client name
+    - redirect URL
+    - description
+    - website
+    - scope selections
+    - refresh token lifetime
+  issued:
+    - Client ID
+    - Client Secret
+  self_serve: false
+  self_serve_note: >-
+    OAuth client registration requires administrator access to a provisioned Showpad
+    organization. There is no public developer signup.
+enterprise_identity:
+  sso: SAML 2.0
+  provisioning: SCIM 2.0
+  scim_base: https://{subdomain}.showpad.biz/api/Users/scim/v2
+  scim_docs: https://developer.showpad.com/docs/apis/users/SCIM
+  idps_documented: [Okta, Azure AD, OneLogin, Ping Identity, Salesforce, Microsoft AD FS]
+scopes: scopes/showpad-scopes.yml
+error_handling:
+  '401': Missing or invalid authentication token.
+  '403': Valid token but insufficient permissions.
+  see: errors/showpad-problem-types.yml

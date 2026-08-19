@@ -1,0 +1,67 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/apis/concepts/versions
+versioning:
+  scheme: uri-path
+  current: v4
+  supported:
+    - version: v3
+      base: https://{subdomain}.showpad.biz/api/v3
+      also: https://{subdomain}.showpad.com/api/v3
+      status: stable, feature-complete
+      note: Broadest endpoint coverage; receives no further feature updates.
+    - version: v4
+      base: https://{subdomain}.api.showpad.com/v4
+      status: actively growing
+      note: Optimized uploads, immediate asset creation, tag categories, author and locale properties.
+  hybrid: true
+  hybrid_note: v3 and v4 run in hybrid mode and may be combined in a single integration.
+  docs: https://developer.showpad.com/docs/apis/concepts/versions
+  migration_guide: https://developer.showpad.com/docs/apis/concepts/versions
+deprecation:
+  policy_url: https://developer.showpad.com/docs/apis/concepts/versions
+  sunset_header: false
+  deprecation_header: false
+  sunset_dates: []
+  statement: >-
+    Showpad states there are "no plans to deprecate" API v3, and publishes no sunset date, no
+    RFC 8594 Sunset/Deprecation header support, and no formal deprecation window. The only
+    deprecation signal Showpad ships is the `deprecated: true` flag inside the v3 OpenAPI.
+  deprecated_operation_count: 30
+  deprecated_operations_source: openapi/showpad-v3-openapi-original.yml
+  deprecated_operations:
+    - openapi/showpad-v3-openapi-original.yml#get_assets
+    - openapi/showpad-v3-openapi-original.yml#post_assets
+    - openapi/showpad-v3-openapi-original.yml#get_assets_id
+    - openapi/showpad-v3-openapi-original.yml#post_assets_id
+    - openapi/showpad-v3-openapi-original.yml#delete_assets_id
+    - openapi/showpad-v3-openapi-original.yml#get_assets_id1_tags_id2
+    - openapi/showpad-v3-openapi-original.yml#link_assets_id1_tags_id2_link
+    - openapi/showpad-v3-openapi-original.yml#unlink_assets_id1_tags_id2_unlink
+    - openapi/showpad-v3-openapi-original.yml#link_assets_id_link
+    - openapi/showpad-v3-openapi-original.yml#unlink_assets_id_unlink
+    - openapi/showpad-v3-openapi-original.yml#get_divisions
+    - openapi/showpad-v3-openapi-original.yml#get_divisions_id
+    - openapi/showpad-v3-openapi-original.yml#get_divisions_id_assets
+    - openapi/showpad-v3-openapi-original.yml#post_divisions_id_assets
+    - openapi/showpad-v3-openapi-original.yml#link_divisions_id_link
+    - openapi/showpad-v3-openapi-original.yml#get_divisions_id_tags
+    - openapi/showpad-v3-openapi-original.yml#post_divisions_id_tags
+    - openapi/showpad-v3-openapi-original.yml#unlink_divisions_id_unlink
+    - openapi/showpad-v3-openapi-original.yml#get_divisions_id_users
+    - openapi/showpad-v3-openapi-original.yml#get_tags
+status_page: https://status.showpad.com
+status_page_provider: Atlassian Statuspage
+status_feeds:
+  rss: https://status.showpad.com/history.rss
+  atom: https://status.showpad.com/history.atom
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment is published on the developer portal or the
+    marketing site; SLAs are handled in negotiated enterprise contracts.
+changelog: changelog/showpad-changelog.yml
+support:
+  help_center: https://help.showpad.com
+  ticket: https://help.showpad.com/hc/en-us/requests/new
+  release_notes: https://help.showpad.com/hc/en-us/articles/115003975693-Showpad-Release-Notes

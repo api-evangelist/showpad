@@ -1,0 +1,85 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/appsv2/references/cli/cli-commands
+name: Showpad CLI
+binary: showpad
+package: "@showpad/cli"
+package_url: https://www.npmjs.com/package/@showpad/cli
+version: 1.0.7
+published: '2025-04-18'
+docs:
+  overview: https://developer.showpad.com/docs/appsv2/developer-tools/cli
+  commands: https://developer.showpad.com/docs/appsv2/references/cli/cli-commands
+purpose: >-
+  Command-line tool for developing, packaging and distributing Showpad Apps (v2). It is an
+  app-development tool, not a REST API client — it does not wrap the v3/v4 data APIs.
+requirements:
+  runtime: Node.js 20+
+  platforms:
+    - GNU/Linux
+    - macOS
+    - Windows
+install:
+  - npm install -g @showpad/cli
+config:
+  directory: ~/.config/showpad
+  flag: -c, --config-dir
+  credentials_file: credentials
+  env:
+    - SHOWPAD_ADMIN_USERNAME
+    - SHOWPAD_ADMIN_PASSWORD
+    - SHOWPAD_CLIENT_ID
+    - SHOWPAD_CLIENT_SECRET
+    - SHOWPAD_SUBDOMAIN
+  note: >-
+    The CLI never stores user passwords; the credentials file holds the OAuth client id and
+    secret, the subdomain, and the retrieved access and refresh tokens.
+namespaces:
+  - name: (root)
+    commands:
+      - name: login
+        description: >-
+          Updates configuration and authenticates a user via the OAuth user credentials flow,
+          storing access and refresh tokens in the credentials file.
+      - name: help
+        description: Display help for showpad. Supports -n/--nested-commands.
+  - name: apps
+    description: Control and oversight of custom-developed applications in the Showpad platform.
+    commands:
+      - name: apps bundle
+        description: Creates a .showpad bundle for your app from a source directory.
+        flags: [-s/--source-dir, -o/--output-dir, --skip-validation, --no-input, --verbose]
+      - name: apps upload
+        description: Uploads an app bundle to Showpad.
+        args: [FILEPATH]
+        flags: [--skip-validation, --no-input, --verbose]
+      - name: apps list
+        description: Retrieves a list of all uploaded apps.
+        flags: [--columns, -x/--extended, --filter, --sort, --output csv|json|yaml, --csv, --no-header, --no-truncate]
+      - name: apps versions
+        description: Retrieves all available versions of uploaded apps.
+        flags: [--app-id, --columns, -x/--extended, --filter, --sort, --output csv|json|yaml]
+      - name: apps status
+        description: Provides real-time insights into uploaded apps.
+        flags: [--app-id, --upload-id, --columns, -x/--extended, --filter, --sort, --output csv|json|yaml]
+      - name: apps assign
+        description: Assigns a specific app version to one or more Showpad organizations.
+        flags: [-p/--partner-code (required), --app-version-id, --no-input, --verbose]
+      - name: apps unassign
+        description: Unassigns an app version from one or more Showpad organizations.
+        flags: [-p/--partner-code (required), --app-version-id, --no-input, --verbose]
+key_flows:
+  - name: Build and ship a Showpad App
+    steps:
+      - showpad login
+      - showpad apps bundle --source-dir ./my-app
+      - showpad apps upload ./my-app.showpad
+      - showpad apps status --upload-id <id>
+      - showpad apps assign --partner-code <org-partner-code>
+legacy:
+  package: "@showpad/experience-app-cli"
+  version: 3.1.1
+  published: '2023-08-03'
+  note: >-
+    The Apps v1 Experience App CLI. Showpad's own docs warn its commands "may not function
+    correctly (or at all)" against Showpad Apps v2 and direct developers to @showpad/cli.

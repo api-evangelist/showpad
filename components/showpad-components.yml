@@ -1,0 +1,57 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/integrations/platform-independent
+note: >-
+  Showpad's client-side surface is an extension platform rather than a component library:
+  embeddable iframes, an SDK-driven in-product extension model, and MCP Apps widgets. These
+  are distinct from the server-side packages in packages/showpad-packages.yml.
+families:
+  - name: Showpad Apps (Experience Extensions)
+    kind: in-product extension
+    description: >-
+      Custom UI experiences rendered for sellers and buyers inside Showpad. Experience Apps
+      run inside iframes in the Showpad host and communicate with it through ShowpadJS.
+    loader: "@showpad/experience-app-sdk"
+    loader_version: 3.3.0
+    docs: https://developer.showpad.com/docs/appsv2/concepts/extension-types/experience-type
+    extension_points:
+      - name: Experience
+        docs: https://developer.showpad.com/docs/appsv2/concepts/extension-types/experience-type
+      - name: Admin Settings
+        docs: https://developer.showpad.com/docs/appsv2/concepts/extension-types/admin-settings
+      - name: User Settings
+      - name: Shared Space (Quick Actions)
+        docs: https://developer.showpad.com/docs/appsv2/concepts/extension-types/shared-space-extension
+      - name: Asset Viewer
+      - name: Add Content
+  - name: Content Picker SDK
+    kind: embeddable picker
+    description: >-
+      Embeds Showpad content picking and sharing into third-party applications.
+    loader: "@showpad/content-picker"
+    loader_version: 0.1.1
+    docs: https://developer.showpad.com/docs/integrations/platform-independent/content-pick-share
+  - name: Embed Insights & Recommendations
+    kind: hosted iframe
+    description: >-
+      Embeds Showpad recommendations and insights into external platforms via iFrame, used to
+      surface Showpad content inside CRMs and other host applications.
+    docs: https://developer.showpad.com/docs/integrations/platform-independent/embed
+  - name: MCP Apps
+    kind: agent-rendered widget
+    description: >-
+      Interactive widgets returned by the Showpad MCP server to MCP-App-capable clients.
+    docs: https://developer.showpad.com/docs/integrations/platform-independent/mcp
+    widgets:
+      - showpad_browse
+      - showpad_browse_filter
+      - showpad_shared_space_card
+    see: mcp/showpad-mcp.yml
+  - name: AppsDB
+    kind: client-side storage
+    description: >-
+      Key/value store for offline-capable data persistence within Showpad Apps.
+    docs: https://developer.showpad.com/docs/appsv2/developer-tools/appsdb
+supporting_tooling:
+  cli: cli/showpad-cli.yml
+  manifest: https://developer.showpad.com/docs/appsv2/concepts/app-manifest

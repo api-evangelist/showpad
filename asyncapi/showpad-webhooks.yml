@@ -1,0 +1,126 @@
+generated: '2026-08-14'
+method: searched
+source: https://developer.showpad.com/docs/webhooks
+spec_type: none
+note: >-
+  Showpad documents a first-party webhook surface with a subscription management API, a
+  CloudEvents-shaped payload envelope and HMAC-SHA256 signature verification, but publishes
+  no AsyncAPI document. The event schemas live in a Redocusaurus-rendered "Payload Reference"
+  page whose underlying spec file is not served at a fetchable URL, so the event catalogue
+  below is limited to event names Showpad states in its own prose and examples. Nothing here
+  is invented.
+
+docs:
+  overview: https://developer.showpad.com/docs/webhooks
+  subscriptions: https://developer.showpad.com/docs/webhooks/subscriptions
+  notifications: https://developer.showpad.com/docs/webhooks/notifications
+  verification: https://developer.showpad.com/docs/webhooks/verification
+  payload_reference: https://developer.showpad.com/docs/webhooks/references/payload/v1
+  api_reference: https://developer.showpad.com/docs/webhooks/references/apis/v1
+
+surface:
+  kind: webhooks
+  transport: HTTP callback
+  methods_supported:
+    - GET
+    - POST
+  base_endpoint: https://{subdomain}.api.showpad.com/webhooks/v1
+  entitlement: Ultimate with Enterprise add-on | Advanced | Expert
+  auth: OAuth 2.0 access token or developer API token
+  management:
+    - method: POST
+      path: /subscriptions
+      operation: createSubscription
+    - method: GET
+      path: /subscriptions
+      operation: subscriptions
+    - method: GET
+      path: /subscriptions/{id}
+      operation: getSubscriptionById
+    - method: POST
+      path: /subscriptions/{id}
+      operation: updateSubscription
+    - method: DELETE
+      path: /subscriptions/{id}
+      operation: deleteSubscription
+    - method: GET
+      path: /subscriptions/{id}/logs
+      operation: getSubscriptionLogs
+
+envelope:
+  format: JSON
+  fields:
+    - name: type
+      type: string
+      description: The event type.
+    - name: specversion
+      type: string
+      description: The schema version of the event.
+    - name: id
+      type: string
+      description: The event's Showpad identifier.
+    - name: time
+      type: string (date-time)
+      description: The date and time of the event.
+    - name: data
+      type: object
+      description: Event-specific detail; shape varies by event type.
+  example: |
+    {
+      "type": "shared-space-user-added",
+      "specversion": 1,
+      "id": "c40b30f2-fabf-4c89-aed0-f5f5aaac9a24",
+      "time": "2022-15-30T06:45:00.250Z",
+      "data": { "inviter": {}, "invitee": {}, "sharedSpace": {} }
+    }
+
+security:
+  signing: HMAC-SHA256
+  headers:
+    - name: x-showpad-signature-v1
+      description: >-
+        Base64 HMAC SHA-256 hash generated from the HTTP request body and timestamp header.
+        Comma-separated list; the request is valid if at least one signature matches.
+    - name: x-showpad-signature-timestamp
+      description: Unix epoch timestamp (seconds) for the moment the request was fired.
+  signed_payload: raw payload body + "." + x-showpad-signature-timestamp
+  replay_protection: Reject requests whose timestamp is older than 5 minutes.
+  key: Per-subscription signature key, displayed once at subscription creation.
+
+delivery:
+  on_2xx: Notification considered successful.
+  on_4xx: Notification deemed unsuccessful; no further attempts are made.
+  on_5xx: Retried up to three times.
+  retries:
+    - attempt: 1
+      delay: 3s
+    - attempt: 2
+      delay: 7.5s
+    - attempt: 3
+      delay: 14.25s
+
+events_note: >-
+  Event names Showpad states explicitly in its published webhook documentation. The complete
+  list is enumerated only inside the JS-rendered Payload Reference; it is not reproduced here
+  because it could not be fetched as data.
+events:
+  - name: shared-space-created
+    description: >-
+      Sent whenever a Shared Space is created. The payload contains the details of the Shared
+      Space and the user that created it.
+    source: https://developer.showpad.com/docs/webhooks/subscriptions
+  - name: shared-space-user-added
+    description: >-
+      Sent when a user is added to a Shared Space; payload carries inviter, invitee and
+      sharedSpace objects.
+    source: https://developer.showpad.com/docs/webhooks/notifications
+  - name: COURSE_COMPLETED
+    description: >-
+      Course completion event; appears verbatim in the published createSubscription response
+      example as a subscribable type.
+    source: https://developer.showpad.com/docs/webhooks/subscriptions
+event_categories_documented:
+  - shares
+  - views
+  - Shared Spaces
+  - course completions

@@ -1,0 +1,63 @@
+generated: '2026-08-14'
+method: generated
+source: >-
+  Grounded in openapi/showpad-v4-openapi-original.yml, openapi/showpad-v3-openapi-original.yml
+  and the Showpad developer documentation. Every operationId referenced was verified to exist
+  verbatim in the referenced spec.
+note: >-
+  Showpad publishes no first-party AGENTS.md or agent skill files; these are API Evangelist
+  packaged skills.
+skills:
+  - file: showpad-search-and-fetch-content.md
+    name: Search and fetch Showpad sales content
+    api: openapi/showpad-v4-openapi-original.yml
+    operations:
+      - postAssetsQuery
+      - getAssets
+      - getAsset
+      - getAssetFiles
+      - getAssetFileById
+  - file: showpad-create-shared-space.md
+    name: Create a Showpad Shared Space and add content
+    api: openapi/showpad-v4-openapi-original.yml
+    operations:
+      - shared-space-templates-list
+      - shared-space-templates-get
+      - theme-list
+      - shared-space-create
+      - shared-spaces-items-add
+      - shared-spaces-quick-actions-list
+      - create-shared-space-quick-action
+      - shared-space-get
+      - shared-space-transfer-ownership
+  - file: showpad-manage-users-and-groups.md
+    name: Provision Showpad users, groups and divisions
+    api: openapi/showpad-v3-openapi-original.yml
+    operations:
+      - get_users
+      - post_users
+      - get_users_id
+      - put_users_id
+      - delete_users_id
+      - get_users_me
+      - get_users_id_usergroups
+      - link_users_id1_usergroups_id2_link
+      - unlink_users_id1_usergroups_id2_unlink
+      - get_usergroups
+      - post_usergroups
+      - get_users_id_divisions
+      - get_users_id_divisionpermissions
+      - post_users_id_divisionpermissions
+      - getUsers
+      - getUserById
+      - getDivisions
+  - file: showpad-subscribe-to-webhooks.md
+    name: Subscribe to Showpad webhooks and verify signatures
+    api: asyncapi/showpad-webhooks.yml
+    operations:
+      - createSubscription
+      - subscriptions
+      - getSubscriptionById
+      - updateSubscription
+      - deleteSubscription
+      - getSubscriptionLogs

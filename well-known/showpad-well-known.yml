@@ -1,0 +1,138 @@
+generated: '2026-08-14'
+method: probed
+source: live probes of every Showpad host on 2026-08-14
+note: >-
+  The only real /.well-known/ documents Showpad serves are the two OAuth metadata documents on
+  the MCP host. developer.showpad.com and docs.api.showpad.com are a Docusaurus SPA whose
+  catch-all answers HTTP 200 with the same 19,116-byte HTML shell for every /.well-known/*
+  path — those are recorded as soft-200 misses, not documents. status.showpad.com does serve a
+  real security.txt, but it is Atlassian Statuspage's document, not Showpad's, so no
+  SecurityTxt pointer is emitted for Showpad.
+hosts:
+  - host: https://mcp.showpad.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        real: true
+        file: showpad-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource/mcp/v1
+        status: 200
+        content_type: application/json
+        real: true
+        file: showpad-oauth-protected-resource.json
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: text/html
+        real: false
+        note: Showpad app shell, not a document.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://developer.showpad.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        real: false
+        note: Docusaurus SPA catch-all (19116-byte HTML shell) — soft 200, not a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        real: false
+        note: Docusaurus SPA catch-all — soft 200, not a document.
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        real: false
+        note: Docusaurus SPA catch-all — soft 200, not a document.
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://docs.api.showpad.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        real: false
+        note: Same Docusaurus deployment as developer.showpad.com — soft 200.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        real: false
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://www.showpad.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://showpad.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://status.showpad.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/plain
+        real: true
+        third_party: true
+        note: >-
+          PGP-signed security.txt served by Atlassian Statuspage, whose Contact is
+          https://www.atlassian.com/trust/security/... — it describes Atlassian's disclosure
+          program, not Showpad's. Not saved and not wired as a Showpad SecurityTxt.
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://help.showpad.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+summary:
+  real_documents: 2
+  soft_200_html_shells: 7
+  third_party_documents: 1
+  agent_card_found: false
