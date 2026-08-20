@@ -27,6 +27,17 @@ tags:
   - Training
   - CRM Integration
   - Digital Sales Rooms
+  - MCP
+  - SCIM
+tags_raw:
+  - Sales Enablement
+  - Sales Coaching
+  - Content Management
+  - Buyer Engagement
+  - Sales Analytics
+  - Training
+  - CRM Integration
+  - Digital Sales Rooms
   - Model Context Protocol
   - SCIM
 apis:
@@ -137,6 +148,10 @@ apis:
     humanURL: https://developer.showpad.com/docs/webhooks
     baseURL: https://{subdomain}.api.showpad.com/webhooks/v1
     tags:
+      - Webhook
+      - Event
+      - Notification
+    tags_raw:
       - Webhooks
       - Events
       - Notifications
@@ -157,6 +172,10 @@ apis:
     humanURL: https://developer.showpad.com/docs/integrations/platform-independent/mcp
     baseURL: https://mcp.showpad.com/mcp/v1
     tags:
+      - MCP
+      - AI Agents
+      - Content Discovery
+    tags_raw:
       - Model Context Protocol
       - AI Agents
       - Content Discovery
