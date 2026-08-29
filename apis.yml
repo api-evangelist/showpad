@@ -1,6 +1,18 @@
 aid: showpad
 name: Showpad
 description: Showpad is a sales enablement and coaching platform offering a REST API for managing sales content, training programs, meeting analytics, and buyer engagement. The API supports content management with ShowQL query language, buyer engagement through shares and digital sales rooms, seller effectiveness via CRM recommendation rules, user management with SCIM 2.0, and analytics covering content reporting and coaching insights across the sales cycle. Showpad publishes machine-readable OpenAPI 3.0.3 definitions for both API v3 (200 operations) and API v4 (65 operations), a signed webhook surface, and a hosted OAuth-protected MCP server for AI assistants.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: approval
