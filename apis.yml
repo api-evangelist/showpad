@@ -707,6 +707,9 @@ apis:
   - type: Documentation
     url: https://developer.showpad.com/docs/apis/users/SCIM
 common:
+  - type: CapabilityMap
+    url: capabilities/showpad-capability-edges.yml
+    name: Showpad Business Capability Map
   - type: Overlay
     url: overlays/showpad-v3-overlay.yaml
   - type: Overlay
