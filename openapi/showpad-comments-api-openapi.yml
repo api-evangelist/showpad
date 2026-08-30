@@ -1,0 +1,1282 @@
+openapi: 3.2.0
+info:
+  title: Showpad Comments API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: comments
+  description: ''
+paths:
+  /comments.json:
+    get:
+      deprecated: false
+      tags:
+      - comments
+      operationId: get_comments
+      description: Generates a list of Comment items
+      summary: /comments.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Unique identifier for the resource
+                              type: string
+                            resourcetype:
+                              description: The type of resource
+                              type: string
+                            createdAt:
+                              description: The date that the comment was created
+                              type: string
+                              format: date
+                            division:
+                              description: The division this comment resides in
+                              type: string
+                              format: link
+                            externalId:
+                              description: External ID of the comment as used in the source application
+                              type: string
+                            isUnregisteredUserComment:
+                              description: Indicates whether this comment is made by an unregistered user
+                              type: boolean
+                            message:
+                              description: The message of the comment
+                              type: string
+                            parent:
+                              description: The resource this comment is given on
+                              type: string
+                              format: link
+                            parentType:
+                              description: The type of resource this comment is given on
+                              type: string
+                            unregisteredUserFirstName:
+                              description: First Name of the unregistered user
+                              type: string
+                            unregisteredUserLastName:
+                              description: Last Name of the unregistered user
+                              type: string
+                            updatedAt:
+                              description: The date that the comment was updated
+                              type: string
+                              format: date
+                            user:
+                              description: The user that created this comment
+                              type: string
+                              format: link
+                            parentMobileApiId:
+                              description: Element ID in mobile-API format (e.g. ph-125)
+                              type: string
+                            asset:
+                              description: The asset linked to this comment
+                              type: string
+                              format: link
+                            collectionItem:
+                              description: The collection item linked to this comment
+                              type: string
+                              format: link
+                            share:
+                              description: The share linked to this comment
+                              type: string
+                              format: link
+                            comment:
+                              description: The parent comment linked to this comment
+                              type: string
+                              format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: createdSince
+        description: Filter comments on createdAt greater than or equal to this value
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        description: External ID of the comment as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: isUnregisteredUserComment
+        description: Indicates whether this comment is made by an unregistered user
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: unregisteredUserFirstName
+        description: First Name of the unregistered user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: unregisteredUserLastName
+        description: Last Name of the unregistered user
+        required: false
+        in: query
+        schema:
+          type: string
+    post:
+      deprecated: false
+      tags:
+      - comments
+      operationId: post_comments
+      description: Create a Comment item
+      summary: /comments.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the comment was created
+                        type: string
+                        format: date
+                      division:
+                        description: The division this comment resides in
+                        type: string
+                        format: link
+                      externalId:
+                        description: External ID of the comment as used in the source application
+                        type: string
+                      isUnregisteredUserComment:
+                        description: Indicates whether this comment is made by an unregistered user
+                        type: boolean
+                      message:
+                        description: The message of the comment
+                        type: string
+                      parent:
+                        description: The resource this comment is given on
+                        type: string
+                        format: link
+                      parentType:
+                        description: The type of resource this comment is given on
+                        type: string
+                      unregisteredUserFirstName:
+                        description: First Name of the unregistered user
+                        type: string
+                      unregisteredUserLastName:
+                        description: Last Name of the unregistered user
+                        type: string
+                      updatedAt:
+                        description: The date that the comment was updated
+                        type: string
+                        format: date
+                      user:
+                        description: The user that created this comment
+                        type: string
+                        format: link
+                      parentMobileApiId:
+                        description: Element ID in mobile-API format (e.g. ph-125)
+                        type: string
+                      asset:
+                        description: The asset linked to this comment
+                        type: string
+                        format: link
+                      collectionItem:
+                        description: The collection item linked to this comment
+                        type: string
+                        format: link
+                      share:
+                        description: The share linked to this comment
+                        type: string
+                        format: link
+                      comment:
+                        description: The parent comment linked to this comment
+                        type: string
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+              required:
+              - message
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+              required:
+              - message
+  /comments/count.json:
+    get:
+      deprecated: false
+      tags:
+      - comments
+      operationId: get_comments_count
+      description: Retrieve the number of Comment items
+      summary: /comments/count.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: createdSince
+        description: Filter comments on createdAt greater than or equal to this value
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalId
+        description: External ID of the comment as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: isUnregisteredUserComment
+        description: Indicates whether this comment is made by an unregistered user
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: unregisteredUserFirstName
+        description: First Name of the unregistered user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: unregisteredUserLastName
+        description: Last Name of the unregistered user
+        required: false
+        in: query
+        schema:
+          type: string
+  /comments/description.json:
+    get:
+      deprecated: false
+      tags:
+      - comments
+      operationId: get_comments_description
+      description: Generates information about the Comment model and available apis
+      summary: /comments/description.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /comments/{id}.json:
+    get:
+      deprecated: false
+      tags:
+      - comments
+      operationId: get_comments_id
+      description: Retrieve Comment item with ID='id'
+      summary: /comments/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the comment was created
+                        type: string
+                        format: date
+                      division:
+                        description: The division this comment resides in
+                        type: string
+                        format: link
+                      externalId:
+                        description: External ID of the comment as used in the source application
+                        type: string
+                      isUnregisteredUserComment:
+                        description: Indicates whether this comment is made by an unregistered user
+                        type: boolean
+                      message:
+                        description: The message of the comment
+                        type: string
+                      parent:
+                        description: The resource this comment is given on
+                        type: string
+                        format: link
+                      parentType:
+                        description: The type of resource this comment is given on
+                        type: string
+                      unregisteredUserFirstName:
+                        description: First Name of the unregistered user
+                        type: string
+                      unregisteredUserLastName:
+                        description: Last Name of the unregistered user
+                        type: string
+                      updatedAt:
+                        description: The date that the comment was updated
+                        type: string
+                        format: date
+                      user:
+                        description: The user that created this comment
+                        type: string
+                        format: link
+                      parentMobileApiId:
+                        description: Element ID in mobile-API format (e.g. ph-125)
+                        type: string
+                      asset:
+                        description: The asset linked to this comment
+                        type: string
+                        format: link
+                      collectionItem:
+                        description: The collection item linked to this comment
+                        type: string
+                        format: link
+                      share:
+                        description: The share linked to this comment
+                        type: string
+                        format: link
+                      comment:
+                        description: The parent comment linked to this comment
+                        type: string
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Comment item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: get
+            type: string
+          - title: post
+            type: string
+          - title: put
+            type: string
+          - title: delete
+            type: string
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    put:
+      deprecated: false
+      tags:
+      - comments
+      operationId: put_comments_id
+      description: Update the Comment item with ID='id'
+      summary: /comments/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the comment was created
+                        type: string
+                        format: date
+                      division:
+                        description: The division this comment resides in
+                        type: string
+                        format: link
+                      externalId:
+                        description: External ID of the comment as used in the source application
+                        type: string
+                      isUnregisteredUserComment:
+                        description: Indicates whether this comment is made by an unregistered user
+                        type: boolean
+                      message:
+                        description: The message of the comment
+                        type: string
+                      parent:
+                        description: The resource this comment is given on
+                        type: string
+                        format: link
+                      parentType:
+                        description: The type of resource this comment is given on
+                        type: string
+                      unregisteredUserFirstName:
+                        description: First Name of the unregistered user
+                        type: string
+                      unregisteredUserLastName:
+                        description: Last Name of the unregistered user
+                        type: string
+                      updatedAt:
+                        description: The date that the comment was updated
+                        type: string
+                        format: date
+                      user:
+                        description: The user that created this comment
+                        type: string
+                        format: link
+                      parentMobileApiId:
+                        description: Element ID in mobile-API format (e.g. ph-125)
+                        type: string
+                      asset:
+                        description: The asset linked to this comment
+                        type: string
+                        format: link
+                      collectionItem:
+                        description: The collection item linked to this comment
+                        type: string
+                        format: link
+                      share:
+                        description: The share linked to this comment
+                        type: string
+                        format: link
+                      comment:
+                        description: The parent comment linked to this comment
+                        type: string
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Comment item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                message:
+                  type: string
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                message:
+                  type: string
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+    post:
+      deprecated: false
+      tags:
+      - comments
+      operationId: post_comments_id
+      description: Update the Comment item with ID='id'
+      summary: /comments/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the comment was created
+                        type: string
+                        format: date
+                      division:
+                        description: The division this comment resides in
+                        type: string
+                        format: link
+                      externalId:
+                        description: External ID of the comment as used in the source application
+                        type: string
+                      isUnregisteredUserComment:
+                        description: Indicates whether this comment is made by an unregistered user
+                        type: boolean
+                      message:
+                        description: The message of the comment
+                        type: string
+                      parent:
+                        description: The resource this comment is given on
+                        type: string
+                        format: link
+                      parentType:
+                        description: The type of resource this comment is given on
+                        type: string
+                      unregisteredUserFirstName:
+                        description: First Name of the unregistered user
+                        type: string
+                      unregisteredUserLastName:
+                        description: Last Name of the unregistered user
+                        type: string
+                      updatedAt:
+                        description: The date that the comment was updated
+                        type: string
+                        format: date
+                      user:
+                        description: The user that created this comment
+                        type: string
+                        format: link
+                      parentMobileApiId:
+                        description: Element ID in mobile-API format (e.g. ph-125)
+                        type: string
+                      asset:
+                        description: The asset linked to this comment
+                        type: string
+                        format: link
+                      collectionItem:
+                        description: The collection item linked to this comment
+                        type: string
+                        format: link
+                      share:
+                        description: The share linked to this comment
+                        type: string
+                        format: link
+                      comment:
+                        description: The parent comment linked to this comment
+                        type: string
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Comment item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                message:
+                  type: string
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                externalId:
+                  type: string
+                isUnregisteredUserComment:
+                  type: boolean
+                message:
+                  type: string
+                unregisteredUserFirstName:
+                  type: string
+                unregisteredUserLastName:
+                  type: string
+    delete:
+      deprecated: false
+      tags:
+      - comments
+      operationId: delete_comments_id
+      description: Delete the Comment item with ID='id'
+      summary: /comments/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        description: ID of the Comment item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

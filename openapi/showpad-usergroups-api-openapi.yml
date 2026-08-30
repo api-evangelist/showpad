@@ -1,0 +1,3650 @@
+openapi: 3.2.0
+info:
+  title: Showpad Usergroups API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: usergroups
+  description: ''
+paths:
+  /usergroups.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups
+      description: Generates a list of Usergroup items
+      summary: /usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Unique identifier for the resource
+                              type: string
+                            resourcetype:
+                              description: The type of resource
+                              type: string
+                            href:
+                              description: Location of the resource
+                              type: string
+                              format: link
+                            name:
+                              description: Name of the usergroup
+                              type: string
+                            description:
+                              description: Description of the usergroup
+                              type: string
+                            externalId:
+                              description: External ID of the usergroup as used in the source application
+                              type:
+                              - string
+                              - 'null'
+                            updatedAt:
+                              description: The date that the usergroup was updated
+                              type: string
+                              format: date-time
+                            createdAt:
+                              description: The date that the usergroup was created
+                              type: string
+                              format: date-time
+                            divisions:
+                              description: The division linked to this usergroup
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  format: link
+                            users:
+                              description: The users linked to this usergroup
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  format: link
+                            anonymizedUserData:
+                              description: Displays if this groups has anonymized data.
+                              type: boolean
+                            isDefault:
+                              description: Default usergroup containing all users.
+                              type: boolean
+                            userCount:
+                              description: The amount of users in this group.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            deactivatedUserCount:
+                              description: The amount of deactivated users in this group.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            pendingInvitationUserCount:
+                              description: The amount of users in this group for which an invitation is still pending.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            neverLoggedInUserCount:
+                              description: The amount of users in this group that never logged in.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            numberOfDirectLicenses:
+                              description: The number of direct licenses.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            numberOfPartnerLicenses:
+                              description: The number of partner licenses.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            numberOfViewOnlyLicenses:
+                              description: The number of view only licenses.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            isSynced:
+                              description: Show that usergroup is synced
+                              type: boolean
+                            hasManageGroupsPermission:
+                              description: Has permission to manage groups.
+                              type:
+                              - boolean
+                              - 'null'
+                            provisionedBy:
+                              description: The system that provisioned this usergroup.
+                              type:
+                              - string
+                              - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - experiences
+          - managers
+          - tags
+          - users
+      - name: externalId
+        description: External ID of the usergroup as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: isSynced
+        description: Show that usergroup is synced
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: name
+        description: Name of the usergroup
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending. Allowed values are name.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: post_usergroups
+      description: Create a Usergroup item
+      summary: /usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      name:
+                        description: Name of the usergroup
+                        type: string
+                      description:
+                        description: Description of the usergroup
+                        type: string
+                      externalId:
+                        description: External ID of the usergroup as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the usergroup was updated
+                        type: string
+                        format: date-time
+                      createdAt:
+                        description: The date that the usergroup was created
+                        type: string
+                        format: date-time
+                      divisions:
+                        description: The division linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      users:
+                        description: The users linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      anonymizedUserData:
+                        description: Displays if this groups has anonymized data.
+                        type: boolean
+                      isDefault:
+                        description: Default usergroup containing all users.
+                        type: boolean
+                      userCount:
+                        description: The amount of users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      deactivatedUserCount:
+                        description: The amount of deactivated users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      pendingInvitationUserCount:
+                        description: The amount of users in this group for which an invitation is still pending.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      neverLoggedInUserCount:
+                        description: The amount of users in this group that never logged in.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfDirectLicenses:
+                        description: The number of direct licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfPartnerLicenses:
+                        description: The number of partner licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfViewOnlyLicenses:
+                        description: The number of view only licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      isSynced:
+                        description: Show that usergroup is synced
+                        type: boolean
+                      hasManageGroupsPermission:
+                        description: Has permission to manage groups.
+                        type:
+                        - boolean
+                        - 'null'
+                      provisionedBy:
+                        description: The system that provisioned this usergroup.
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - experiences
+          - managers
+          - tags
+          - users
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                provisionedBy:
+                  type: string
+              required:
+              - name
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                provisionedBy:
+                  type: string
+              required:
+              - name
+  /usergroups/count.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_count
+      description: Retrieve the number of Usergroup items
+      summary: /usergroups/count.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalId
+        description: External ID of the usergroup as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: isSynced
+        description: Show that usergroup is synced
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: name
+        description: Name of the usergroup
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/description.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_description
+      description: Generates information about the Usergroup model and available apis
+      summary: /usergroups/description.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/divisions/{id2}.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_id1_divisions_id2
+      description: Link or unlink an usergroup with ID = 'id1' to a division with ID = 'id2'
+      summary: /usergroups/{id1}/divisions/{id2}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+        - write_division_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Division item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: true
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/divisions/{id2}/link.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: link_usergroups_id1_divisions_id2_link
+      description: Link a usergroup with ID = 'id1' to a division with ID = 'id2'
+      summary: /usergroups/{id1}/divisions/{id2}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+        - write_division_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Division item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/divisions/{id2}/unlink.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: unlink_usergroups_id1_divisions_id2_unlink
+      description: Unlink a usergroup with ID = 'id1' from a division with ID = 'id2'
+      summary: /usergroups/{id1}/divisions/{id2}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+        - write_division_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Division item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/users/{id2}.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_id1_users_id2
+      description: Link or unlink an usergroup with ID = 'id1' to a user with ID = 'id2'
+      summary: /usergroups/{id1}/users/{id2}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the User item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: true
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/users/{id2}/link.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: link_usergroups_id1_users_id2_link
+      description: Link a usergroup with ID = 'id1' to a user with ID = 'id2'
+      summary: /usergroups/{id1}/users/{id2}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the User item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id1}/users/{id2}/unlink.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: unlink_usergroups_id1_users_id2_unlink
+      description: Unlink a usergroup with ID = 'id1' from an user with ID = 'id2'
+      summary: /usergroups/{id1}/users/{id2}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id1
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the User item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id}.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_id
+      description: Retrieve Usergroup item with ID='id'
+      summary: /usergroups/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      name:
+                        description: Name of the usergroup
+                        type: string
+                      description:
+                        description: Description of the usergroup
+                        type: string
+                      externalId:
+                        description: External ID of the usergroup as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the usergroup was updated
+                        type: string
+                        format: date-time
+                      createdAt:
+                        description: The date that the usergroup was created
+                        type: string
+                        format: date-time
+                      divisions:
+                        description: The division linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      users:
+                        description: The users linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      anonymizedUserData:
+                        description: Displays if this groups has anonymized data.
+                        type: boolean
+                      isDefault:
+                        description: Default usergroup containing all users.
+                        type: boolean
+                      userCount:
+                        description: The amount of users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      deactivatedUserCount:
+                        description: The amount of deactivated users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      pendingInvitationUserCount:
+                        description: The amount of users in this group for which an invitation is still pending.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      neverLoggedInUserCount:
+                        description: The amount of users in this group that never logged in.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfDirectLicenses:
+                        description: The number of direct licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfPartnerLicenses:
+                        description: The number of partner licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfViewOnlyLicenses:
+                        description: The number of view only licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      isSynced:
+                        description: Show that usergroup is synced
+                        type: boolean
+                      hasManageGroupsPermission:
+                        description: Has permission to manage groups.
+                        type:
+                        - boolean
+                        - 'null'
+                      provisionedBy:
+                        description: The system that provisioned this usergroup.
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - experiences
+          - managers
+          - tags
+          - users
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: get
+            type: string
+          - title: post
+            type: string
+          - title: put
+            type: string
+          - title: delete
+            type: string
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    put:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: put_usergroups_id
+      description: Update the Usergroup item with ID='id'
+      summary: /usergroups/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      name:
+                        description: Name of the usergroup
+                        type: string
+                      description:
+                        description: Description of the usergroup
+                        type: string
+                      externalId:
+                        description: External ID of the usergroup as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the usergroup was updated
+                        type: string
+                        format: date-time
+                      createdAt:
+                        description: The date that the usergroup was created
+                        type: string
+                        format: date-time
+                      divisions:
+                        description: The division linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      users:
+                        description: The users linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      anonymizedUserData:
+                        description: Displays if this groups has anonymized data.
+                        type: boolean
+                      isDefault:
+                        description: Default usergroup containing all users.
+                        type: boolean
+                      userCount:
+                        description: The amount of users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      deactivatedUserCount:
+                        description: The amount of deactivated users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      pendingInvitationUserCount:
+                        description: The amount of users in this group for which an invitation is still pending.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      neverLoggedInUserCount:
+                        description: The amount of users in this group that never logged in.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfDirectLicenses:
+                        description: The number of direct licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfPartnerLicenses:
+                        description: The number of partner licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfViewOnlyLicenses:
+                        description: The number of view only licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      isSynced:
+                        description: Show that usergroup is synced
+                        type: boolean
+                      hasManageGroupsPermission:
+                        description: Has permission to manage groups.
+                        type:
+                        - boolean
+                        - 'null'
+                      provisionedBy:
+                        description: The system that provisioned this usergroup.
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - experiences
+          - managers
+          - tags
+          - users
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                isSynced:
+                  type: boolean
+                name:
+                  type: string
+                provisionedBy:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                isSynced:
+                  type: boolean
+                name:
+                  type: string
+                provisionedBy:
+                  type: string
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: post_usergroups_id
+      description: Update the Usergroup item with ID='id'
+      summary: /usergroups/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      name:
+                        description: Name of the usergroup
+                        type: string
+                      description:
+                        description: Description of the usergroup
+                        type: string
+                      externalId:
+                        description: External ID of the usergroup as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the usergroup was updated
+                        type: string
+                        format: date-time
+                      createdAt:
+                        description: The date that the usergroup was created
+                        type: string
+                        format: date-time
+                      divisions:
+                        description: The division linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      users:
+                        description: The users linked to this usergroup
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      anonymizedUserData:
+                        description: Displays if this groups has anonymized data.
+                        type: boolean
+                      isDefault:
+                        description: Default usergroup containing all users.
+                        type: boolean
+                      userCount:
+                        description: The amount of users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      deactivatedUserCount:
+                        description: The amount of deactivated users in this group.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      pendingInvitationUserCount:
+                        description: The amount of users in this group for which an invitation is still pending.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      neverLoggedInUserCount:
+                        description: The amount of users in this group that never logged in.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfDirectLicenses:
+                        description: The number of direct licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfPartnerLicenses:
+                        description: The number of partner licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      numberOfViewOnlyLicenses:
+                        description: The number of view only licenses.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      isSynced:
+                        description: Show that usergroup is synced
+                        type: boolean
+                      hasManageGroupsPermission:
+                        description: Has permission to manage groups.
+                        type:
+                        - boolean
+                        - 'null'
+                      provisionedBy:
+                        description: The system that provisioned this usergroup.
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+          enum:
+          - experiences
+          - managers
+          - tags
+          - users
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                isSynced:
+                  type: boolean
+                name:
+                  type: string
+                provisionedBy:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                contentProfiles:
+                  type: array
+                  items:
+                    type: string
+                description:
+                  type: string
+                externalId:
+                  type: string
+                isSynced:
+                  type: boolean
+                name:
+                  type: string
+                provisionedBy:
+                  type: string
+    delete:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: delete_usergroups_id
+      description: Delete the Usergroup item with ID='id'
+      summary: /usergroups/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /usergroups/{id}/divisions.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_id_divisions
+      description: Get all divisions that belong to the usergroup with ID='id'
+      summary: /usergroups/{id}/divisions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      assets:
+                        description: The assets linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      comments:
+                        description: The comments linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      channels:
+                        description: The channels linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      createdAt:
+                        description: The date that the division was created
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        description: The date that the division was updated
+                        type: string
+                        format: date-time
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      hasDivisionAssetSharingEnabled:
+                        description: If the division has enabled assets sharing
+                        type: boolean
+                      name:
+                        description: The name of the division
+                        type: string
+                      tags:
+                        description: The tags linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      tickets:
+                        description: The tickets linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      usergroups:
+                        description: The groups linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      defaultCatalogSetting:
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+        - read_division_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        description: External ID of the tag as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: hasDivisionAssetSharingEnabled
+        description: If the division has enabled assets sharing
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: name
+        description: The name of the division
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending. Allowed values are name.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: post_usergroups_id_divisions
+      description: Add a division to a usergroup with ID='id'
+      summary: /usergroups/{id}/divisions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      assets:
+                        description: The assets linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      comments:
+                        description: The comments linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      channels:
+                        description: The channels linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      createdAt:
+                        description: The date that the division was created
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        description: The date that the division was updated
+                        type: string
+                        format: date-time
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      hasDivisionAssetSharingEnabled:
+                        description: If the division has enabled assets sharing
+                        type: boolean
+                      name:
+                        description: The name of the division
+                        type: string
+                      tags:
+                        description: The tags linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      tickets:
+                        description: The tickets linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      usergroups:
+                        description: The groups linked to this division
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      defaultCatalogSetting:
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                externalId:
+                  type: string
+                hasDivisionAssetSharingEnabled:
+                  type: boolean
+              required:
+              - name
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                externalId:
+                  type: string
+                hasDivisionAssetSharingEnabled:
+                  type: boolean
+              required:
+              - name
+  /usergroups/{id}/link.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: link_usergroups_id_link
+      description: Link the Usergroup item with ID='id'
+      summary: /usergroups/{id}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+  /usergroups/{id}/unlink.json:
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: unlink_usergroups_id_unlink
+      description: Link the Usergroup item with ID='id'
+      summary: /usergroups/{id}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+  /usergroups/{id}/users.json:
+    get:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: get_usergroups_id_users
+      description: Get all users that belong to the usergroup with ID='id'
+      summary: /usergroups/{id}/users.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      apiKey:
+                        description: The API key of the user
+                        type:
+                        - string
+                        - 'null'
+                      avatar:
+                        description: The Avatar linked to this user
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      companyName:
+                        description: User's company name
+                        type: string
+                      companyRole:
+                        description: User's company role
+                        type:
+                        - string
+                        - 'null'
+                      consentGivenAt:
+                        description: The date at which the user consented to the current privacy policy
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      consentGivenFrom:
+                        description: The ip address  the user consented to the current privacy policy from
+                        type:
+                        - string
+                        - 'null'
+                      createdAt:
+                        description: The date that the user was created
+                        type: string
+                        format: date-time
+                      divisionpermissions:
+                        description: The Division Permissions linked to this user
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      email:
+                        description: Email of the user
+                        type: string
+                      emailNotifications:
+                        description: Set to true if the user will receive email notifications for activities performed by recipients
+                        type: boolean
+                      emailSignature:
+                        description: User's email signature
+                        type:
+                        - string
+                        - 'null'
+                      externalId:
+                        description: External ID of the user as used in the source application. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                      firstName:
+                        description: First name of the user
+                        type: string
+                      forcePasswordReset:
+                        description: 'Determines whether a user should change their password on first login after having had their password reset.
+
+                          When provided without a password, this value will be ignored.'
+                        type: boolean
+                      ftueStatus:
+                        description: FTUE dialogs acknowledged by the user
+                        type:
+                        - string
+                        - 'null'
+                      insightsLastViewedAt:
+                        description: Last time Showpad Insights was viewed
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      invitationConfirmedAt:
+                        description: Confirmation date of the initial user invitation
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      isActive:
+                        description: Indicates whether a user is active
+                        type: boolean
+                      isAnonymized:
+                        description: Show that user is anonymized. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isInvited:
+                        description: Shows that user is invited. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isPasswordSet:
+                        description: Indicates if user password is set
+                        type: boolean
+                      isSynced:
+                        description: Shows that user is synced. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isTrainingCoachingManager:
+                        description: Shows whether the user training coaching manager is or not
+                        type: boolean
+                      language:
+                        description: The user's language
+                        type: string
+                      lastConfirmedContentUpdate:
+                        description: The date the user last updated his content
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      lastInvitationSentAt:
+                        description: Date of the last sent invitation email
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      lastInvitationStatus:
+                        description: Status of the last sent invitation email
+                        type:
+                        - string
+                        - 'null'
+                      lastLogin:
+                        description: The date the user last logged in
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      lastName:
+                        description: Last name of the user
+                        type: string
+                      managedUsergroups:
+                        description: A list of usergroups managed by the user. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      multiPillarNavigation:
+                        description: Indicates whether the multi pillar navigation is enabled
+                        type: boolean
+                      myUploadsCollectionId:
+                        description: ID of the uploads collection for this user
+                        type: string
+                      myUploadsDivisionId:
+                        description: ID of the my uploads channel for this user
+                        type: string
+                      personalContentFileSizeUsed:
+                        description: Total used space for this user's My Uploads section
+                        type: integer
+                        format: int32
+                      personalContentIndividualFileSizeLimit:
+                        description: Limit of a My Uploads upload for this user
+                        type: integer
+                        format: int64
+                      personalContentTotalFileSizeLimit:
+                        description: Limit of this user's My Uploads quote
+                        type: integer
+                        format: int64
+                      isPersonalContentTotalUnlimited:
+                        description: Should the personal storage limit be interpreted as unlimited?
+                        type: boolean
+                      phone:
+                        description: User's phone number
+                        type:
+                        - string
+                        - 'null'
+                      productLicenseContent:
+                        description: Show user's productLicenseContent
+                        type: string
+                      productLicenseTrainingCoaching:
+                        description: Show user's productLicenseTrainingCoaching
+                        type: string
+                      timezone:
+                        description: "User timezone (or company timezone if not specified). Must be a tz database identifier i.e. Country/City. \nIf the city part contains multiple words it must be split by underscores i.e. America/New_York.\n"
+                        type: string
+                      updatedAt:
+                        description: The date that the user was updated
+                        type: string
+                        format: date-time
+                      usergroups:
+                        description: Groups linked to this user. Can only be retrieved by the owner, admin or promoted users.
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      userName:
+                        description: Unique name of the user within the organization
+                        type: string
+                      userpermission:
+                        description: The User Permission linked to this user
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userType:
+                        description: Type of user
+                        type: string
+                      scimId:
+                        description: External id for scim integration
+                        type:
+                        - string
+                        - 'null'
+                      href:
+                        description: External id for scim integration
+                        type: string
+                      bccAddresses:
+                        description: BCC addresses
+                        type: array
+                        items:
+                          type: string
+                      collectionsVersion:
+                        description: The version of the user's collections
+                        type: integer
+                      consentGiven:
+                        description: If the current privacy policy was approved by the user
+                        type:
+                        - boolean
+                        - 'null'
+                      consentRequired:
+                        description: Whether or not the user should give consent (again)
+                        type: boolean
+                      isPromotedMember:
+                        description: Indicated whether or not the user has active promoted memberships
+                        type: boolean
+                      lastUsedDevice:
+                        type: object
+                        properties:
+                          href:
+                            description: The URL to access the resource
+                            type: string
+                          id:
+                            type: string
+                            description: the resource identifier
+                      password:
+                        description: Password of the user (If no password is given, an invitation mail will be send unless it is specifically specified not to send a mail)
+                        type: string
+                      promotedDivisions:
+                        type: object
+                        properties:
+                          href:
+                            description: The URL to access the resource
+                            type: string
+                      sendMailToUser:
+                        description: Allows overwriting the default user activation email behavior. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      provisionedBy:
+                        description: "Indicate how this user was provisioned. Can only be used by the owner, admin or promoted users.\nWhen the provisionedBy field is set to scim2.0, the reference ID can optionally be found in the scimId field. \nOther provisioning methods will have the externalId field populated.\nsftp, sfns and scim2.0 are currently reserved for Showpad owned provisioning mechanisms.\n"
+                        type: string
+                      managerId:
+                        description: ID of the direct manager. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                      uuid:
+                        description: Uuid of the user
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: email
+        description: Email of the user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: emailNotifications
+        description: Set to true if the user will receive email notifications for activities performed by recipients
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        description: External ID of the user as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: firstName
+        description: First name of the user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: isActive
+        description: Indicates whether a user is active
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isAnonymized
+        description: Show that user is anonymized
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isInvited
+        description: Shows that user is invited
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isSynced
+        description: Shows that user is synced
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: language
+        description: The user's language
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        description: Last name of the user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: productLicenseContent
+        description: Show user's productLicenseContent
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: productLicenseTrainingCoaching
+        description: Show user's productLicenseTrainingCoaching
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: scimId
+        description: External id for scim integration
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: userName
+        description: Unique name of the user within the organization
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: userType
+        description: Type of user
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: owner
+            type: string
+          - title: tablet
+            type: string
+          - title: manager
+            type: string
+          - title: admin
+            type: string
+    post:
+      deprecated: false
+      tags:
+      - usergroups
+      operationId: post_usergroups_id_users
+      description: Add an users to a usergroup with ID='id'
+      summary: /usergroups/{id}/users.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      apiKey:
+                        description: The API key of the user
+                        type:
+                        - string
+                        - 'null'
+                      avatar:
+                        description: The Avatar linked to this user
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      companyName:
+                        description: User's company name
+                        type: string
+                      companyRole:
+                        description: User's company role
+                        type:
+                        - string
+                        - 'null'
+                      consentGivenAt:
+                        description: The date at which the user consented to the current privacy policy
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      consentGivenFrom:
+                        description: The ip address  the user consented to the current privacy policy from
+                        type:
+                        - string
+                        - 'null'
+                      createdAt:
+                        description: The date that the user was created
+                        type: string
+                        format: date-time
+                      divisionpermissions:
+                        description: The Division Permissions linked to this user
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      email:
+                        description: Email of the user
+                        type: string
+                      emailNotifications:
+                        description: Set to true if the user will receive email notifications for activities performed by recipients
+                        type: boolean
+                      emailSignature:
+                        description: User's email signature
+                        type:
+                        - string
+                        - 'null'
+                      externalId:
+                        description: External ID of the user as used in the source application. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                      firstName:
+                        description: First name of the user
+                        type: string
+                      forcePasswordReset:
+                        description: 'Determines whether a user should change their password on first login after having had their password reset.
+
+                          When provided without a password, this value will be ignored.'
+                        type: boolean
+                      ftueStatus:
+                        description: FTUE dialogs acknowledged by the user
+                        type:
+                        - string
+                        - 'null'
+                      insightsLastViewedAt:
+                        description: Last time Showpad Insights was viewed
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      invitationConfirmedAt:
+                        description: Confirmation date of the initial user invitation
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      isActive:
+                        description: Indicates whether a user is active
+                        type: boolean
+                      isAnonymized:
+                        description: Show that user is anonymized. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isInvited:
+                        description: Shows that user is invited. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isPasswordSet:
+                        description: Indicates if user password is set
+                        type: boolean
+                      isSynced:
+                        description: Shows that user is synced. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      isTrainingCoachingManager:
+                        description: Shows whether the user training coaching manager is or not
+                        type: boolean
+                      language:
+                        description: The user's language
+                        type: string
+                      lastConfirmedContentUpdate:
+                        description: The date the user last updated his content
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      lastInvitationSentAt:
+                        description: Date of the last sent invitation email
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      lastInvitationStatus:
+                        description: Status of the last sent invitation email
+                        type:
+                        - string
+                        - 'null'
+                      lastLogin:
+                        description: The date the user last logged in
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      lastName:
+                        description: Last name of the user
+                        type: string
+                      managedUsergroups:
+                        description: A list of usergroups managed by the user. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      multiPillarNavigation:
+                        description: Indicates whether the multi pillar navigation is enabled
+                        type: boolean
+                      myUploadsCollectionId:
+                        description: ID of the uploads collection for this user
+                        type: string
+                      myUploadsDivisionId:
+                        description: ID of the my uploads channel for this user
+                        type: string
+                      personalContentFileSizeUsed:
+                        description: Total used space for this user's My Uploads section
+                        type: integer
+                        format: int32
+                      personalContentIndividualFileSizeLimit:
+                        description: Limit of a My Uploads upload for this user
+                        type: integer
+                        format: int64
+                      personalContentTotalFileSizeLimit:
+                        description: Limit of this user's My Uploads quote
+                        type: integer
+                        format: int64
+                      isPersonalContentTotalUnlimited:
+                        description: Should the personal storage limit be interpreted as unlimited?
+                        type: boolean
+                      phone:
+                        description: User's phone number
+                        type:
+                        - string
+                        - 'null'
+                      productLicenseContent:
+                        description: Show user's productLicenseContent
+                        type: string
+                      productLicenseTrainingCoaching:
+                        description: Show user's productLicenseTrainingCoaching
+                        type: string
+                      timezone:
+                        description: "User timezone (or company timezone if not specified). Must be a tz database identifier i.e. Country/City. \nIf the city part contains multiple words it must be split by underscores i.e. America/New_York.\n"
+                        type: string
+                      updatedAt:
+                        description: The date that the user was updated
+                        type: string
+                        format: date-time
+                      usergroups:
+                        description: Groups linked to this user. Can only be retrieved by the owner, admin or promoted users.
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      userName:
+                        description: Unique name of the user within the organization
+                        type: string
+                      userpermission:
+                        description: The User Permission linked to this user
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userType:
+                        description: Type of user
+                        type: string
+                      scimId:
+                        description: External id for scim integration
+                        type:
+                        - string
+                        - 'null'
+                      href:
+                        description: External id for scim integration
+                        type: string
+                      bccAddresses:
+                        description: BCC addresses
+                        type: array
+                        items:
+                          type: string
+                      collectionsVersion:
+                        description: The version of the user's collections
+                        type: integer
+                      consentGiven:
+                        description: If the current privacy policy was approved by the user
+                        type:
+                        - boolean
+                        - 'null'
+                      consentRequired:
+                        description: Whether or not the user should give consent (again)
+                        type: boolean
+                      isPromotedMember:
+                        description: Indicated whether or not the user has active promoted memberships
+                        type: boolean
+                      lastUsedDevice:
+                        type: object
+                        properties:
+                          href:
+                            description: The URL to access the resource
+                            type: string
+                          id:
+                            type: string
+                            description: the resource identifier
+                      password:
+                        description: Password of the user (If no password is given, an invitation mail will be send unless it is specifically specified not to send a mail)
+                        type: string
+                      promotedDivisions:
+                        type: object
+                        properties:
+                          href:
+                            description: The URL to access the resource
+                            type: string
+                      sendMailToUser:
+                        description: Allows overwriting the default user activation email behavior. Can only be used by the owner, admin or promoted users.
+                        type: boolean
+                      provisionedBy:
+                        description: "Indicate how this user was provisioned. Can only be used by the owner, admin or promoted users.\nWhen the provisionedBy field is set to scim2.0, the reference ID can optionally be found in the scimId field. \nOther provisioning methods will have the externalId field populated.\nsftp, sfns and scim2.0 are currently reserved for Showpad owned provisioning mechanisms.\n"
+                        type: string
+                      managerId:
+                        description: ID of the direct manager. Can only be used by the owner, admin or promoted users.
+                        type:
+                        - string
+                        - 'null'
+                      uuid:
+                        description: Uuid of the user
+                        type:
+                        - string
+                        - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the Usergroup item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                isActive:
+                  type: boolean
+                language:
+                  type: string
+                lastName:
+                  type: string
+                userName:
+                  type: string
+                bccAddresses:
+                  type: array
+                  items:
+                    type: string
+                companyName:
+                  type: string
+                companyRole:
+                  type: string
+                consentGiven:
+                  type: boolean
+                emailNotifications:
+                  type: boolean
+                emailSignature:
+                  type: string
+                externalId:
+                  type: string
+                forcePasswordReset:
+                  type: boolean
+                ftueStatus:
+                  type: string
+                insightsLastViewedAt:
+                  type: string
+                  format: date
+                managerId:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+                productLicenseContent:
+                  type: string
+                productLicenseTrainingCoaching:
+                  type: string
+                provisionedBy:
+                  type: string
+                scimId:
+                  type: string
+                sendMailToUser:
+                  type: boolean
+                sha512PasswordHash:
+                  type: string
+                timezone:
+                  type: string
+                userType:
+                  type: string
+                  anyOf:
+                  - title: owner
+                    type: string
+                  - title: tablet
+                    type: string
+                  - title: manager
+                    type: string
+                  - title: admin
+                    type: string
+              required:
+              - email
+              - firstName
+              - isActive
+              - language
+              - lastName
+              - userName
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                isActive:
+                  type: boolean
+                language:
+                  type: string
+                lastName:
+                  type: string
+                userName:
+                  type: string
+                bccAddresses:
+                  type: array
+                  items:
+                    type: string
+                companyName:
+                  type: string
+                companyRole:
+                  type: string
+                consentGiven:
+                  type: boolean
+                emailNotifications:
+                  type: boolean
+                emailSignature:
+                  type: string
+                externalId:
+                  type: string
+                forcePasswordReset:
+                  type: boolean
+                ftueStatus:
+                  type: string
+                insightsLastViewedAt:
+                  type: string
+                  format: date
+                managerId:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+                productLicenseContent:
+                  type: string
+                productLicenseTrainingCoaching:
+                  type: string
+                provisionedBy:
+                  type: string
+                scimId:
+                  type: string
+                sendMailToUser:
+                  type: boolean
+                sha512PasswordHash:
+                  type: string
+                timezone:
+                  type: string
+                userType:
+                  type: string
+                  anyOf:
+                  - title: owner
+                    type: string
+                  - title: tablet
+                    type: string
+                  - title: manager
+                    type: string
+                  - title: admin
+                    type: string
+              required:
+              - email
+              - firstName
+              - isActive
+              - language
+              - lastName
+              - userName
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

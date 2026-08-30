@@ -1,0 +1,1166 @@
+openapi: 3.2.0
+info:
+  title: Showpad Recommendations API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: recommendations
+  description: ''
+paths:
+  /recommendations/assets/new:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_assets_new
+      description: Newly available assets
+      summary: /recommendations/assets/new
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the asset.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the asset.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the asset.
+                              type: string
+                              example: content-asset-new
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the asset.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The name of the asset.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The description of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the asset.
+                                  type: string
+                                  example: document
+                                extension:
+                                  description: The extension of the asset.
+                                  type: string
+                                  example: pdf
+                                appLink:
+                                  description: The app link of the asset.
+                                  type: string
+                                  example: showpad://file/262876c721ab7f126e78022a02188150
+                                previewUrls:
+                                  description: The preview URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The focal point of the cover image of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: The creation date of the asset.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: The last update date of the asset.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: notViewedAfter
+        description: 'Exclude assets that have been viewed by user after this date (default: now)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: assignedAfter
+        description: 'Only include assets that have been assigned to the user after this date (default: today minus 30 days)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: tagIds
+        description: Same as conjunctiveTagIds. If tagIds is used, the disjunctiveTagIds and excludedTagIds parameters are ignored (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: conjunctiveTagIds
+        description: Only include assets that have all these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: disjunctiveTagIds
+        description: Only include assets that have at least on of these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: excludedTagIds
+        description: Exclude assets that have one of these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: 'Return maximum this number of assets (default: 10)'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+  /recommendations/assets/popular:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_assets_popular
+      description: 'This endpoint returns assets that consistently perform well based on long-term engagement metrics such as views, shares, or downloads. The results reflect sustained interest and usefulness over time.
+
+        Use this endpoint when you need to: - Highlight top-performing content to users - Recommend frequently accessed or shared assets - Inform content strategy with insights on long-term engagement
+
+        Popular results are based on aggregated activity over an extended period and may vary depending on user access and Division permissions.'
+      summary: /recommendations/assets/popular
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of assets returned in the response.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of popular asset records based on user activity and query parameters.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the recommended asset.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the asset.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the asset.
+                              type: string
+                              example: content-asset-popular
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the recommended asset.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The display name of the asset.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The optional text description of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the asset.
+                                  type: string
+                                  example: document
+                                extension:
+                                  description: The file extension of the asset.
+                                  type: string
+                                  example: pdf
+                                appLink:
+                                  description: The app link of the asset.
+                                  type: string
+                                  example: showpad://file/262876c721ab7f126e78022a02188150
+                                previewUrls:
+                                  description: The preview URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The X/Y coordinates that define the focal point of the cover image of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: Date and time when the asset was created.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: Date and time of the asset's most recent update.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: startedAt
+        description: 'Restricts popularity calculations to activity **after** the specified date. Accepts formats: YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or Unix timestamp. Default: one year ago'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: endedAt
+        description: 'Restricts popularity calculations to activity **before** a specified date. Accepts formats: YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or Unix timestamp. Default: current time'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: notViewedAfter
+        description: 'Excludes assets that were viewed after a specified date by the current user. Default: current time'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: activityScope
+        description: 'Defines how popularity is measured. Use viewed to rank assets by number of in-app views, or shared to rank by number of Shares (excluding Shared Spaces). Possible values: `viewed` (default) or `shared`'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: userScope
+        description: Determines whose activity is considered when calculating popularity. Use `user` to consider only the current user’s activity, or `global` (default) to include all users with access to the same assets.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: tagIds
+        description: 'Filters results to include only assets that are tagged with all of the specified tag IDs. Accepts an array (comma-separated list) of tag IDs. Example: 1,2, 5. If this parameter is used, it overrides any values provided in `disjunctiveTagIds` or `excludedTagIds`'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: conjunctiveTagIds
+        description: 'Filters results to include only assets that have **all** of the specified tag IDs. Pass values as an array  (comma-separated list). Example: 1,2,5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: disjunctiveTagIds
+        description: 'Filters results to include assets that have **at least one** of the specified tag IDs. Pass values as an array (comma-separated list). Example: 1,2,5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: excludedTagIds
+        description: 'Excludes assets that have **any** of the specified tag IDs. Pass values as an array (comma-separated list). Example: 1,2,5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: 'Maximum number of assets to return. Default: 10'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+  /recommendations/assets/trending:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_assets_trending
+      description: 'Retrieve assets with rising engagement based on recent user activity, such as views or shares. This endpoint identifies content that is currently being interacted with more frequently, making it useful for surfacing timely and relevant materials.
+
+        Use this endpoint when you need to: - Highlight assets that are receiving increased attention over a short period - Recommend recent high-engagement content to users - Filter trending assets by tags, activity type, or time window'
+      summary: /recommendations/assets/trending
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of assets returned in the response.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of popular asset records based on user activity and query parameters.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the recommended asset.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the asset.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the asset.
+                              type: string
+                              example: content-asset-trending
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the asset.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The display name of the asset.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The optional text description of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the asset.
+                                  type: string
+                                  example: document
+                                extension:
+                                  description: The file extension of the asset.
+                                  type: string
+                                  example: pdf
+                                appLink:
+                                  description: The app link of the asset.
+                                  type: string
+                                  example: showpad://file/262876c721ab7f126e78022a02188150
+                                previewUrls:
+                                  description: The preview URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The X/Y coordinates that define the focal point of the cover image of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: Date and time when the asset was created.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: Date and time of the asset's most recent update.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: startedAt
+        description: 'Restricts popularity calculations to activity **after** the specified date. Accepts formats: YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or Unix timestamp. Default: one year ago'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: endedAt
+        description: 'Restricts popularity calculations to activity **before** a specified date. Accepts formats: YYYY-MM-DD, YYYY-MM-DD HH:mm:ss, or Unix timestamp. Default: current time'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: notViewedAfter
+        description: 'Excludes assets that were viewed after a specified date by the current user. Default: current time'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: activityScope
+        description: 'Defines how popularity is measured. Use viewed to rank assets by number of in-app views, or shared to rank by number of Shares (excluding Shared Spaces). Possible values: `viewed` (default) or `shared`§'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: userScope
+        description: 'Determines whose activity is considered when calculating popularity. Use `user` to consider only the current user’s activity, or `global` (default) to include all users with access to the same assets. '
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: tagIds
+        description: 'Filters results to include only assets that are tagged with all of the specified tag IDs. Accepts an array (comma-separated list) of tag IDs. Example: 1,2, 5. If this parameter is used, it overrides any values provided in `disjunctiveTagIds` or `excludedTagIds`'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: conjunctiveTagIds
+        description: 'Filters results to include only assets that have **all** of the specified tag IDs. Pass values as an array  (comma-separated list). Example: 1,2,5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: disjunctiveTagIds
+        description: 'Filters results to include assets that have **at least one** of the specified tag IDs. Pass values as an array (comma-separated list). Example: 1,2, 5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: excludedTagIds
+        description: 'Excludes assets that have **any** of the specified tag IDs. Pass values as an array (comma-separated list). Example: 1,2, 5'
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: 'Maximum number of assets to return. Default: 10'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+  /recommendations/assets/updated:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_assets_updated
+      description: Recently updated assets
+      summary: /recommendations/assets/updated
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the asset.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the asset.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the asset.
+                              type: string
+                              example: content-asset-updated
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the asset.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The name of the asset.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The description of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the asset.
+                                  type: string
+                                  example: document
+                                extension:
+                                  description: The extension of the asset.
+                                  type: string
+                                  example: pdf
+                                appLink:
+                                  description: The app link of the asset.
+                                  type: string
+                                  example: showpad://file/262876c721ab7f126e78022a02188150
+                                previewUrls:
+                                  description: The preview URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the asset.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The focal point of the cover image of the asset.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: The creation date of the asset.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: The last update date of the asset.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: notViewedAfter
+        description: 'Exclude assets that have been viewed by user after this date (default: now)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: updatedAfter
+        description: 'Only include assets that have been updated after this date (default: today minus 30 days)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: tagIds
+        description: Same as conjunctiveTagIds. If tagIds is used, the disjunctiveTagIds and excludedTagIds parameters are ignored (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: conjunctiveTagIds
+        description: Only include assets that have all these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: disjunctiveTagIds
+        description: Only include assets that have at least on of these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: excludedTagIds
+        description: Exclude assets that have one of these tags (tag IDs passed as an array, e.g. 1,2)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: 'Return maximum this number of assets (default: 10)'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+  /recommendations/experiences/new:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_experiences_new
+      description: New experiences
+      summary: /recommendations/experiences/new
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the experience.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the experience.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the experience.
+                              type: string
+                              example: content-experience-new
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the experience.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The name of the experience.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The description of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the experience.
+                                  type: string
+                                  example: profile
+                                extension:
+                                  description: The extension of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: null
+                                appLink:
+                                  description: The app link of the experience.
+                                  type: string
+                                  example: showpad://profile/2802
+                                previewUrls:
+                                  description: The preview URLs of the experience.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the experience.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The focal point of the cover image of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: The creation date of the experience.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: The last update date of the experience.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: notViewedAfter
+        description: 'Exclude experiences that have been viewed by user after this date (default: now)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: assignedAfter
+        description: 'Only include experiences that have been assigned to the user after this date (default: today minus 30 days)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: limit
+        description: 'Return maximum this number of assets (default: 10)'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+  /recommendations/experiences/popular:
+    get:
+      deprecated: false
+      tags:
+      - recommendations
+      operationId: get_recommendations_experiences_popular
+      description: Popular experiences
+      summary: /recommendations/experiences/popular
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: The unique identifier of the experience.
+                              type: string
+                              example: 597cf7f51b60fc59c0d6d79588047c62
+                            score:
+                              description: The recommendation score of the experience.
+                              type: number
+                              example: 1.8027210884354
+                            model:
+                              description: The recommendation model of the experience.
+                              type: string
+                              example: content-experience-popular-non-used
+                            content:
+                              type: object
+                              properties:
+                                id:
+                                  description: The unique identifier of the experience.
+                                  type: string
+                                  example: 597cf7f51b60fc59c0d6d79588047c62
+                                displayName:
+                                  description: The name of the experience.
+                                  type: string
+                                  example: Demo.pdf
+                                description:
+                                  description: The description of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: My asset description
+                                type:
+                                  description: The type of the experience.
+                                  type: string
+                                  example: profile
+                                extension:
+                                  description: The extension of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: null
+                                appLink:
+                                  description: The app link of the experience.
+                                  type: string
+                                  example: showpad://profile/2802
+                                previewUrls:
+                                  description: The preview URLs of the experience.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/preview/v6.0
+                                thumbnailUrls:
+                                  description: The thumbnail URLs of the experience.
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: https://demo.showpad.biz/api/v3/assets/597cf7f51b60fc59c0d6d79588047c62/thumbnail/v1.1
+                                coverFocalPoint:
+                                  description: The focal point of the cover image of the experience.
+                                  type:
+                                  - string
+                                  - 'null'
+                                  example: 0.48/0.38
+                                createdAt:
+                                  description: The creation date of the experience.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+                                updatedAt:
+                                  description: The last update date of the experience.
+                                  type: string
+                                  format: date-time
+                                  example: '2022-11-08T09:53:56+00:00'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: startedAt
+        description: 'Calculate popularity taking into account views or shares after this date only (YYYY-MM-DD, YYYY-MM-DD HH:mm:ss or timestamp) (default: 1 year ago)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: endedAt
+        description: 'Calculate popularity taking into account views or shares before this date only (YYYY-MM-DD, YYYY-MM-DD HH:mm:ss or timestamp) (default: now)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: notViewedAfter
+        description: 'Exclude assets that have been viewed by user after this date (default: now)'
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: limit
+        description: 'Return maximum this number of assets (default: 10)'
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

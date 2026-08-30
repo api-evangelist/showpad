@@ -1,0 +1,1950 @@
+openapi: 3.2.0
+info:
+  title: Showpad Divisionpermissions API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: divisionpermissions
+  description: ''
+paths:
+  /divisionpermissions.json:
+    get:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: get_divisionpermissions
+      description: Generates a list of DivisionPermission items
+      summary: /divisionpermissions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Unique identifier for the resource
+                              type: string
+                            resourcetype:
+                              description: The type of resource
+                              type: string
+                            href:
+                              description: Location of the resource
+                              type: string
+                              format: link
+                            createdAt:
+                              description: The date that the division permission was created
+                              type: string
+                              format: date-time
+                            division:
+                              description: The division this division permission belongs to
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                href:
+                                  type: string
+                                  format: link
+                            divisionId:
+                              description: Id of the division this division permission belongs to
+                              type: string
+                            externalId:
+                              description: External ID of the tag as used in the source application
+                              type:
+                              - string
+                              - 'null'
+                            updatedAt:
+                              description: The date that the division permission was updated
+                              type: string
+                              format: date-time
+                            user:
+                              description: The user this division permission belongs to
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                href:
+                                  type: string
+                                  format: link
+                            userId:
+                              description: Id of the user this division permission belongs to
+                              type: string
+                            manageAssets:
+                              description: Whether this permission enables assets management
+                              type: boolean
+                            manageExperiences:
+                              description: Whether this permission enables experiences management
+                              type: boolean
+                            deleteExperiences:
+                              description: Whether this permission enables experiences deletion
+                              type: boolean
+                            manageCoursesAndChecklists:
+                              description: Whether this permission enables courses and checklists management
+                              type: boolean
+                            manageAiRoleplays:
+                              description: Whether this permission enables management of AI roleplays
+                              type: boolean
+                            manageAnnouncements:
+                              description: Whether this permission enables announcements management
+                              type: boolean
+                            viewUsers:
+                              description: Whether this permission enables users view
+                              type: boolean
+                            manageUsers:
+                              description: Whether this permission enables users management
+                              type: boolean
+                            readinessReporting:
+                              description: Whether this permission enables readiness reporting
+                              type: boolean
+                            contentReporting:
+                              description: Whether this permission enables content reporting
+                              type: boolean
+                            reporting:
+                              description: Whether this permission enables reporting
+                              type: boolean
+                            messaging:
+                              description: Whether this permission enables messaging
+                              type: boolean
+                            manageContent:
+                              description: Whether this permission enables content management
+                              type: boolean
+                            createUserGroups:
+                              description: Whether this permission enables user group creation
+                              type: boolean
+                            manageTags:
+                              description: Whether this permission enables tag management
+                              type: boolean
+                            notifyUsersByEmail:
+                              description: Whether this permission enables email notification of users
+                              type: boolean
+                            expiredAt:
+                              description: The date that the division permission was expired
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            metadata:
+                              description: Metadata field for different purposes
+                              type:
+                              - string
+                              - 'null'
+                            manageSharingThemes:
+                              description: Whether this permission allows sharing theme management in case the sharing feature would be enabled
+                              type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: createUserGroups
+        description: Whether this permission enables the creation of groups
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: expiredAt
+        description: The date that the division permission was expired
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: externalId
+        description: External ID of the tag as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: manageContent
+        description: Whether this permission enables managing content
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageAiRoleplays
+        description: Whether this permission enables management of AI roleplays
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: messaging
+        description: Whether this permission enables messaging
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: metadata
+        description: Metadata field for different purposes
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: reporting
+        description: Whether this permission enables reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    post:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: post_divisionpermissions
+      description: Create a DivisionPermission item
+      summary: /divisionpermissions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      createdAt:
+                        description: The date that the division permission was created
+                        type: string
+                        format: date-time
+                      division:
+                        description: The division this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      divisionId:
+                        description: Id of the division this division permission belongs to
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the division permission was updated
+                        type: string
+                        format: date-time
+                      user:
+                        description: The user this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userId:
+                        description: Id of the user this division permission belongs to
+                        type: string
+                      manageAssets:
+                        description: Whether this permission enables assets management
+                        type: boolean
+                      manageExperiences:
+                        description: Whether this permission enables experiences management
+                        type: boolean
+                      deleteExperiences:
+                        description: Whether this permission enables experiences deletion
+                        type: boolean
+                      manageCoursesAndChecklists:
+                        description: Whether this permission enables courses and checklists management
+                        type: boolean
+                      manageAiRoleplays:
+                        description: Whether this permission enables management of AI roleplays
+                        type: boolean
+                      manageAnnouncements:
+                        description: Whether this permission enables announcements management
+                        type: boolean
+                      viewUsers:
+                        description: Whether this permission enables users view
+                        type: boolean
+                      manageUsers:
+                        description: Whether this permission enables users management
+                        type: boolean
+                      readinessReporting:
+                        description: Whether this permission enables readiness reporting
+                        type: boolean
+                      contentReporting:
+                        description: Whether this permission enables content reporting
+                        type: boolean
+                      reporting:
+                        description: Whether this permission enables reporting
+                        type: boolean
+                      messaging:
+                        description: Whether this permission enables messaging
+                        type: boolean
+                      manageContent:
+                        description: Whether this permission enables content management
+                        type: boolean
+                      createUserGroups:
+                        description: Whether this permission enables user group creation
+                        type: boolean
+                      manageTags:
+                        description: Whether this permission enables tag management
+                        type: boolean
+                      notifyUsersByEmail:
+                        description: Whether this permission enables email notification of users
+                        type: boolean
+                      expiredAt:
+                        description: The date that the division permission was expired
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      metadata:
+                        description: Metadata field for different purposes
+                        type:
+                        - string
+                        - 'null'
+                      manageSharingThemes:
+                        description: Whether this permission allows sharing theme management in case the sharing feature would be enabled
+                        type: boolean
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                divisionId:
+                  type: string
+                userId:
+                  type: string
+                contentReporting:
+                  type: boolean
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                viewUsers:
+                  type: boolean
+              required:
+              - divisionId
+              - userId
+          application/json:
+            schema:
+              type: object
+              properties:
+                divisionId:
+                  type: string
+                userId:
+                  type: string
+                contentReporting:
+                  type: boolean
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                viewUsers:
+                  type: boolean
+              required:
+              - divisionId
+              - userId
+  /divisionpermissions/count.json:
+    get:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: get_divisionpermissions_count
+      description: Retrieve the number of DivisionPermission items
+      summary: /divisionpermissions/count.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        type: integer
+                        format: int32
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: contentReporting
+        description: Whether this permission enables content reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: createUserGroups
+        description: Whether this permission enables the creation of groups
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expiredAt
+        description: The date that the division permission was expired
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: externalId
+        description: External ID of the tag as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: manageAnnouncements
+        description: Whether this permission enables announcements management
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageAssets
+        description: Whether this permission enables assets management
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageContent
+        description: Whether this permission enables managing content
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageCoursesAndChecklists
+        description: Whether this permission enables courses and checklists management
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageAiRoleplays
+        description: Whether this permission enables management of AI roleplays
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageExperiences
+        description: Whether this permission enables experiences management
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: deleteExperiences
+        description: Whether this permission enables experiences deletion
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: manageUsers
+        description: Whether this permission enables users management
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: messaging
+        description: Whether this permission enables messaging
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: metadata
+        description: Metadata field for different purposes
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: notifyUsersByEmail
+        description: Whether this permission enables email notification of users
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: readinessReporting
+        description: Whether this permission enables readiness reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: reporting
+        description: Whether this permission enables reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: viewUsers
+        description: Whether this permission enables users view
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /divisionpermissions/description.json:
+    get:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: get_divisionpermissions_description
+      description: Generates information about the DivisionPermission model and available apis
+      summary: /divisionpermissions/description.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /divisionpermissions/{id}.json:
+    get:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: get_divisionpermissions_id
+      description: Retrieve DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      createdAt:
+                        description: The date that the division permission was created
+                        type: string
+                        format: date-time
+                      division:
+                        description: The division this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      divisionId:
+                        description: Id of the division this division permission belongs to
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the division permission was updated
+                        type: string
+                        format: date-time
+                      user:
+                        description: The user this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userId:
+                        description: Id of the user this division permission belongs to
+                        type: string
+                      manageAssets:
+                        description: Whether this permission enables assets management
+                        type: boolean
+                      manageExperiences:
+                        description: Whether this permission enables experiences management
+                        type: boolean
+                      deleteExperiences:
+                        description: Whether this permission enables experiences deletion
+                        type: boolean
+                      manageCoursesAndChecklists:
+                        description: Whether this permission enables courses and checklists management
+                        type: boolean
+                      manageAiRoleplays:
+                        description: Whether this permission enables management of AI roleplays
+                        type: boolean
+                      manageAnnouncements:
+                        description: Whether this permission enables announcements management
+                        type: boolean
+                      viewUsers:
+                        description: Whether this permission enables users view
+                        type: boolean
+                      manageUsers:
+                        description: Whether this permission enables users management
+                        type: boolean
+                      readinessReporting:
+                        description: Whether this permission enables readiness reporting
+                        type: boolean
+                      contentReporting:
+                        description: Whether this permission enables content reporting
+                        type: boolean
+                      reporting:
+                        description: Whether this permission enables reporting
+                        type: boolean
+                      messaging:
+                        description: Whether this permission enables messaging
+                        type: boolean
+                      manageContent:
+                        description: Whether this permission enables content management
+                        type: boolean
+                      createUserGroups:
+                        description: Whether this permission enables user group creation
+                        type: boolean
+                      manageTags:
+                        description: Whether this permission enables tag management
+                        type: boolean
+                      notifyUsersByEmail:
+                        description: Whether this permission enables email notification of users
+                        type: boolean
+                      expiredAt:
+                        description: The date that the division permission was expired
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      metadata:
+                        description: Metadata field for different purposes
+                        type:
+                        - string
+                        - 'null'
+                      manageSharingThemes:
+                        description: Whether this permission allows sharing theme management in case the sharing feature would be enabled
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: get
+            type: string
+          - title: post
+            type: string
+          - title: put
+            type: string
+          - title: delete
+            type: string
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    put:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: put_divisionpermissions_id
+      description: Update the DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      createdAt:
+                        description: The date that the division permission was created
+                        type: string
+                        format: date-time
+                      division:
+                        description: The division this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      divisionId:
+                        description: Id of the division this division permission belongs to
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the division permission was updated
+                        type: string
+                        format: date-time
+                      user:
+                        description: The user this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userId:
+                        description: Id of the user this division permission belongs to
+                        type: string
+                      manageAssets:
+                        description: Whether this permission enables assets management
+                        type: boolean
+                      manageExperiences:
+                        description: Whether this permission enables experiences management
+                        type: boolean
+                      deleteExperiences:
+                        description: Whether this permission enables experiences deletion
+                        type: boolean
+                      manageCoursesAndChecklists:
+                        description: Whether this permission enables courses and checklists management
+                        type: boolean
+                      manageAiRoleplays:
+                        description: Whether this permission enables management of AI roleplays
+                        type: boolean
+                      manageAnnouncements:
+                        description: Whether this permission enables announcements management
+                        type: boolean
+                      viewUsers:
+                        description: Whether this permission enables users view
+                        type: boolean
+                      manageUsers:
+                        description: Whether this permission enables users management
+                        type: boolean
+                      readinessReporting:
+                        description: Whether this permission enables readiness reporting
+                        type: boolean
+                      contentReporting:
+                        description: Whether this permission enables content reporting
+                        type: boolean
+                      reporting:
+                        description: Whether this permission enables reporting
+                        type: boolean
+                      messaging:
+                        description: Whether this permission enables messaging
+                        type: boolean
+                      manageContent:
+                        description: Whether this permission enables content management
+                        type: boolean
+                      createUserGroups:
+                        description: Whether this permission enables user group creation
+                        type: boolean
+                      manageTags:
+                        description: Whether this permission enables tag management
+                        type: boolean
+                      notifyUsersByEmail:
+                        description: Whether this permission enables email notification of users
+                        type: boolean
+                      expiredAt:
+                        description: The date that the division permission was expired
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      metadata:
+                        description: Metadata field for different purposes
+                        type:
+                        - string
+                        - 'null'
+                      manageSharingThemes:
+                        description: Whether this permission allows sharing theme management in case the sharing feature would be enabled
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                contentReporting:
+                  type: boolean
+                divisionId:
+                  type: string
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                userId:
+                  type: string
+                viewUsers:
+                  type: boolean
+          application/json:
+            schema:
+              type: object
+              properties:
+                contentReporting:
+                  type: boolean
+                divisionId:
+                  type: string
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                userId:
+                  type: string
+                viewUsers:
+                  type: boolean
+    post:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: post_divisionpermissions_id
+      description: Update the DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Location of the resource
+                        type: string
+                        format: link
+                      createdAt:
+                        description: The date that the division permission was created
+                        type: string
+                        format: date-time
+                      division:
+                        description: The division this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      divisionId:
+                        description: Id of the division this division permission belongs to
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      updatedAt:
+                        description: The date that the division permission was updated
+                        type: string
+                        format: date-time
+                      user:
+                        description: The user this division permission belongs to
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      userId:
+                        description: Id of the user this division permission belongs to
+                        type: string
+                      manageAssets:
+                        description: Whether this permission enables assets management
+                        type: boolean
+                      manageExperiences:
+                        description: Whether this permission enables experiences management
+                        type: boolean
+                      deleteExperiences:
+                        description: Whether this permission enables experiences deletion
+                        type: boolean
+                      manageCoursesAndChecklists:
+                        description: Whether this permission enables courses and checklists management
+                        type: boolean
+                      manageAiRoleplays:
+                        description: Whether this permission enables management of AI roleplays
+                        type: boolean
+                      manageAnnouncements:
+                        description: Whether this permission enables announcements management
+                        type: boolean
+                      viewUsers:
+                        description: Whether this permission enables users view
+                        type: boolean
+                      manageUsers:
+                        description: Whether this permission enables users management
+                        type: boolean
+                      readinessReporting:
+                        description: Whether this permission enables readiness reporting
+                        type: boolean
+                      contentReporting:
+                        description: Whether this permission enables content reporting
+                        type: boolean
+                      reporting:
+                        description: Whether this permission enables reporting
+                        type: boolean
+                      messaging:
+                        description: Whether this permission enables messaging
+                        type: boolean
+                      manageContent:
+                        description: Whether this permission enables content management
+                        type: boolean
+                      createUserGroups:
+                        description: Whether this permission enables user group creation
+                        type: boolean
+                      manageTags:
+                        description: Whether this permission enables tag management
+                        type: boolean
+                      notifyUsersByEmail:
+                        description: Whether this permission enables email notification of users
+                        type: boolean
+                      expiredAt:
+                        description: The date that the division permission was expired
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      metadata:
+                        description: Metadata field for different purposes
+                        type:
+                        - string
+                        - 'null'
+                      manageSharingThemes:
+                        description: Whether this permission allows sharing theme management in case the sharing feature would be enabled
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                contentReporting:
+                  type: boolean
+                divisionId:
+                  type: string
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                userId:
+                  type: string
+                viewUsers:
+                  type: boolean
+          application/json:
+            schema:
+              type: object
+              properties:
+                contentReporting:
+                  type: boolean
+                divisionId:
+                  type: string
+                expiredAt:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                manageAnnouncements:
+                  type: boolean
+                manageAssets:
+                  type: boolean
+                manageCoursesAndChecklists:
+                  type: boolean
+                manageAiRoleplays:
+                  type: boolean
+                manageExperiences:
+                  type: boolean
+                deleteExperiences:
+                  type: boolean
+                manageUsers:
+                  type: boolean
+                metadata:
+                  type: string
+                notifyUsersByEmail:
+                  type: boolean
+                readinessReporting:
+                  type: boolean
+                userId:
+                  type: string
+                viewUsers:
+                  type: boolean
+    delete:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: delete_divisionpermissions_id
+      description: Delete the DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /divisionpermissions/{id}/link.json:
+    post:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: link_divisionpermissions_id_link
+      description: Link the DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+  /divisionpermissions/{id}/unlink.json:
+    post:
+      deprecated: false
+      tags:
+      - divisionpermissions
+      operationId: unlink_divisionpermissions_id_unlink
+      description: Link the DivisionPermission item with ID='id'
+      summary: /divisionpermissions/{id}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_division_management
+      parameters:
+      - name: id
+        description: ID of the DivisionPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

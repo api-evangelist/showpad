@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: Showpad Locale API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: locale
+  x-displayName: Locale
+  description: These are endpoints for fetching available Languages and Countries information.
+paths:
+  /languages:
+    get:
+      operationId: getLanguages
+      summary: List all Languages
+      description: 'Retrieve a list of all supported languages in your Showpad environment. Languages are provided in `ISO 639-1` format and can be used to localize content, configure user preferences, or build language-aware integrations.
+
+
+        Use this endpoint when you need to:
+
+        - Display available languages in setup or configuration interfaces
+
+        - Validate language codes for content or metadata updates
+
+        - Sync language options between Showpad and external systems
+
+
+        Ideal for localization workflows and system integrations that depend on standardized language identifiers.'
+      tags:
+      - locale
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK. The request was successful. Returns a list of language codes.
+          x-summary: Ok. Request was successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: Total count of supported languages and a list of their `ISO 639-1` language codes.
+                properties:
+                  count:
+                    type: integer
+                    format: int32
+                    example: 123
+                    description: The total number of available language codes returned in this response.
+                  items:
+                    type: array
+                    description: A list of supported languages, each represented by an `ISO 639-1` language code.
+                    items:
+                      description: The `ISO 639-1` language code identifying the supported language.
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: '`BCP 47` language tag.'
+                          example: en
+  /countries:
+    get:
+      operationId: getCountries
+      summary: List all Countries
+      description: 'Retrieve a list of all supported country codes in ISO 3166-1 alpha-2 format.
+
+
+        Use this endpoint when you need to:
+
+        - Support geographic filtering or segmentation
+
+        - Validate country inputs in forms or integrations
+
+        - Power localization workflows that depend on standardized country identifiers'
+      tags:
+      - locale
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the list of country codes.
+          x-summary: Ok. Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A list of country codes, with a count
+                properties:
+                  count:
+                    type: integer
+                    format: int32
+                    example: 123
+                    description: The size of the items array
+                  items:
+                    type: array
+                    description: The list of country codes
+                    items:
+                      description: using `ISO 3166-1 alpha-2` country code
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          format: iso-3166
+                          description: The `ISO 3166-1 alpha-2` country code identifying the supported country.
+                          example: US
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '

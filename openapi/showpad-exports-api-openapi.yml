@@ -1,0 +1,3274 @@
+openapi: 3.2.0
+info:
+  title: Showpad Exports API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: exports
+  description: ''
+paths:
+  /exports/asset-authors.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_asset-authors
+      description: Export of asset-authors
+      summary: /exports/asset-authors.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - assetId
+                          - authorId
+                          example:
+                            assetId: a3e72bbfae0b87381106b1beb685ea88
+                            authorId: aaf982e112be64774f5a5a9a1ac5d0c2
+                          properties:
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            authorId:
+                              description: The unique identifier of the Showpad user that is the author of this asset.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/asset-countries.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_asset-countries
+      description: Export of asset-countries
+      summary: /exports/asset-countries.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - assetId
+                          - countryCode
+                          example:
+                            assetId: a3e72bbfae0b87381106b1beb685ea88
+                            countryCode: FR
+                          properties:
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            countryCode:
+                              description: The ISO 3166-1 alpha-2 country code.
+                              type: string
+                              minLength: 2
+                              maxLength: 2
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/asset-languages.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_asset-languages
+      description: Export of asset-languages
+      summary: /exports/asset-languages.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - assetId
+                          - languageCode
+                          example:
+                            assetId: a3e72bbfae0b87381106b1beb685ea88
+                            languageCode: fr
+                          properties:
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            languageCode:
+                              description: The ISO 639-1 language code.
+                              type: string
+                              minLength: 2
+                              maxLength: 2
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/asset-tags.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_asset-tags
+      description: Export of asset-tags
+      summary: /exports/asset-tags.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - assetId
+                          - tagId
+                          example:
+                            assetId: a3e72bbfae0b87381106b1beb685ea88
+                            tagId: ba16a6afc2d4247862c9986aa09772fd
+                          properties:
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            tagId:
+                              description: The unique identifier of the tag.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/assets.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_assets
+      description: Export of assets
+      summary: /exports/assets.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - assetId
+                          - divisionId
+                          - displayName
+                          - status
+                          - slug
+                          - source
+                          - description
+                          - type
+                          - isSensitive
+                          - isShareable
+                          - isDownloadable
+                          - isDivisionShared
+                          - isAnnotatable
+                          - expiresAt
+                          - releasedAt
+                          - draftedAt
+                          - deletedAt
+                          - uploadedAt
+                          - archivedAt
+                          - createdAt
+                          - updatedAt
+                          - externalId
+                          - commentsCount
+                          - likesCount
+                          - optimizedFileSize
+                          - originalFileSize
+                          - originalAssetId
+                          example:
+                            assetId: b31f42f161f489cd56dc829cb8c8a7e8
+                            divisionId: 4643adcc1621814e91c489b34bb428ed
+                            displayName: South Africa safari.mp4
+                            status: active
+                            slug: 2a51789f52f6496603b14ef45ffa4e33
+                            source: marketing
+                            description: null
+                            type: video
+                            isSensitive: false
+                            isShareable: true
+                            isDownloadable: true
+                            isDivisionShared: false
+                            isAnnotatable: false
+                            expiresAt: null
+                            releasedAt: null
+                            draftedAt: null
+                            deletedAt: '2022-07-16T11:55:52.000Z'
+                            uploadedAt: '2020-07-16T11:55:52.000Z'
+                            archivedAt: null
+                            createdAt: '2020-07-16T11:55:52.000Z'
+                            updatedAt: '2020-07-16T11:55:52.000Z'
+                            externalId: null
+                            commentsCount: 0
+                            likesCount: 0
+                            optimizedFileSize: 154050210
+                            originalFileSize: 172332979
+                            originalAssetId: null
+                          properties:
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            divisionId:
+                              description: The unique identifier of the division of the asset.
+                              type: string
+                            displayName:
+                              description: Name of the asset (includes the extension).
+                              type: string
+                            status:
+                              description: "Status of the asset. During upload, an asset can have multiple statuses but to be used by a user it has \nto be \"active\". This can indicate, however, why a file is in the library but not used, i.e. it failed \nto process.\n"
+                              type: string
+                            source:
+                              description: An indication of whether the asset was uploaded by an admin (marketing-owned) or as a personal user upload.
+                              type: string
+                              enum:
+                              - personal
+                              - shared
+                            description:
+                              description: Description of the asset given in the Online Platform.
+                              type:
+                              - string
+                              - 'null'
+                            type:
+                              description: The type of the asset
+                              type: string
+                            isSensitive:
+                              description: Indicator whether asset is confidential (can be shown in Kiosk mode or not).
+                              type: boolean
+                            isShareable:
+                              description: Indicator whether asset can be shared or not.
+                              type: boolean
+                            isDownloadable:
+                              description: Indicator whether asset can be downloaded or not.
+                              type: boolean
+                            isDivisionShared:
+                              description: Indicator whether asset has "global" property. This means it is shared across several divisions.
+                              type: boolean
+                            isAnnotatable:
+                              description: Indicator whether asset can be annotated by user.
+                              type: boolean
+                            expiresAt:
+                              description: Expiry date on the asset.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            releasedAt:
+                              description: Release date of the asset.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            draftedAt:
+                              description: Draft date of the asset.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            deletedAt:
+                              description: Timestamp when the asset was deleted. In the Online Platform, all reporting will exclude events after this date.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            uploadedAt:
+                              description: Timestamp when the asset is uploaded.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            archivedAt:
+                              description: Timestamp when the asset is archived. In the Online Platform, that means the asset is in the Trash but not yet deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            createdAt:
+                              description: Timestamp when the asset was created.
+                              type: string
+                              format: date-time
+                            updatedAt:
+                              description: Timestamp when the asset is last updated.
+                              type: string
+                              format: date-time
+                            externalId:
+                              description: Assets uploaded via an integration often have a ID from the source system.
+                              type:
+                              - string
+                              - 'null'
+                            commentsCount:
+                              description: Number of comments.
+                              type: integer
+                              format: int32
+                            likesCount:
+                              description: Number of likes.
+                              type: integer
+                              format: int32
+                            optimizedFileSize:
+                              description: Filesize of the asset in bytes after optimization by Showpad.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int64
+                            originalFileSize:
+                              description: Filesize of the original asset in bytes.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int64
+                            originalAssetId:
+                              description: The unique identifier of the original asset (in case of edited assets).
+                              type:
+                              - string
+                              - 'null'
+                            slug:
+                              description: The slug of an asset
+                              type:
+                              - string
+                              - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/channel-usergroups.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_channel-usergroups
+      description: Export of channel-usergroups
+      summary: /exports/channel-usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - channelId
+                          - usergroupId
+                          example:
+                            channelId: 3b04f0522b120f7736b4a5581e9a7b82
+                            usergroupId: 22b3d7f8eea74c37d3d140642ccbaeba
+                          properties:
+                            channelId:
+                              description: The unique identifier of the channel (also called experience).
+                              type: string
+                            usergroupId:
+                              description: The unique identifier of the usergroup assigned to the channel/experience.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/channel-users.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_channel-users
+      description: Export of channel-users
+      summary: /exports/channel-users.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - channelId
+                          - userId
+                          example:
+                            channelId: 6fa226398411027389efe94029f167b1
+                            userId: aaf982e112be64774f5a5a9a1ac5d0c2
+                          properties:
+                            channelId:
+                              description: The unique identifier of the channel (also called experience).
+                              type: string
+                            userId:
+                              description: The unique identifier of the user assigned to the channel/experience.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/channels.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_channels
+      description: Export of channels
+      summary: /exports/channels.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - channelId
+                          - name
+                          - status
+                          - deletedAt
+                          example:
+                            channelId: 6fa226398411027389efe94029f167b1
+                            name: Safari
+                            status: active
+                            deletedAt: null
+                          properties:
+                            channelId:
+                              description: The unique identifier of the channel (also called experience).
+                              type: string
+                            name:
+                              description: The name of the experience.
+                              type: string
+                            status:
+                              description: Deprecated field. Please ignore.
+                              type: string
+                            deletedAt:
+                              description: Timestamp when the experience is deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/collectionitems.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_collectionitems
+      description: Export of collectionitems
+      summary: /exports/collectionitems.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - collectionItemId
+                          - collectionId
+                          - assetId
+                          - page
+                          - position
+                          - createdAt
+                          - updatedAt
+                          - deletedAt
+                          example:
+                            collectionItemId: 7843b4523ecc64d16dad3043505d6190a85efcc6ad354986615dac32fc90e5ae
+                            collectionId: fe3516e716cb90839a74149388258570d1dab8f531c78616043e31d76d2bd2cc
+                            assetId: e1b5dd48608b137251db41dfde8581a2
+                            page: null
+                            position: 3
+                            createdAt: '2022-07-18T10:52:56.000Z'
+                            updatedAt: '2022-07-18T10:52:56.000Z'
+                            deletedAt: null
+                          properties:
+                            collectionItemId:
+                              description: The unique identifier of the collection item.
+                              type: string
+                            collectionId:
+                              description: The unique identifier of the collection this collection item belongs to.
+                              type: string
+                            assetId:
+                              description: The unique identifier of the asset linked to this collection item.
+                              type: string
+                            page:
+                              description: "Page of the asset added. If the complete asset is added, the page field will be empty (NULL). If the \noriginal asset is updated, it is still the absolute page number which will be part of the collection.\n"
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            position:
+                              description: Position (0-based) of the asset (page) in the collection.
+                              type: integer
+                              format: int32
+                            createdAt:
+                              description: Timestamp when the collection item was created.
+                              type: string
+                              format: date-time
+                            updatedAt:
+                              description: Timestamp when the collection item is last updated.
+                              type: string
+                              format: date-time
+                            deletedAt:
+                              description: Timestamp when the collection item was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/collections.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_collections
+      description: Export of collections
+      summary: /exports/collections.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - collectionId
+                          - userId
+                          - name
+                          - createdAt
+                          - updatedAt
+                          - deletedAt
+                          example:
+                            collectionId: d8a3961c96f4d6950d3b2ff97501427743508b7c1bef632da2640b61abe5ce59
+                            userId: f7e77ece030b616d9e4c4e3834e94aa4
+                            name: CustomerA
+                            createdAt: '2021-09-13T08:11:33.000Z'
+                            updatedAt: '2021-09-13T08:11:34.000Z'
+                            deletedAt: null
+                          properties:
+                            collectionId:
+                              description: The unique identifier of the collection.
+                              type: string
+                            userId:
+                              description: The unique identifier of the user that owns this collection.
+                              type: string
+                            name:
+                              description: Name of the collection.
+                              type: string
+                            createdAt:
+                              description: Timestamp when the collection was created.
+                              type: string
+                              format: date-time
+                            updatedAt:
+                              description: Timestamp when the collection is last updated.
+                              type: string
+                              format: date-time
+                            deletedAt:
+                              description: Timestamp when the collection was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/contacts.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_contacts
+      description: Export of contacts
+      summary: /exports/contacts.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - contactId
+                          - name
+                          - userId
+                          - deletedAt
+                          example:
+                            contactId: 8792a2fd4e2cefcd6d3bb6201e4ebf92
+                            name: admin@showpad.com
+                            userId: aaf982e112be64774f5a5a9a1ac5d0c2
+                            deletedAt: null
+                          properties:
+                            contactId:
+                              description: The unique identifier of the contact.
+                              type: string
+                            name:
+                              description: Name of the contact.
+                              type: string
+                            userId:
+                              description: User ID that created the contact (can be different than the user that generates the share).
+                              type: string
+                            deletedAt:
+                              description: Timestamp when the contact was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/devices.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_devices
+      description: Export of devices
+      summary: /exports/devices.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - deviceId
+                          - appUsed
+                          - lastActiveUserId
+                          - model
+                          - location
+                          - type
+                          example:
+                            deviceId: 3ecf6b651c97a7ad319772557c830c1b
+                            appUsed: web
+                            lastActiveUserId: 817219b07f8649beedab964442f6ac9b
+                            model: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML like Gecko) Version/16.5 Safari/605.1.15
+                            location: Ghent BE
+                            type: browser
+                          properties:
+                            deviceId:
+                              description: The unique identifier of the device.
+                              type: string
+                            appUsed:
+                              description: "On the device record that is registered, we keep multiple fields to identify the device, e.g. the \noperating system, the device model (device model or browser user agent), the type of device (web, \nbrowser, tablet, trackingPixel), and the app that was used.\n"
+                              type: string
+                            lastActiveUserId:
+                              description: Last user ID which logged on to this device. If the event is not related to a Showpad user, this field is NULL.
+                              type:
+                              - string
+                              - 'null'
+                            model:
+                              description: Model of the device (if available).
+                              type:
+                              - string
+                              - 'null'
+                            location:
+                              description: (last) location of the device (if available).
+                              type:
+                              - string
+                              - 'null'
+                            type:
+                              description: "The mapping is based on model and app used. This is done to facilitate recreating identical reporting \nto that used in our Online Platform.\n"
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/division-usergroups.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_division-usergroups
+      description: Export of division-usergroups
+      summary: /exports/division-usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - divisionId
+                          - usergroupId
+                          example:
+                            divisionId: 4643adcc1621814e91c489b34bb428ed,
+                            usergroupId: 22b3d7f8eea74c37d3d140642ccbaeba
+                          properties:
+                            divisionId:
+                              description: The unique identifier of the division.
+                              type: string
+                            usergroupId:
+                              description: The unique identifier of the usergroup.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/divisions.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_divisions
+      description: Export of divisions
+      summary: /exports/divisions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - divisionId
+                          - divisionName
+                          - isGlobal
+                          - isPersonal
+                          - ownerUserId
+                          - deletedAt
+                          example:
+                            divisionId: 409fe43883cb6e1f12c655e753aac096
+                            divisionName: Product Development
+                            isGlobal: false
+                            isPersonal: false
+                            deletedAt: '2020-04-18T08:16:10.000Z'
+                            ownerUserId: null
+                          properties:
+                            divisionId:
+                              description: The unique identifier of the division.
+                              type: string
+                            divisionName:
+                              description: The name of the division
+                              type: string
+                            isGlobal:
+                              description: Indicates the division is a global division.
+                              type: boolean
+                            isPersonal:
+                              description: Indicates the source of assets is the user's My Files, which is in fact a personal division.
+                              type: boolean
+                            ownerUserId:
+                              description: In case of a personal division (My Files) this field contains the related userId.
+                              type:
+                              - string
+                              - 'null'
+                            deletedAt:
+                              description: Timestamp when the division was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/events.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_events
+      description: Export of events
+      summary: /exports/events.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - eventId
+                          - startTime
+                          - endTime
+                          - loggedAt
+                          - userId
+                          - channelId
+                          - shareId
+                          - sharedSpaceId
+                          - sharedSpaceParticipantId
+                          - deviceId
+                          - divisionId
+                          - assetId
+                          - contactId
+                          - type
+                          - page
+                          - metadata
+                          example:
+                            eventId: 92d93d74bb1017d71533f8b6335fdb25152685c473a851890597c2a521f161f2
+                            startTime: '2018-04-05T13:54:17+00:00'
+                            endTime: '2018-04-05T13:54:19+00:00'
+                            loggedAt: '2018-04-05T13:54:19+00:00'
+                            userId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            channelId: null
+                            shareId: 64cd098838b373928d45623ffd893baa
+                            sharedSpaceId: null
+                            sharedSpaceParticipantId: null
+                            deviceId: 22d0289575051a644335465abf06bee5
+                            divisionId: null
+                            assetId: 3b6d75cf1970aa5f1a3e6bf73cd07347
+                            contactId: a26c59efde808da3b54085f3df0042cd
+                            type: shared-asset-viewed
+                            page: null
+                            metadata:
+                              ip: 172.16.118.0
+                          properties:
+                            eventId:
+                              description: Identifier of an event; an event is an interaction of a user in the Showpad apps.
+                              type: string
+                            startTime:
+                              description: Timestamp of the event (start).
+                              type: string
+                              format: date-time
+                            endTime:
+                              description: Timestamp of the event (end).
+                              type: string
+                              format: date-time
+                            loggedAt:
+                              description: Timestamp of the logging of the event to the database (can be later in offline use case).
+                              type: string
+                              format: date-time
+                            userId:
+                              description: Identifier of a user.
+                              type: string
+                            channelId:
+                              description: Identifier of a channel (experience).
+                              type:
+                              - string
+                              - 'null'
+                            shareId:
+                              description: Identifier of a share.
+                              type:
+                              - string
+                              - 'null'
+                            sharedSpaceId:
+                              description: Identifier of a shared space.
+                              type:
+                              - string
+                              - 'null'
+                            sharedSpaceParticipantId:
+                              description: Identifier of a shared space participant.
+                              type:
+                              - string
+                              - 'null'
+                            deviceId:
+                              description: Identifier of a device.
+                              type:
+                              - string
+                              - 'null'
+                            divisionId:
+                              description: Deprecated field, please do not use this for linking division lookup table. The correct divisionId is found on the asset lookup table.
+                              type:
+                              - string
+                              - 'null'
+                            assetId:
+                              description: Identifier of an asset.
+                              type:
+                              - string
+                              - 'null'
+                            contactId:
+                              description: Identifier of a contact.
+                              type:
+                              - string
+                              - 'null'
+                            type:
+                              description: Type of the event
+                              type:
+                              - string
+                              - 'null'
+                            page:
+                              description: "Page of the asset (for view events only); NULL for all other cases or the \"all pages\" view event; \npage is also only filled when the export is executed with pageBased=true; Values are numeric for all \nnon-HTML5 assets and can be text/string for HTML5 assets.\n"
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            metadata:
+                              description: Some experiences have some extra metadata on usage data.
+                              type:
+                              - object
+                              - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: startedAt
+        description: Only include events that happened after this date (YYYY-MM-DD, YYYY-MM-DD HH:mm:ss or timestamp)
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: endedAt
+        description: Only include events that happened before this date (YYYY-MM-DD, YYYY-MM-DD HH:mm:ss or timestamp)
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: loggedBefore
+        description: Only include events that have been logged to Showpad before this date (for offline use, this is when the device comes online) (YYYY-MM-DD, YYYY-MM-DD HH:mm:ss or timestamp)
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: loggedAfter
+        description: Include only events that have been logged to Showpad after or at the specified timestamp.  (loggedAfter >= timestamp, for offline use, this is when the device comes online) (YYYY-MM-DD,  YYYY-MM-DD HH:mm:ss or timestamp)
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: pageBased
+        description: Include page-based information in events
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: userId
+        description: Only include events for a specified user
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: eventType
+        description: Only include events with a specified event type. You can list multiple event types by separating them by a comma.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: channelIds
+        description: Only include events with a specified channel ID. You can list multiple channel IDs by separating them by a comma.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 50, only 50 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 50
+          maximum: 1000
+      oneOf:
+      - required:
+        - startedAt
+      - required:
+        - endedAt
+      - required:
+        - loggedBefore
+      - required:
+        - loggedAfter
+  /exports/sharedspace-items.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_sharedspace-items
+      description: Export of sharedspace-items
+      summary: /exports/sharedspace-items.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - sharedSpaceItemId
+                          - sharedSpaceId
+                          - userId
+                          - assetId
+                          - page
+                          - createdAt
+                          - updatedAt
+                          - deletedAt
+                          example:
+                            sharedSpaceItemId: 7843b4523ecc64d16dad3043505d6190c5fd949402bebbfbb5786c76b5144ae4
+                            sharedSpaceId: 354a27151d58a11d7254931e9b036a05
+                            userId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            assetId: fadabd92012642cf143aa6c0a7194a23
+                            page: null
+                            createdAt: '2018-03-09T14:46:58.000Z'
+                            updatedAt: '2018-03-09T14:46:58.000Z'
+                            deletedAt: null
+                          properties:
+                            sharedSpaceItemId:
+                              description: The unique identifier of the shared space item.
+                              type: string
+                            sharedSpaceId:
+                              description: The unique identifier of the shared space.
+                              type: string
+                            userId:
+                              description: The unique identifier of the user.
+                              type: string
+                            assetId:
+                              description: The unique identifier of the asset.
+                              type: string
+                            page:
+                              description: Page number (zero-based) in case a single page was inserted in the shared space.
+                              type:
+                              - integer
+                              - 'null'
+                              format: int32
+                            createdAt:
+                              description: Timestamp when the item was added to the shared space.
+                              type: string
+                              format: date-time
+                            updatedAt:
+                              description: Timestamp when the item was last modified in the shared space.
+                              type: string
+                              format: date-time
+                            deletedAt:
+                              description: Timestamp when the item was deleted from the shared space.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/sharedspaceparticipants.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_sharedspaceparticipants
+      description: Export of sharedspaceparticipants
+      summary: /exports/sharedspaceparticipants.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - sharedSpaceParticipantId
+                          - sharedSpaceId
+                          - userId
+                          - accessGrantedAt
+                          - accessRevokedAt
+                          - lastActivityAt
+                          - createdAt
+                          - deletedAt
+                          example:
+                            sharedSpaceItemId: 7843b4523ecc64d16dad3043505d6190c5fd949402bebbfbb5786c76b5144ae4
+                            sharedSpaceId: 354a27151d58a11d7254931e9b036a05
+                            userId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            assetId: fadabd92012642cf143aa6c0a7194a23
+                            page: null
+                            createdAt: '2018-03-09T14:46:58.000Z'
+                            updatedAt: '2018-03-09T14:46:58.000Z'
+                            deletedAt: null
+                            firstName: Chris
+                            lastName: P. Bacon
+                            emailAddress: chris.bacon@showpad.com
+                            organisation: Showpad
+                            jobTitle: Software Engineer
+                          properties:
+                            sharedSpaceParticipantId:
+                              description: The unique identifier of the shared space participant.
+                              type: string
+                            sharedSpaceId:
+                              description: The unique identifier of the shared space.
+                              type: string
+                            userId:
+                              description: The unique identifier of the user.
+                              type:
+                              - string
+                              - 'null'
+                            accessGrantedAt:
+                              description: Timestamp this person was granted access.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            accessRevokedAt:
+                              description: Timestamp this person was revoked access.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            lastActivityAt:
+                              description: Timestamp of last activity of this participant.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            createdAt:
+                              description: Timestap when the participant was created.
+                              type: string
+                              format: date-time
+                            deletedAt:
+                              description: Timestamp of removal of this participant.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            firstName:
+                              description: First name of this participant.
+                              type:
+                              - string
+                              - 'null'
+                            lastName:
+                              description: Last name of this participant.
+                              type:
+                              - string
+                              - 'null'
+                            emailAddress:
+                              description: E-mail adress of this participant.
+                              type:
+                              - string
+                              - 'null'
+                            organisation:
+                              description: Organisation name that this participant belongs to.
+                              type:
+                              - string
+                              - 'null'
+                            jobTitle:
+                              description: Job title of this participant.
+                              type:
+                              - string
+                              - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/sharedspaces.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_sharedspaces
+      description: Export of sharedspaces
+      summary: /exports/sharedspaces.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - sharedSpaceId
+                          - creatorId
+                          - ownerId
+                          - title
+                          - description
+                          - status
+                          - createdAt
+                          - lastActivityAt
+                          - deletedAt
+                          - sharedSpaceParticipantsIds
+                          example:
+                            title: Shared Space for Customer A
+                            description: This is a shared space made for customerA
+                            createdAt: '2020-03-22T14:04:20.000Z'
+                            lastActivityAt: '2023-02-27T13:35:58.000Z'
+                            deletedAt: null
+                            sharedSpaceId: 6fe3df909ca6631847b85ddb1bf7d9db
+                            creatorId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            ownerId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            sharedSpaceParticipantsIds:
+                            - cfff0715565e8431c502db395c824f92
+                            - 2f7bfe2dcf74900bf9518aae5bda6ad5
+                            - a23c317737b4b1dcedc49bcd0650d4ca
+                            - 43b75d24508f9db4431073e248fa7db6
+                            - a2038666ce17917c5d2a6d1fb239ce4a
+                            status: active
+                          properties:
+                            sharedSpaceId:
+                              description: The unique identifier of the shared space.
+                              type: string
+                            creatorId:
+                              description: The unique identifier of the user that created the shared space.
+                              type: string
+                            ownerId:
+                              description: The unique identifier of the user that owns the shared space.
+                              type: string
+                            title:
+                              description: Title of the shared space.
+                              type: string
+                              maxLength: 65535
+                            description:
+                              description: Description of the shared space.
+                              type:
+                              - string
+                              - 'null'
+                              maxLength: 65535
+                            status:
+                              description: 'Status of the shared space. Can be one of: active, archived, deleted'
+                              type: string
+                            createdAt:
+                              description: Timestamp of creation of shared space (should be close to timestamp of event itself).
+                              type: string
+                              format: date-time
+                            lastActivityAt:
+                              description: Timestamp of last activity on the shared space.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            deletedAt:
+                              description: Shared Spaces can be deleted; this is the timestamp.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            sharedSpaceParticipantsIds:
+                              description: Array with all participants - lookup to sharedspaceparticipants.
+                              type: array
+                              items:
+                                type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/shares.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_shares
+      description: Export of shares
+      summary: /exports/shares.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - shareId
+                          - title
+                          - type
+                          - salesforce
+                          - theme
+                          - recipients
+                          - creatorId
+                          - sharedAt
+                          - revokedAt
+                          example:
+                            shareId: 86c034ab7a6f0bd3bf796437b3239dba
+                            title: Share for customer A
+                            type: link
+                            salesforce: false
+                            theme: My Branded Theme
+                            recipients: null
+                            creatorId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            sharedAt: '2022-09-01T13:19:59.000Z'
+                            revokedAt: null
+                          properties:
+                            shareId:
+                              description: The unique identifier of the share.
+                              type: string
+                            title:
+                              description: Title of the share.
+                              type: string
+                              maxLength: 65535
+                            type:
+                              description: Type of the share
+                              type: string
+                            salesforce:
+                              description: Indicator whether logged to Salesforce or not.
+                              type: boolean
+                            theme:
+                              description: Name of the theme used for sharing (simple shares only).
+                              type: string
+                            recipients:
+                              description: List of recipients of the share. Typically recipient email address. If we don't have email but we have the name we store the name.
+                              type: string
+                              maxLength: 65535
+                            creatorId:
+                              description: The user ID that created the share.
+                              type: string
+                            sharedAt:
+                              description: Timestamp of creation of share record (should be close to timestamp of event itself).
+                              type: string
+                              format: date-time
+                            revokedAt:
+                              description: Shares can be revoked (not deleted). This is the timestamp.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/tagcategories.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_tagcategories
+      description: Export of tagcategories
+      summary: /exports/tagcategories.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - tagCategoryId
+                          - name
+                          - path
+                          - publishedAt
+                          example:
+                            tagCategoryId: 635eeed476f55a43223edde5f598eb2b
+                            name: Level two
+                            path: /e31188c031455bdbbbc9863d19096a14/
+                            publishedAt: '2020-08-24T16:42:03.000Z'
+                          properties:
+                            tagCategoryId:
+                              description: The unique identifier of the tag category.
+                              type: string
+                            name:
+                              description: Name of the tag category.
+                              type: string
+                            path:
+                              description: "Path above the tag category. A category can be a child to another category. The full parent path \n(based on tagCategoryId) is presented here in \"materialized path\" format.\n"
+                              type: string
+                              maxLength: 65535
+                            publishedAt:
+                              description: "Timestamp when the tag category was published. If empty, the tag category is created for internal \nusage but not for use on the search or browse experiences.\n"
+                              type: string
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/tagcategory-tags.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_tagcategory-tags
+      description: Export of tagcategory-tags
+      summary: /exports/tagcategory-tags.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - tagCategoryId
+                          - tagId
+                          example:
+                            tagCategoryId: 0ed2cfaa83e798a60d0490dc9578204a
+                            tagId: 16643416ea0fcd2388eb578143bc38f6
+                          properties:
+                            tagCategoryId:
+                              description: The unique identifier of the tag category.
+                              type: string
+                            tagId:
+                              description: The unique identifier of the tag.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/tags.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_tags
+      description: Export of tags
+      summary: /exports/tags.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - tagId
+                          - name
+                          example:
+                            tagId: 70e0c51c290b36f6e67cc520dc572195
+                            name: Flyers
+                          properties:
+                            tagId:
+                              description: The unique identifier of the tag.
+                              type: string
+                            name:
+                              description: Tag name
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/user-usergroups.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_user-usergroups
+      description: Export of user-usergroups
+      summary: /exports/user-usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - userId
+                          - usergroupId
+                          example:
+                            userId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            usergroupId: 3648832d1da2729923493af577ef1d01
+                          properties:
+                            userId:
+                              description: The unique identifier of the user.
+                              type: string
+                            usergroupId:
+                              description: The unique identifier of the usergroup.
+                              type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/usergroups.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_usergroups
+      description: Export of usergroups
+      summary: /exports/usergroups.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - usergroupId
+                          - name
+                          - deletedAt
+                          example:
+                            usergroupId: 3648832d1da2729923493af577ef1d01
+                            name: All Users
+                            deletedAt: null
+                          properties:
+                            usergroupId:
+                              description: The unique identifier of the usergroup.
+                              type: string
+                            name:
+                              description: Name of the usergroup.
+                              type: string
+                            deletedAt:
+                              description: Timestamp when the usergroup was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+  /exports/users.json:
+    get:
+      deprecated: false
+      tags:
+      - exports
+      operationId: get_exports_users
+      description: Export of users
+      summary: /exports/users.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          required:
+                          - userId
+                          - firstName
+                          - lastName
+                          - emailAddress
+                          - deletedAt
+                          - isActive
+                          - isForgotten
+                          - createdAt
+                          - userRole
+                          - managerId
+                          - externalId
+                          example:
+                            userId: c0bf28fe5aefb7cf3b8091c71a8bc4c9
+                            firstName: Chris
+                            lastName: P. Bacon
+                            emailAddress: chrisp.bacon@showpad.com
+                            deletedAt: null
+                            isActive: true
+                            isForgotten: false
+                            createdAt: '2018-01-11T14:33:34.000Z'
+                            userRole: Admin
+                            managerId: f64a937107b290b3068f6eb8fab33411
+                            externalId: null
+                          properties:
+                            userId:
+                              description: The unique identifier of the user.
+                              type: string
+                            firstName:
+                              description: First name of the user.
+                              type: string
+                            lastName:
+                              description: Last name of the user.
+                              type: string
+                            emailAddress:
+                              description: E-mail address of the user.
+                              type: string
+                            deletedAt:
+                              description: Timestamp when the user was deleted.
+                              type:
+                              - string
+                              - 'null'
+                              format: date-time
+                            isActive:
+                              description: "Indicates if the user has an active license. When a user is deactivated, isActive will be false. \nIn case the user is deleted, this field can still be true if the user had an active license at the time\nof deletion.\n"
+                              type: boolean
+                            isForgotten:
+                              description: "Indicates the user has been anonymized for GDPR reasons; i.e. deleted users are anonymized after x \nmonths according to configuration in the OP. Also for some geographies active users can be anonymized; \nemailAddress, firstname and lastname will also be anonymized.\n"
+                              type: boolean
+                            createdAt:
+                              description: Timestamp of creation of the user
+                              type: string
+                              format: date-time
+                            userRole:
+                              description: 'The role of the user inside Showpad. Can be one of: Admin, Manager, Promoted Member, User.'
+                              type: string
+                            managerId:
+                              description: The identifier of the manager user.
+                              type:
+                              - string
+                              - 'null'
+                            externalId:
+                              description: The external id of the user.
+                              type:
+                              - string
+                              - 'null'
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+      parameters:
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 100000. For example, if 'limit' is 1, only 1 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 100000
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

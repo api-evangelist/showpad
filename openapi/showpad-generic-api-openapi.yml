@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: Showpad Generic API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: generic
+  description: ''
+paths:
+  /{id}.json:
+    get:
+      deprecated: false
+      tags:
+      - generic
+      operationId: get_id
+      description: "Retrieve a resource using the 'id' parameter, where 'id' represents the PID associated with any resource. \nThe system will intelligently identify the resource type and provide the corresponding resource as the output.\n"
+      summary: /{id}.json
+      responses:
+        '403':
+          description: Forbidden. Requester does not have the right permissions to request the resource.
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_division_management
+        - read_contentprofile_management
+        - read_user_management
+      parameters:
+      - name: id
+        description: ID of the Resource
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

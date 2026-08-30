@@ -1,0 +1,802 @@
+openapi: 3.2.0
+info:
+  title: Showpad Themes API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: themes
+  x-displayName: Themes
+  description: These are endpoints for managing Themes
+paths:
+  /themes:
+    get:
+      operationId: theme-list
+      summary: List of Themes
+      description: 'Retrieve a list of themes available in your Showpad instance. Themes include branding configurations, layout styles, and visual assets used to customize the platform interface.
+
+
+        Use this endpoint when you need to:
+
+        - Fetch a paginated collection of design configurations for your organization.
+
+        - Look up specific theme details by filtering results using a title string.
+
+        - Organize theme collections using predefined sorting fields like creation or modification dates.
+
+
+        This endpoint supports pagination constraints via limit and offset parameters and allows filtering.'
+      tags:
+      - themes
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: false
+        name: divisionId
+        in: query
+        description: Filters the results to include only those that belong to a specific Division. This is useful for multi-division organizations to retrieve visual styles scoped to particular business units or regions.
+      - schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          default: 'false'
+        required: false
+        name: includeGlobal
+        in: query
+        description: Controls whether the Global Theme is included in the response. Use `includeGlobal=true` to include the Global Theme in the results, regardless of `divisionId` filter. If not provided, defaults to false.
+      - schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          default: 'false'
+        required: false
+        name: isDefault
+        in: query
+        description: Controls whether the response filters by the theme's default status attribute. Use `isDefault=true` to return only the default organization theme. If not provided, defaults to false.
+      - schema:
+          type: string
+        required: false
+        name: title
+        in: query
+        description: Filters results by the theme's title. Returns only the themes where the `title` contains the specified string value.
+      - schema:
+          type: string
+          enum:
+          - title
+          - -title
+          - createdAt
+          - -createdAt
+          - updatedAt
+          - -updatedAt
+          default: -createdAt
+        required: false
+        name: sort
+        in: query
+        description: Specifies the field and direction used to sort the results. Prefix the field name with a hyphen (`-`) for descending sort order.
+      - schema:
+          type: integer
+          default: '50'
+          description: Defines the maximum number of results to return in a single response. Use in combination with `offset` to implement pagination when retrieving large datasets in batches.
+          minimum: 1
+          maximum: 1000
+        required: false
+        description: Defines the maximum number of results to return in a single response. Use in combination with `offset` to implement pagination when retrieving large datasets in batches.
+        name: limit
+        in: query
+      - schema:
+          type: integer
+          default: '0'
+          description: Specifies the number of results to skip before starting to return data. Use in combination with `limit` to implement pagination when retrieving large datasets.
+          minimum: 0
+        required: false
+        description: Specifies the number of results to skip before starting to return data. Use in combination with `limit` to implement pagination when retrieving large datasets.
+        name: offset
+        in: query
+      responses:
+        '200':
+          description: The request was successful. Returns a paginated collection of available themes, including their configurations, color properties, and visual metadata.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - items
+                properties:
+                  count:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - title
+                      - isGlobal
+                      - isDefault
+                      - displayData
+                      - colorSettings
+                      - createdAt
+                      - updatedAt
+                      - division
+                      properties:
+                        id:
+                          type: string
+                          description: The unique identifier of the theme.
+                        title:
+                          type: string
+                          description: The display name of the theme.
+                        isGlobal:
+                          type: boolean
+                          description: Indicates whether the theme is a Global Theme. A Global Theme is available to all users across all Divisions.
+                        isDefault:
+                          type: boolean
+                          description: Controls whether the theme is set as the default option within its designated Division. The default theme is automatically assigned to all experiences in that Division. A Global Theme cannot be marked as default, meaning this value remains false for global entities. Only one theme can be configured as the default per Division.
+                        displayData:
+                          type: object
+                          required:
+                          - aboutDescription
+                          - logo
+                          - displayImage
+                          properties:
+                            aboutDescription:
+                              type: string
+                              maxLength: 800
+                              description: The descriptive text displayed within the Shared Content Viewer. This property does not apply to Shared Spaces, which lack an about section.
+                            logo:
+                              type:
+                              - object
+                              - 'null'
+                              required:
+                              - url
+                              properties:
+                                url:
+                                  type: string
+                            displayImage:
+                              type:
+                              - object
+                              - 'null'
+                              required:
+                              - url
+                              properties:
+                                url:
+                                  type: string
+                        colorSettings:
+                          type: object
+                          required:
+                          - headerColor
+                          - headerFontColor
+                          - accentColor
+                          - accentFontColor
+                          description: A collection of hex color codes that define the theme's color palette across different user interface components.
+                          properties:
+                            headerColor:
+                              type: string
+                              maxLength: 6
+                              example: F6F6F6
+                              description: The hex code configuration for the interface header background color. Do not include a leading hashtag (#).
+                            headerFontColor:
+                              type: string
+                              maxLength: 6
+                              example: F6F6F6
+                              description: The hex code configuration for text overlay elements inside the header background. Do not include a leading hashtag (#).
+                            accentColor:
+                              type: string
+                              maxLength: 6
+                              example: F6F6F6
+                              description: The hex code configuration for primary buttons, highlights, and interactive accents. Do not include a leading hashtag (#).
+                            accentFontColor:
+                              type: string
+                              maxLength: 6
+                              example: F6F6F6
+                              description: The hex code configuration for text overlay elements placed on top of accent-colored components. Do not include a leading hashtag (#).
+                        createdAt:
+                          type: string
+                          format: date-time
+                          description: The date and time when the theme was created.
+                          example: '2019-08-24T14:15:22Z'
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          description: The date and time when the theme was last modified.
+                          example: '2019-08-24T14:15:22Z'
+                        division:
+                          type:
+                          - object
+                          - 'null'
+                          required:
+                          - id
+                          description: The scope of the Division to which this theme is assigned. This object returns `NULL` exclusively for a Global Theme, as global configurations are available across all business units.
+                          properties:
+                            id:
+                              type: string
+                              description: The unique identifier of the scoping Division. This parent object returns `NULL` exclusively for a Global Theme.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /themes/{themeId}:
+    get:
+      operationId: theme-get
+      summary: Get a Theme
+      description: 'Retrieves the full configuration, color settings, visual assets, and metadata for a specific theme.
+
+
+        This endpoint allows you to:
+
+        - Fetch localized branding components for a specific business unit.
+
+        - Verify active color configurations before rendering custom UI elements.
+
+        - Access asset URLs for logos and cover images.'
+      tags:
+      - themes
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: The request was successful. Returns the detailed configuration, color properties, and asset metadata for the specified theme.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - isGlobal
+                - isDefault
+                - displayData
+                - colorSettings
+                - createdAt
+                - updatedAt
+                - division
+                properties:
+                  id:
+                    type: string
+                    description: The unique identifier of the theme.
+                  title:
+                    type: string
+                    description: The display name of the theme.
+                  isGlobal:
+                    type: boolean
+                    description: Indicates whether the theme is a Global Theme. A Global Theme is available to all users across all Divisions.
+                  isDefault:
+                    type: boolean
+                    description: Controls whether the theme is set as the default option within its designated Division. The default theme is automatically assigned to all experiences in that Division. A Global Theme cannot be marked as default, meaning this value remains false for global entities. Only one theme can be configured as the default per Division.
+                  displayData:
+                    type: object
+                    required:
+                    - aboutDescription
+                    - logo
+                    - displayImage
+                    properties:
+                      aboutDescription:
+                        type: string
+                        maxLength: 800
+                        description: The descriptive text displayed within the Shared Content Viewer. This property does not apply to Shared Spaces, which lack an about section.
+                      logo:
+                        type:
+                        - object
+                        - 'null'
+                        required:
+                        - url
+                        properties:
+                          url:
+                            type: string
+                      displayImage:
+                        type:
+                        - object
+                        - 'null'
+                        required:
+                        - url
+                        properties:
+                          url:
+                            type: string
+                  colorSettings:
+                    type: object
+                    required:
+                    - headerColor
+                    - headerFontColor
+                    - accentColor
+                    - accentFontColor
+                    description: A collection of hex color codes that define the theme's color palette across different user interface components.
+                    properties:
+                      headerColor:
+                        type: string
+                        maxLength: 6
+                        example: F6F6F6
+                        description: The hex code configuration for the interface header background color. Do not include a leading hashtag (#).
+                      headerFontColor:
+                        type: string
+                        maxLength: 6
+                        example: F6F6F6
+                        description: The hex code configuration for text overlay elements inside the header background. Do not include a leading hashtag (#).
+                      accentColor:
+                        type: string
+                        maxLength: 6
+                        example: F6F6F6
+                        description: The hex code configuration for primary buttons, highlights, and interactive accents. Do not include a leading hashtag (#).
+                      accentFontColor:
+                        type: string
+                        maxLength: 6
+                        example: F6F6F6
+                        description: The hex code configuration for text overlay elements placed on top of accent-colored components. Do not include a leading hashtag (#).
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: The date and time when the theme was created.
+                    example: '2019-08-24T14:15:22Z'
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: The date and time when the theme was last modified.
+                    example: '2019-08-24T14:15:22Z'
+                  division:
+                    type:
+                    - object
+                    - 'null'
+                    required:
+                    - id
+                    description: The scope of the Division to which this theme is assigned. This object returns `NULL` exclusively for a Global Theme, as global configurations are available across all business units.
+                    properties:
+                      id:
+                        type: string
+                        description: The unique identifier of the scoping Division. This parent object returns `NULL` exclusively for a Global Theme.
+                  experiences:
+                    type: array
+                    description: List of Experience IDs the theme is assigned to. This field is omitted for a Global Theme. For non-global themes, an empty list restricts access to administrators.
+                    items:
+                      type: object
+                      required:
+                      - id
+                      properties:
+                        id:
+                          type: string
+                          example: 9c5f3aa0784df25db1db821354e337e9
+                          description: The unique identifier of the Experience.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '

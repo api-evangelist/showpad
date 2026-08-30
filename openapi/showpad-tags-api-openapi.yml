@@ -1,0 +1,4214 @@
+openapi: 3.2.0
+info:
+  title: Showpad Tags API
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  termsOfService: https://www.showpad.com/terms-of-service
+  x-audience: external-partner
+  x-refined-note:
+  - x-logo differs across the merged source definitions and was not carried
+  - x-serviceName differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged tags across 2 of this provider''s published API definitions: showpad-v3-openapi-original.yml, showpad-v4-openapi-original.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: tags
+  description: ''
+paths:
+  /tags.json:
+    get:
+      deprecated: true
+      tags:
+      - tags
+      operationId: get_tags
+      description: 'Generates a list of Tag items.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getTags).'
+      summary: /tags.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Unique identifier for the resource
+                              type: string
+                            resourcetype:
+                              description: The type of resource
+                              type: string
+                            href:
+                              description: Url link to the tag
+                              type: string
+                            assets:
+                              description: The assets linked to this tag
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  format: link
+                            type:
+                              description: The type of tag
+                              type: string
+                            createdAt:
+                              description: The date that the tag was created
+                              type: string
+                              format: date-time
+                            description:
+                              description: Description of the tag
+                              type: string
+                            division:
+                              description: The division of the tag
+                              type: object
+                              properties:
+                                href:
+                                  type: string
+                                  format: link
+                                id:
+                                  type: string
+                            divisionId:
+                              description: The division ID of the tag
+                              type: string
+                            externalId:
+                              description: External ID of the tag as used in the source application
+                              type:
+                              - string
+                              - 'null'
+                            name:
+                              description: Name of the tag
+                              type: string
+                            updatedAt:
+                              description: The date that the tag was updated
+                              type: string
+                              format: date-time
+                            externalService:
+                              description: External Service of the tag as used in the source application
+                              type:
+                              - string
+                              - 'null'
+                              format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        description: External ID of the tag as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: name
+        description: Name of the tag
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: post_tags
+      description: 'Create a Tag item.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postTags).'
+      summary: /tags.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    location:
+                      type:
+                      - string
+                      - 'null'
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Url link to the tag
+                        type: string
+                      assets:
+                        description: The assets linked to this tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      type:
+                        description: The type of tag
+                        type: string
+                      createdAt:
+                        description: The date that the tag was created
+                        type: string
+                        format: date-time
+                      description:
+                        description: Description of the tag
+                        type: string
+                      division:
+                        description: The division of the tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      divisionId:
+                        description: The division ID of the tag
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      name:
+                        description: Name of the tag
+                        type: string
+                      updatedAt:
+                        description: The date that the tag was updated
+                        type: string
+                        format: date-time
+                      externalService:
+                        description: External Service of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+              required:
+              - name
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+              required:
+              - name
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/count.json:
+    get:
+      deprecated: false
+      tags:
+      - tags
+      operationId: get_tags_count
+      description: Retrieve the number of Tag items
+      summary: /tags/count.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalId
+        description: External ID of the tag as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: name
+        description: Name of the tag
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/description.json:
+    get:
+      deprecated: false
+      tags:
+      - tags
+      operationId: get_tags_description
+      description: Generates information about the Tag model and available apis
+      summary: /tags/description.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id1}/assets/{id2}.json:
+    get:
+      deprecated: false
+      tags:
+      - tags
+      operationId: get_tags_id1_assets_id2
+      description: Link or unlink an tag with ID = 'id1' to a asset with ID = 'id2'
+      summary: /tags/{id1}/assets/{id2}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id1
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Asset item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: true
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id1}/assets/{id2}/link.json:
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: link_tags_id1_assets_id2_link
+      description: 'Link a tag with ID = ''id1'' to an asset with ID = ''id2''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+      summary: /tags/{id1}/assets/{id2}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id1
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Asset item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id1}/assets/{id2}/unlink.json:
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: unlink_tags_id1_assets_id2_unlink
+      description: 'Unlink a tag with ID = ''id1'' from an asset with ID = ''id2''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+      summary: /tags/{id1}/assets/{id2}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id1
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id2
+        description: ID of the Asset item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id}.json:
+    get:
+      deprecated: true
+      tags:
+      - tags
+      operationId: get_tags_id
+      description: 'Retrieve Tag item with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getTag).'
+      summary: /tags/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    location:
+                      type:
+                      - string
+                      - 'null'
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Url link to the tag
+                        type: string
+                      assets:
+                        description: The assets linked to this tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      type:
+                        description: The type of tag
+                        type: string
+                      createdAt:
+                        description: The date that the tag was created
+                        type: string
+                        format: date-time
+                      description:
+                        description: Description of the tag
+                        type: string
+                      division:
+                        description: The division of the tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      divisionId:
+                        description: The division ID of the tag
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      name:
+                        description: Name of the tag
+                        type: string
+                      updatedAt:
+                        description: The date that the tag was updated
+                        type: string
+                        format: date-time
+                      externalService:
+                        description: External Service of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: get
+            type: string
+          - title: post
+            type: string
+          - title: put
+            type: string
+          - title: delete
+            type: string
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    put:
+      deprecated: false
+      tags:
+      - tags
+      operationId: put_tags_id
+      description: Update the Tag item with ID='id'
+      summary: /tags/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    location:
+                      type:
+                      - string
+                      - 'null'
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Url link to the tag
+                        type: string
+                      assets:
+                        description: The assets linked to this tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      type:
+                        description: The type of tag
+                        type: string
+                      createdAt:
+                        description: The date that the tag was created
+                        type: string
+                        format: date-time
+                      description:
+                        description: Description of the tag
+                        type: string
+                      division:
+                        description: The division of the tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      divisionId:
+                        description: The division ID of the tag
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      name:
+                        description: Name of the tag
+                        type: string
+                      updatedAt:
+                        description: The date that the tag was updated
+                        type: string
+                        format: date-time
+                      externalService:
+                        description: External Service of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+                name:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+                name:
+                  type: string
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: post_tags_id
+      description: 'Update the Tag item with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateTag).'
+      summary: /tags/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    location:
+                      type:
+                      - string
+                      - 'null'
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      href:
+                        description: Url link to the tag
+                        type: string
+                      assets:
+                        description: The assets linked to this tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      type:
+                        description: The type of tag
+                        type: string
+                      createdAt:
+                        description: The date that the tag was created
+                        type: string
+                        format: date-time
+                      description:
+                        description: Description of the tag
+                        type: string
+                      division:
+                        description: The division of the tag
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      divisionId:
+                        description: The division ID of the tag
+                        type: string
+                      externalId:
+                        description: External ID of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      name:
+                        description: Name of the tag
+                        type: string
+                      updatedAt:
+                        description: The date that the tag was updated
+                        type: string
+                        format: date-time
+                      externalService:
+                        description: External Service of the tag as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+                name:
+                  type: string
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                divisionId:
+                  type: string
+                externalId:
+                  type: string
+                name:
+                  type: string
+    delete:
+      deprecated: true
+      tags:
+      - tags
+      operationId: delete_tags_id
+      description: 'Delete the Tag item with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/deleteTag).'
+      summary: /tags/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id}/assets.json:
+    get:
+      deprecated: false
+      tags:
+      - tags
+      operationId: get_tags_id_assets
+      description: Get all assets that belong to the tag with ID='id'
+      summary: /tags/{id}/assets.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the file was created
+                        type: string
+                        format: date-time
+                      uploadedAt:
+                        description: The date that the file was uploaded
+                        type: string
+                        format: date-time
+                      description:
+                        description: Custom description about the file
+                        type:
+                        - string
+                        - 'null'
+                      href:
+                        description: Location of the asset
+                        type: string
+                      division:
+                        description: The location of the divisions related to this asset
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      downloadLink:
+                        description: Link where the file can be downloaded.
+                        type:
+                        - string
+                        - 'null'
+                      shortLivedDownloadLink:
+                        description: Short-lived link where the file can be publicly downloaded.
+                        type:
+                        - string
+                        - 'null'
+                      shortLivedDownloadDuration:
+                        description: Amount of days the short-lived download link will be valid for.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      externalId:
+                        description: External ID of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      fileSize:
+                        description: Size of the file in bytes
+                        type: integer
+                        format: int32
+                      filetype:
+                        description: Type of file
+                        type: string
+                      processedDownloadLink:
+                        description: Link where the processed file can be downloaded
+                        type: string
+                      isAnnotatable:
+                        description: Set to true if you want to allow tablet users to share to annotate this file
+                        type: boolean
+                      isSensitive:
+                        description: Set to true if you do not want this file to be visible in Kiosk mode on the tablet
+                        type: boolean
+                      isShareable:
+                        description: Set to true if you want to allow users to share this file with other people
+                        type: boolean
+                      isDownloadable:
+                        description: Set to true if you want to allow recipients to be able to download this file
+                        type: boolean
+                      isDivisionShared:
+                        description: Set to true if you want to share this file across divisions
+                        type: boolean
+                      useOptimized:
+                        description: Set to true if you want to use the optimized version of this file
+                        type: boolean
+                      name:
+                        description: Display name of the file
+                        type: string
+                      url:
+                        description: Url to link to
+                        type:
+                        - string
+                        - 'null'
+                      originalName:
+                        description: Original name of the file
+                        type: string
+                      previewDownloadLink:
+                        description: Link where the preview of the file can be downloaded.
+                        type: string
+                      thumbnailDownloadLink:
+                        description: Link where the thumbnail of the file can be downloaded.
+                        type: string
+                      tags:
+                        description: The location of the tags related to this asset
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      assetView:
+                        description: The location of the asset view related to this asset
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      updatedAt:
+                        description: The date that the file was updated
+                        type: string
+                        format: date-time
+                      views:
+                        description: The number of views by tablet users on this file
+                        type: integer
+                        format: int32
+                      appLink:
+                        description: Link to asset inside application
+                        type: string
+                      liked:
+                        description: The asset was liked by the current user
+                        type: boolean
+                      likesCount:
+                        description: Count of people who have liked an asset
+                        type: integer
+                        format: int32
+                      standardId:
+                        description: Standard ID with version (e.g. ph-135.v1)
+                        type: string
+                      externalDate:
+                        description: An external date of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      archivedAt:
+                        description: The date that the file was sent to trash
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      expiresAt:
+                        description: The expiry date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      releasedAt:
+                        description: The release date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      draftedAt:
+                        description: The draft date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      extension:
+                        description: Extension of the file
+                        type: string
+                      lockedPages:
+                        description: The pages that are locked together in this asset
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      pageCount:
+                        description: The number of pages the document has, if applicable
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      onlyShareEntireDocument:
+                        description: Whether or not we can only share the entire document
+                        type: boolean
+                      isPersonal:
+                        description: Whether or not the asset is a 'personal' asset - in your own division
+                        type: boolean
+                      isMarketing:
+                        description: Whether or not the asset is a 'marketing' asset - not a personal division
+                        type: boolean
+                      externalServiceId:
+                        description: External Service ID of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      currentChannelTemplateConfigId:
+                        description: Current channel template config ID corresponding to this asset
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      channelTemplateConfigId:
+                        description: Channel template config ID
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      slug:
+                        description: The slug of the asset (valid and unique UUIDv4)
+                        type: string
+                      hideLabel:
+                        description: Set to true if you want to hide the label for this asset
+                        type: boolean
+                      isEditable:
+                        description: Set true if the asset can be edited in the Showpad Edit App
+                        type: boolean
+                      sourceAsset:
+                        description: The original asset from which this asset was created from
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      sourceAssetName:
+                        description: The original asset name from which this asset was created from
+                        type: string
+                      sourceAssetLink:
+                        description: The link to the original asset
+                        type: string
+                      videoLength:
+                        description: Length of the video
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      duration:
+                        description: Duration of the media
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      wordCount:
+                        description: The number of words the asset contains, if applicable
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      allowRenderExternal:
+                        description: Indicates if a url asset should be opened in a new window, or rendered inside showpad (iframe)
+                        type: boolean
+                      downloadableInternal:
+                        description: Indicates type of content that can be downloaded by internal users
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      downloadableExternal:
+                        description: Indicates type of content that can be downloaded by external users
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      md5Checksum:
+                        description: The MD5 checksum of the contents of the original file
+                        type:
+                        - string
+                        - 'null'
+                      fileUuid:
+                        description: The Uuid of the current file
+                        type:
+                        - string
+                        - 'null'
+                      version:
+                        description: The version of asset as an integer
+                        type: integer
+                        format: int32
+                      parentAssetId:
+                        description: The ID of the parent asset if it exist
+                        type:
+                        - string
+                        - 'null'
+                      oAuth2ClientId:
+                        description: The OAuth2 client that can manage the asset via an external service
+                        type: string
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: archivedAt
+        description: The date that the file was sent to trash
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalId
+        description: External ID of the asset as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalServiceId
+        description: External Service ID of the asset as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: filetype
+        description: Type of file
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: 3d-model
+            type: string
+          - title: audio
+            type: string
+          - title: document
+            type: string
+          - title: personal-video-recording
+            type: string
+          - title: photo
+            type: string
+          - title: raw
+            type: string
+          - title: scorm
+            type: string
+          - title: video
+            type: string
+          - title: webapp
+            type: string
+          - title: url
+            type: string
+          - title: page
+            type: string
+      - name: hideLabel
+        description: Set to true if you want to hide the label for this asset
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isAnnotatable
+        description: Set to true if you want to allow tablet users to share to annotate this file
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isDivisionShared
+        description: Set to true if you want to share this file across divisions
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isDownloadable
+        description: Set to true if you want to allow recipients to be able to download this file
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isEditable
+        description: Set true if the asset can be edited in the Showpad Edit App
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isPersonal
+        description: Whether or not the asset is a 'personal' asset - in your own division
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isSensitive
+        description: Set to true if you do not want this file to be visible in Kiosk mode on the tablet
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: isShareable
+        description: Set to true if you want to allow users to share this file with other people
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: lockedPages
+        description: The pages that are locked together in this asset
+        required: false
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: name
+        description: Display name of the file
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: onlyShareEntireDocument
+        description: Whether or not we can only share the entire document
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: originalName
+        description: Original name of the file
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: slug
+        description: The slug of the asset (valid and unique UUIDv4)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: standardId
+        description: Standard ID with version (e.g. ph-135.v1)
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: url
+        description: Url to link to
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: useOptimized
+        description: Set to true if you want to use the optimized version of this file
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: version
+        description: The version of asset as an integer
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+    post:
+      deprecated: false
+      tags:
+      - tags
+      operationId: post_tags_id_assets
+      description: Add an asset to a tag with ID='id'
+      summary: /tags/{id}/assets.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date that the file was created
+                        type: string
+                        format: date-time
+                      uploadedAt:
+                        description: The date that the file was uploaded
+                        type: string
+                        format: date-time
+                      description:
+                        description: Custom description about the file
+                        type:
+                        - string
+                        - 'null'
+                      href:
+                        description: Location of the asset
+                        type: string
+                      division:
+                        description: The location of the divisions related to this asset
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                          id:
+                            type: string
+                      downloadLink:
+                        description: Link where the file can be downloaded.
+                        type:
+                        - string
+                        - 'null'
+                      shortLivedDownloadLink:
+                        description: Short-lived link where the file can be publicly downloaded.
+                        type:
+                        - string
+                        - 'null'
+                      shortLivedDownloadDuration:
+                        description: Amount of days the short-lived download link will be valid for.
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      externalId:
+                        description: External ID of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      fileSize:
+                        description: Size of the file in bytes
+                        type: integer
+                        format: int32
+                      filetype:
+                        description: Type of file
+                        type: string
+                      processedDownloadLink:
+                        description: Link where the processed file can be downloaded
+                        type: string
+                      isAnnotatable:
+                        description: Set to true if you want to allow tablet users to share to annotate this file
+                        type: boolean
+                      isSensitive:
+                        description: Set to true if you do not want this file to be visible in Kiosk mode on the tablet
+                        type: boolean
+                      isShareable:
+                        description: Set to true if you want to allow users to share this file with other people
+                        type: boolean
+                      isDownloadable:
+                        description: Set to true if you want to allow recipients to be able to download this file
+                        type: boolean
+                      isDivisionShared:
+                        description: Set to true if you want to share this file across divisions
+                        type: boolean
+                      useOptimized:
+                        description: Set to true if you want to use the optimized version of this file
+                        type: boolean
+                      name:
+                        description: Display name of the file
+                        type: string
+                      url:
+                        description: Url to link to
+                        type:
+                        - string
+                        - 'null'
+                      originalName:
+                        description: Original name of the file
+                        type: string
+                      previewDownloadLink:
+                        description: Link where the preview of the file can be downloaded.
+                        type: string
+                      thumbnailDownloadLink:
+                        description: Link where the thumbnail of the file can be downloaded.
+                        type: string
+                      tags:
+                        description: The location of the tags related to this asset
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            format: link
+                      assetView:
+                        description: The location of the asset view related to this asset
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          href:
+                            type: string
+                            format: link
+                      updatedAt:
+                        description: The date that the file was updated
+                        type: string
+                        format: date-time
+                      views:
+                        description: The number of views by tablet users on this file
+                        type: integer
+                        format: int32
+                      appLink:
+                        description: Link to asset inside application
+                        type: string
+                      liked:
+                        description: The asset was liked by the current user
+                        type: boolean
+                      likesCount:
+                        description: Count of people who have liked an asset
+                        type: integer
+                        format: int32
+                      standardId:
+                        description: Standard ID with version (e.g. ph-135.v1)
+                        type: string
+                      externalDate:
+                        description: An external date of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      archivedAt:
+                        description: The date that the file was sent to trash
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      expiresAt:
+                        description: The expiry date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      releasedAt:
+                        description: The release date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      draftedAt:
+                        description: The draft date of the asset
+                        type:
+                        - string
+                        - 'null'
+                        format: date
+                      extension:
+                        description: Extension of the file
+                        type: string
+                      lockedPages:
+                        description: The pages that are locked together in this asset
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      pageCount:
+                        description: The number of pages the document has, if applicable
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      onlyShareEntireDocument:
+                        description: Whether or not we can only share the entire document
+                        type: boolean
+                      isPersonal:
+                        description: Whether or not the asset is a 'personal' asset - in your own division
+                        type: boolean
+                      isMarketing:
+                        description: Whether or not the asset is a 'marketing' asset - not a personal division
+                        type: boolean
+                      externalServiceId:
+                        description: External Service ID of the asset as used in the source application
+                        type:
+                        - string
+                        - 'null'
+                      currentChannelTemplateConfigId:
+                        description: Current channel template config ID corresponding to this asset
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      channelTemplateConfigId:
+                        description: Channel template config ID
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      slug:
+                        description: The slug of the asset (valid and unique UUIDv4)
+                        type: string
+                      hideLabel:
+                        description: Set to true if you want to hide the label for this asset
+                        type: boolean
+                      isEditable:
+                        description: Set true if the asset can be edited in the Showpad Edit App
+                        type: boolean
+                      sourceAsset:
+                        description: The original asset from which this asset was created from
+                        type:
+                        - string
+                        - 'null'
+                        format: link
+                      sourceAssetName:
+                        description: The original asset name from which this asset was created from
+                        type: string
+                      sourceAssetLink:
+                        description: The link to the original asset
+                        type: string
+                      videoLength:
+                        description: Length of the video
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      duration:
+                        description: Duration of the media
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      wordCount:
+                        description: The number of words the asset contains, if applicable
+                        type:
+                        - integer
+                        - 'null'
+                        format: int32
+                      allowRenderExternal:
+                        description: Indicates if a url asset should be opened in a new window, or rendered inside showpad (iframe)
+                        type: boolean
+                      downloadableInternal:
+                        description: Indicates type of content that can be downloaded by internal users
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      downloadableExternal:
+                        description: Indicates type of content that can be downloaded by external users
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                      md5Checksum:
+                        description: The MD5 checksum of the contents of the original file
+                        type:
+                        - string
+                        - 'null'
+                      fileUuid:
+                        description: The Uuid of the current file
+                        type:
+                        - string
+                        - 'null'
+                      version:
+                        description: The version of asset as an integer
+                        type: integer
+                        format: int32
+                      parentAssetId:
+                        description: The ID of the parent asset if it exist
+                        type:
+                        - string
+                        - 'null'
+                      oAuth2ClientId:
+                        description: The OAuth2 client that can manage the asset via an external service
+                        type: string
+      security:
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                channelTemplateConfigId:
+                  type: string
+                description:
+                  type: string
+                expiresAt:
+                  type: string
+                  format: date
+                externalDate:
+                  type: string
+                  format: date
+                externalId:
+                  type: string
+                externalServiceId:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+                filetype:
+                  type: string
+                  anyOf:
+                  - title: 3d-model
+                    type: string
+                  - title: audio
+                    type: string
+                  - title: document
+                    type: string
+                  - title: personal-video-recording
+                    type: string
+                  - title: photo
+                    type: string
+                  - title: raw
+                    type: string
+                  - title: scorm
+                    type: string
+                  - title: video
+                    type: string
+                  - title: webapp
+                    type: string
+                  - title: url
+                    type: string
+                  - title: page
+                    type: string
+                hideLabel:
+                  type: boolean
+                icon:
+                  type: string
+                  format: binary
+                isAnnotatable:
+                  type: boolean
+                isDivisionShared:
+                  type: boolean
+                isDownloadable:
+                  type: boolean
+                isEditable:
+                  type: boolean
+                isPersonal:
+                  type: boolean
+                isSensitive:
+                  type: boolean
+                isShareable:
+                  type: boolean
+                liked:
+                  type: boolean
+                lockedPages:
+                  type: array
+                  items:
+                    type: string
+                name:
+                  type: string
+                oAuth2ClientId:
+                  type: string
+                onlyShareEntireDocument:
+                  type: boolean
+                postProcessingInstructions:
+                  type: string
+                releasedAt:
+                  type: string
+                  format: date
+                draftedAt:
+                  type: string
+                  format: date
+                slug:
+                  type: string
+                url:
+                  type: string
+                useOptimized:
+                  type: boolean
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id}/link.json:
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: link_tags_id_link
+      description: 'Link the Tag item with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+      summary: /tags/{id}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{id}/unlink.json:
+    post:
+      deprecated: true
+      tags:
+      - tags
+      operationId: unlink_tags_id_unlink
+      description: 'Link the Tag item with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+      summary: /tags/{id}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_contentprofile_management
+      parameters:
+      - name: id
+        description: ID of the Tag item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+    servers:
+    - url: https://{subdomain}.showpad.biz/api/v3/
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags:
+    get:
+      operationId: getTags
+      summary: List all Tags
+      description: This endpoint retrieves all existing tags that are available for the requester.
+      tags:
+      - tags
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: limit
+        in: query
+        description: Defines the maximum number of items to return in the response. Useful for paginating results when fetching items in batches.
+        example: limit=100
+        schema:
+          type: integer
+          format: int32
+          default: 50
+          minimum: 0
+          maximum: 1000
+      - name: offset
+        in: query
+        description: Specifies the number of items to skip before returning results. Use in combination with `limit` to implement pagination when retrieving large datasets.
+        required: false
+        example: offset=0
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          minimum: 0
+      - name: ids
+        in: query
+        description: One or multiple IDs to filter on.
+        explode: false
+        style: form
+        example: abc123,def456
+        schema:
+          type: array
+          items:
+            type: string
+      - name: divisionIds
+        in: query
+        description: Filters the results to include only assets that belong to one or more specific Divisions. This is useful for multi-Division organizations to retrieve content scoped to particular business units or regions.
+        explode: false
+        style: form
+        example: division-id-1,division-id-2
+        schema:
+          type: array
+          items:
+            type: string
+      - name: tagCategoryIds
+        in: query
+        description: One or multiple tag category IDs to filter on.
+        example: tagcat1,tagcat2
+        schema:
+          type: array
+          items:
+            type: string
+      - name: name
+        in: query
+        description: Searches by full or partial name. Use this for free-text search or to narrow down results by known naming conventions.
+        schema:
+          type: string
+          example: customer
+      - name: exactName
+        in: query
+        description: Searches by exact name.
+        schema:
+          type: string
+          example: customer
+      responses:
+        '200':
+          description: OK. Request was successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    description: Total number of results matching the request criteria.
+                    type: integer
+                    format: int32
+                    example: 20
+                  items:
+                    type: array
+                    description: List of Tag objects.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier of the tag.
+                          example: df391e1da6ed4db8a8085838f7abd130
+                        division:
+                          description: the ID of the Division to which this tag belongs. This cannot be updated once set.
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Unique identifier of the Division.
+                              example: f541710283954a89bdfd40f221882451
+                        name:
+                          type: string
+                          example: TagA
+                          description: Name of the tag.
+                        tagCategories:
+                          type: array
+                          description: List of tag categories this tag is linked to.
+                          items:
+                            type:
+                            - object
+                            - 'null'
+                            description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                              inherit hierarchy, otherwise `null` to make it root-level.
+
+                              '
+                            properties:
+                              id:
+                                type: string
+                                description: Unique identifier for the object.
+                                example: df391e1da6ed4db8a8085838f7abd130
+                        isDivisionShared:
+                          type: boolean
+                          description: "Whether or not the tag is a shared tag. \nCan only have the value `true` if `isAssetSharingEnabled` is set to `true` on the Division, and shared tags are enabled for the organization.\n"
+                          readOnly: true
+                        createdAt:
+                          type: string
+                          format: date-time
+                          description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                            '
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                            '
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    post:
+      operationId: postTags
+      summary: Create a tag
+      description: This endpoint creates a new tag.
+      tags:
+      - tags
+      security:
+      - BearerAuth: []
+      requestBody:
+        description: 'The request payload for creating a tag.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - division
+              properties:
+                name:
+                  type: string
+                  description: 'The name of a tag needs to be a non-empty string, up to 255 characters long. Both leading and trailing whitespace will be trimmed. Line break, carriage return and tab characters are not allowed.
+
+                    '
+                  minLength: 1
+                  maxLength: 255
+                  example: my-tag
+                division:
+                  type: object
+                  allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  description: The ID of the Division this object will belong to. This cannot be updated once set.
+                origin:
+                  type: object
+                  description: 'By specifying an `origin`, a client controls whether the tag will be local or external. To create an external tag, specify an `origin` object with `type` set to `oauth2client`. To create a local tag, either omit `origin` entirely or specify an `origin` object with `type` set to `local` and `id` set to `showpad`. Any other values are illegal and will result in a response with a `400` status code.
+
+                    '
+                  properties:
+                    id:
+                      type: string
+                      enum:
+                      - showpad
+                      description: 'When creating a local tag, i.e. `type` is `local`, `id` must be `showpad`.
+
+                        '
+                    type:
+                      type: string
+                      enum:
+                      - local
+                      - oauth2client
+                      description: 'Use `local` to make the tag local. Use `oauth2client` to make the tag external, and associate it to the OAuth2 client part of the identity making the request.
+
+                        '
+                  required:
+                  - type
+                  example: "{\n  \"type\": \"oauth2client\"\n}\n"
+                externalServiceId:
+                  type:
+                  - string
+                  - 'null'
+                  example: Cs131Da51fage1d1488f29e74756ee60
+      responses:
+        '201':
+          description: Returns the created tag object.
+          x-summary: Created. The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the tag.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  division:
+                    description: the ID of the Division to which this tag belongs. This cannot be updated once set.
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  name:
+                    type: string
+                    example: TagA
+                    description: Name of the tag.
+                  tagCategories:
+                    type: array
+                    description: List of tag categories this tag is linked to.
+                    items:
+                      type:
+                      - object
+                      - 'null'
+                      description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                        inherit hierarchy, otherwise `null` to make it root-level.
+
+                        '
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the object.
+                          example: df391e1da6ed4db8a8085838f7abd130
+                  isDivisionShared:
+                    type: boolean
+                    description: "Whether or not the tag is a shared tag. \nCan only have the value `true` if `isAssetSharingEnabled` is set to `true` on the Division, and shared tags are enabled for the organization.\n"
+                    readOnly: true
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Tag already exists.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    servers:
+    - url: https://{subdomain}.api.showpad.com/v4
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+  /tags/{tagId}:
+    parameters:
+    - name: tagId
+      in: path
+      required: true
+      description: The tag ID.
+      schema:
+        type: string
+        example: ab4756bbdeytifj334tppqef
+    get:
+      operationId: getTag
+      summary: Retrieve a Tag
+      description: This endpoint retrieves a single tag.
+      tags:
+      - tags
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the requested tag object.
+          x-summary: OK. Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the tag.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  division:
+                    description: the ID of the Division to which this tag belongs. This cannot be updated once set.
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  name:
+                    type: string
+                    example: TagA
+                    description: Name of the tag.
+                  tagCategories:
+                    type: array
+                    description: List of tag categories this tag is linked to.
+                    items:
+                      type:
+                      - object
+                      - 'null'
+                      description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                        inherit hierarchy, otherwise `null` to make it root-level.
+
+                        '
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the object.
+                          example: df391e1da6ed4db8a8085838f7abd130
+                  isDivisionShared:
+                    type: boolean
+                    description: "Whether or not the tag is a shared tag. \nCan only have the value `true` if `isAssetSharingEnabled` is set to `true` on the Division, and shared tags are enabled for the organization.\n"
+                    readOnly: true
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    post:
+      operationId: updateTag
+      summary: Update a Tag
+      description: This endpoint updates a tag.
+      tags:
+      - tags
+      security:
+      - BearerAuth: []
+      requestBody:
+        description: 'The request payload for updating a tag.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: 'The name of a tag needs to be a non-empty string, up to 255 characters long. Both leading and trailing whitespace will be trimmed. Line break, carriage return and tab characters are not allowed.
+
+                    '
+                  minLength: 1
+                  maxLength: 255
+                  example: my-tag
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated tag.
+          x-summary: OK. Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the tag.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  division:
+                    description: the ID of the Division to which this tag belongs. This cannot be updated once set.
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  name:
+                    type: string
+                    example: TagA
+                    description: Name of the tag.
+                  tagCategories:
+                    type: array
+                    description: List of tag categories this tag is linked to.
+                    items:
+                      type:
+                      - object
+                      - 'null'
+                      description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                        inherit hierarchy, otherwise `null` to make it root-level.
+
+                        '
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the object.
+                          example: df391e1da6ed4db8a8085838f7abd130
+                  isDivisionShared:
+                    type: boolean
+                    description: "Whether or not the tag is a shared tag. \nCan only have the value `true` if `isAssetSharingEnabled` is set to `true` on the Division, and shared tags are enabled for the organization.\n"
+                    readOnly: true
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Tag is already exist.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    delete:
+      operationId: deleteTag
+      summary: Delete a Tag
+      description: This endpoint deletes a tag.
+      tags:
+      - tags
+      security:
+      - BearerAuth: []
+      responses:
+        '204':
+          description: The tag was removed successfully.
+          x-summary: No Content. Accepted the changes.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Tag is used in a filter.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    servers:
+    - url: https://{subdomain}.api.showpad.com/v4
+      description: Production server
+      x-environment: production
+      variables:
+        subdomain:
+          default: customer
+          description: Showpad customer subdomain
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '
+x-refined-from:
+- showpad-v3-openapi-original.yml
+- showpad-v4-openapi-original.yml

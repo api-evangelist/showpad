@@ -1,0 +1,1821 @@
+openapi: 3.2.0
+info:
+  title: Showpad Tag Categories API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: tag-categories
+  x-displayName: Tag Categories
+  description: These are endpoints for managing Tag Categories.
+paths:
+  /tag-categories:
+    get:
+      operationId: getTagCategories
+      summary: List all Tag Category
+      description: This endpoint retrieves all existing Tag Categories available for the requester.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: limit
+        in: query
+        description: Defines the maximum number of items to return in the response. Useful for paginating results when fetching items in batches.
+        example: limit=100
+        schema:
+          type: integer
+          format: int32
+          default: 50
+          minimum: 0
+          maximum: 1000
+      - name: offset
+        in: query
+        description: Specifies the number of items to skip before returning results. Use in combination with `limit` to implement pagination when retrieving large datasets.
+        required: false
+        example: offset=0
+        schema:
+          type: integer
+          format: int32
+          default: 0
+          minimum: 0
+      - name: divisionIds
+        in: query
+        description: Filters the results to include only assets that belong to one or more specific Divisions. This is useful for multi-Division organizations to retrieve content scoped to particular business units or regions.
+        explode: false
+        style: form
+        example: division-id-1,division-id-2
+        schema:
+          type: array
+          items:
+            type: string
+      - name: ids
+        in: query
+        description: One or multiple IDs to filter on.
+        explode: false
+        style: form
+        example: abc123,def456
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK. Request was successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    description: Total number of results matching the request criteria.
+                    type: integer
+                    format: int32
+                    example: 20
+                  items:
+                    type: array
+                    description: List of Tag Categories.
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier for the object.
+                          example: df391e1da6ed4db8a8085838f7abd130
+                        name:
+                          type: string
+                          description: Name of Tag Category.
+                          example: my-tag-category
+                        division:
+                          type: object
+                          description: The ID of the Division this object will belong to. This cannot be updated once set.
+                          properties:
+                            id:
+                              type: string
+                              description: Unique identifier of the Division.
+                              example: f541710283954a89bdfd40f221882451
+                        isPublished:
+                          type: boolean
+                          description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                            '
+                        parent:
+                          type:
+                          - object
+                          - 'null'
+                          description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                            inherit hierarchy, otherwise `null` to make it root-level.
+
+                            '
+                          properties:
+                            id:
+                              type: string
+                              description: Unique identifier for the object.
+                              example: df391e1da6ed4db8a8085838f7abd130
+                        createdAt:
+                          type: string
+                          format: date-time
+                          description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                            '
+                        updatedAt:
+                          type: string
+                          format: date-time
+                          description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                            '
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    post:
+      operationId: postTagCategories
+      summary: Create a Tag Category
+      description: This endpoint creates a new Tag Category resource.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      requestBody:
+        description: 'Creating a tag category.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - division
+              properties:
+                name:
+                  type: string
+                  example: my-tag-name
+                  description: Name of Tag Category
+                division:
+                  type: object
+                  allOf:
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  description: The ID of the Division this object will belong to. This cannot be updated once set.
+                isPublished:
+                  type: boolean
+                  default: true
+                  description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                    '
+                parent:
+                  type:
+                  - object
+                  - 'null'
+                  description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                    inherit hierarchy, otherwise `null` to make it root-level.
+
+                    '
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the object.
+                      example: df391e1da6ed4db8a8085838f7abd130
+                tags:
+                  type: array
+                  description: List of all tags to be linked to this tag category.
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the tag.
+                        example: df391e1da6ed4db8a8085838f7abd130
+      responses:
+        '201':
+          description: Returns the created Tag Category object.
+          x-summary: Created. The resource was successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the object.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  name:
+                    type: string
+                    description: Name of Tag Category.
+                    example: my-tag-category
+                  division:
+                    type: object
+                    description: The ID of the Division this object will belong to. This cannot be updated once set.
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  isPublished:
+                    type: boolean
+                    description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                      '
+                  parent:
+                    type:
+                    - object
+                    - 'null'
+                    description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                      inherit hierarchy, otherwise `null` to make it root-level.
+
+                      '
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the object.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '400':
+          description: Bad Request. Invalid or missing payload.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Resource already exists.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+  /tag-categories/{tagCategoryId}:
+    parameters:
+    - name: tagCategoryId
+      in: path
+      required: true
+      description: The tag category ID.
+      schema:
+        type: string
+        example: ab4756bbdeytifj334tppqef
+    get:
+      operationId: getTagCategory
+      summary: Retrieve a Tag Category
+      description: This endpoint retrieves a single Tag Category resource.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the Tag Category details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the object.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  name:
+                    type: string
+                    description: Name of Tag Category.
+                    example: my-tag-category
+                  division:
+                    type: object
+                    description: The ID of the Division this object will belong to. This cannot be updated once set.
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  isPublished:
+                    type: boolean
+                    description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                      '
+                  parent:
+                    type:
+                    - object
+                    - 'null'
+                    description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                      inherit hierarchy, otherwise `null` to make it root-level.
+
+                      '
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the object.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    post:
+      operationId: updateTagCategory
+      summary: Update a Tag Category
+      description: This endpoint updates an existing Tag Category's details.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      requestBody:
+        description: 'The request payload for updating a tag category.
+
+          '
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: my-category-tag-name
+                parent:
+                  type:
+                  - object
+                  - 'null'
+                  description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                    inherit hierarchy, otherwise `null` to make it root-level.
+
+                    '
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the object.
+                      example: df391e1da6ed4db8a8085838f7abd130
+                isPublished:
+                  type: boolean
+                  description: 'true when a tagcategory should be published and available for all users. false otherwise
+
+                    '
+                tags:
+                  type: array
+                  description: 'List of all tags to be linked to this tag category. Will replace all tags linked to it.
+
+                    * Use empty array for removing all linked tags
+
+                    * Send `null` or don''t include this property to leave the linked tags untouched
+
+                    '
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the tag.
+                        example: df391e1da6ed4db8a8085838f7abd130
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated Tag Category object.
+          x-summary: OK. Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the object.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  name:
+                    type: string
+                    description: Name of Tag Category.
+                    example: my-tag-category
+                  division:
+                    type: object
+                    description: The ID of the Division this object will belong to. This cannot be updated once set.
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  isPublished:
+                    type: boolean
+                    description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                      '
+                  parent:
+                    type:
+                    - object
+                    - 'null'
+                    description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                      inherit hierarchy, otherwise `null` to make it root-level.
+
+                      '
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the object.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '400':
+          description: Bad Request. Invalid or missing payload.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Resource already exists.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+    delete:
+      operationId: deleteTagCategory
+      summary: Delete a Tag Category
+      description: This endpoint deletes a Tag Category resource.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      responses:
+        '204':
+          description: The Tag Category was removed successfully.
+          x-summary: No Content. Accepted the changes.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+  /tag-categories/{tagCategoryId}/tags:
+    parameters:
+    - name: tagCategoryId
+      in: path
+      required: true
+      description: The tag category ID.
+      schema:
+        type: string
+        example: ab4756bbdeytifj334tppqef
+    post:
+      operationId: updateTagCategoryTags
+      summary: Update tags of a Tag Category
+      description: This endpoint updates an existing Tag Category's Tags.
+      tags:
+      - tag-categories
+      security:
+      - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                add:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the tag.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                remove:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the tag.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                clear:
+                  type: boolean
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated Tag Category object.
+          x-summary: OK. Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the object.
+                    example: df391e1da6ed4db8a8085838f7abd130
+                  name:
+                    type: string
+                    description: Name of Tag Category.
+                    example: my-tag-category
+                  division:
+                    type: object
+                    description: The ID of the Division this object will belong to. This cannot be updated once set.
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier of the Division.
+                        example: f541710283954a89bdfd40f221882451
+                  isPublished:
+                    type: boolean
+                    description: 'Has the value `true` when a Tag Category should be published and available for all users. Otherwise, `false`.
+
+                      '
+                  parent:
+                    type:
+                    - object
+                    - 'null'
+                    description: 'ID of parent Tag Category. This can be used to nest multiple Tag Category levels. Set ID to
+
+                      inherit hierarchy, otherwise `null` to make it root-level.
+
+                      '
+                    properties:
+                      id:
+                        type: string
+                        description: Unique identifier for the object.
+                        example: df391e1da6ed4db8a8085838f7abd130
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was created, in `ISO 8601` UTC format.
+
+                      '
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 'Timestamp when the resource was last updated, in `ISO 8601` UTC format.
+
+                      '
+        '400':
+          description: Bad Request. Invalid or missing payload.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '404':
+          description: Not Found. Returned when the requested asset does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+        '409':
+          description: Conflict. Resource already exists.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                properties:
+                  title:
+                    type: string
+                    description: 'A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+
+                      '
+                    example: Invalid Payload
+                  detail:
+                    type: string
+                    description: 'A human-readable explanation of the specific reason for the failure.
+
+                      '
+                    example: Property value provided is not valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: 'The HTTP status code returned by the server.
+
+                      '
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type:
+                    - array
+                    - 'null'
+                    description: Additional metadata entries providing field-level context about the error. Null if not applicable.
+                    items:
+                      type: object
+                      description: Additional metadata entries providing field-level context about the error.
+                      required:
+                      - name
+                      - reason
+                      - category
+                      properties:
+                        name:
+                          type: string
+                          example: color
+                          description: The name of the field or parameter associated with the error, if applicable.
+                        reason:
+                          type: string
+                          example: Value must be 'green', 'red' or 'blue'.
+                          description: A descriptive message explaining what is wrong with the field or parameter.
+                        category:
+                          type: string
+                          example: propertyRequired
+                          description: Classification of the error, useful for programmatic handling.
+                  type:
+                    type:
+                    - string
+                    - 'null'
+                    description: URI reference to a resource that defines the error type, if available. Null if not applicable.
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '

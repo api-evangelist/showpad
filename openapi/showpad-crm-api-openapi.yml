@@ -1,0 +1,1335 @@
+openapi: 3.2.0
+info:
+  title: Showpad CRM API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: crm
+  x-displayName: CRM
+  description: These are endpoints for managing crm recommendation rules and fetching shares and shared spaces cmr records
+paths:
+  /crm/recommendations/rules:
+    get:
+      operationId: recommendation-rules-list
+      summary: List of recommendation rules
+      description: 'Use this endpoint to retrieve the list of recommendation rules configured for a CRM instance. These rules define how content is suggested to users based on CRM data and tags. You can filter rules by CRM instance or tags and paginate results for large datasets.
+
+
+        This is useful when you need to:
+
+        - Retrieve all rules that apply to a specific CRM instance
+
+        - Search for rules across multiple CRM instances using tag filters
+
+        - Inspect rule conditions, operators, and associated tags to understand why recommendations are being made
+
+        - Manage pagination when working with a large number of rules.'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: query
+        name: crmInstanceId
+        required: false
+        schema:
+          type: string
+        description: The CRM instance ID associated with the rule.
+      - in: query
+        name: tagIds
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+        description: List of tag PIDs to filter rules by. This searches across all configured rules, across all instances, considering both `all` and `any` conditions.
+        example: tag_pid_1,tag_pid_2,tag_pid_3
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        description: 'The maximum number of rules returned in a single page. Default: 1000, Maximum: 1000.'
+        example: 1000
+      - in: query
+        name: cursor
+        required: false
+        schema:
+          type: string
+        description: Used together with limit for pagination. Pass the cursor value from a previous response to get the next set of results.
+        example: An4Fcs
+      responses:
+        '200':
+          description: Returns a JSON array with recommendation rules for either a specific CRM instance or a list of tags.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - items
+                properties:
+                  count:
+                    type: integer
+                    example: 1
+                    description: The total number of rules found.
+                  cursor:
+                    type: string
+                    description: Pagination cursor for fetching additional results. If `null`, there are no more results.
+                  items:
+                    type: array
+                    description: List of recommendation rules.
+                    items:
+                      title: RecommendationRule
+                      type: object
+                      required:
+                      - id
+                      - crmInstanceId
+                      - conditions
+                      - tags
+                      - createdAt
+                      - updatedAt
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier (PID) of the rule.
+                        crmInstanceId:
+                          type: string
+                          description: The CRM instance ID associated with the rule.
+                        conditions:
+                          type: array
+                          description: The list of rule conditions defining when the recommendation applies.
+                          items:
+                            title: RecommendationRuleCondition
+                            type: object
+                            description: The list of rule conditions defining when the recommendation applies.
+                            required:
+                            - items
+                            properties:
+                              items:
+                                type: array
+                                description: The assets that are recommended when the rule matches.
+                                items:
+                                  title: RecommendationRuleItem
+                                  type: object
+                                  required:
+                                  - objectName
+                                  - fieldName
+                                  - operator
+                                  - value
+                                  properties:
+                                    objectName:
+                                      type: string
+                                      description: The CRM object name used in the rule.
+                                    fieldName:
+                                      type: string
+                                      description: The CRM field evaluated in the rule condition.
+                                    childObjectName:
+                                      type: string
+                                      description: If applicable, the child object name for a related CRM record.
+                                    operator:
+                                      type: string
+                                      description: The operator used to evaluate the rule condition.
+                                      enum:
+                                      - equals
+                                      - equalsnot
+                                      - contains
+                                      - containsnot
+                                      - startswith
+                                      - startswithnot
+                                      - endswith
+                                      - endswithnot
+                                    value:
+                                      type: string
+                                      description: The value compared against the CRM field using the defined operator.
+                        tags:
+                          title: ContentTags
+                          type: object
+                          description: The tag configuration that defines which assets the rule affects.
+                          required:
+                          - all
+                          - any
+                          - none
+                          properties:
+                            all:
+                              type: array
+                              description: Tag PIDs — the asset must have **all** these tags to match.
+                              items:
+                                type: string
+                            any:
+                              type: array
+                              description: Tag PIDs — the asset must have **any** of these tags to match.
+                              items:
+                                type: string
+                            none:
+                              type: array
+                              description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                              items:
+                                type: string
+                        createdAt:
+                          type: string
+                          description: Timestamp when the rule was created, in `ISO-8601` UTC format.
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          description: Timestamp when the rule was last updated, in `ISO 8601` UTC format.
+                          format: date-time
+              examples:
+                example-1:
+                  value:
+                    count: 1
+                    items:
+                    - id: 1a9538350e983a7e12c59e52573f3c591469d27d651b4800279848a1531b2edc
+                      crmInstanceId: 399286287f83da55ce90f90549139aad
+                      conditions:
+                      - items:
+                        - objectName: lead
+                          fieldName: LeadSource
+                          operator: equals
+                          value: Web
+                      tags:
+                        all:
+                        - ba16a6afc2d4247862c9986aa09772fd
+                        - 951aca1a3576e1d1488f29e74756ee60
+                        any: []
+                        none: []
+                      createdAt: '2023-09-04T07:35:39.000Z'
+                      updatedAt: '2023-09-04T07:35:39.000Z'
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+    post:
+      operationId: create-recommendation-rule
+      summary: Create a recommendation rule
+      description: 'Use this endpoint to create a new recommendation rule within a CRM instance. Recommendation rules define how content is suggested to users based on CRM data and tag configurations.
+
+
+        Use this endpoint when you need to:
+
+        - Add a new rule that links CRM fields to asset tags
+
+        - Automate content recommendations based on CRM conditions or values
+
+        - Manage dynamic associations between CRM data and assets
+
+
+        Each rule includes conditions, operators, and tag logic (ALL, ANY, NONE) to determine which assets should be recommended.'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateOrUpdateRecommendationRulePayload
+              type: object
+              required:
+              - crmInstanceId
+              - conditions
+              - tags
+              properties:
+                crmInstanceId:
+                  type: string
+                  description: The unique identifier (PID) of the CRM instance where the recommendation rule will be created.
+                conditions:
+                  type: array
+                  description: A list of conditions that define when the rule applies. Each condition specifies a CRM field, operator, and comparison value.
+                  items:
+                    title: RecommendationRuleCondition
+                    type: object
+                    description: The list of rule conditions defining when the recommendation applies.
+                    required:
+                    - items
+                    properties:
+                      items:
+                        type: array
+                        description: The assets that are recommended when the rule matches.
+                        items:
+                          title: RecommendationRuleItem
+                          type: object
+                          required:
+                          - objectName
+                          - fieldName
+                          - operator
+                          - value
+                          properties:
+                            objectName:
+                              type: string
+                              description: The CRM object name used in the rule.
+                            fieldName:
+                              type: string
+                              description: The CRM field evaluated in the rule condition.
+                            childObjectName:
+                              type: string
+                              description: If applicable, the child object name for a related CRM record.
+                            operator:
+                              type: string
+                              description: The operator used to evaluate the rule condition.
+                              enum:
+                              - equals
+                              - equalsnot
+                              - contains
+                              - containsnot
+                              - startswith
+                              - startswithnot
+                              - endswith
+                              - endswithnot
+                            value:
+                              type: string
+                              description: The value compared against the CRM field using the defined operator.
+                tags:
+                  title: ContentTags
+                  type: object
+                  description: The tag configuration that defines which assets the rule affects.
+                  required:
+                  - all
+                  - any
+                  - none
+                  properties:
+                    all:
+                      type: array
+                      description: Tag PIDs — the asset must have **all** these tags to match.
+                      items:
+                        type: string
+                    any:
+                      type: array
+                      description: Tag PIDs — the asset must have **any** of these tags to match.
+                      items:
+                        type: string
+                    none:
+                      type: array
+                      description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                      items:
+                        type: string
+      responses:
+        '201':
+          description: Created. The recommendation rule was successfully created.
+          content:
+            application/json:
+              schema:
+                title: RecommendationRule
+                type: object
+                required:
+                - id
+                - crmInstanceId
+                - conditions
+                - tags
+                - createdAt
+                - updatedAt
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier (PID) of the rule.
+                  crmInstanceId:
+                    type: string
+                    description: The CRM instance ID associated with the rule.
+                  conditions:
+                    type: array
+                    description: The list of rule conditions defining when the recommendation applies.
+                    items:
+                      title: RecommendationRuleCondition
+                      type: object
+                      description: The list of rule conditions defining when the recommendation applies.
+                      required:
+                      - items
+                      properties:
+                        items:
+                          type: array
+                          description: The assets that are recommended when the rule matches.
+                          items:
+                            title: RecommendationRuleItem
+                            type: object
+                            required:
+                            - objectName
+                            - fieldName
+                            - operator
+                            - value
+                            properties:
+                              objectName:
+                                type: string
+                                description: The CRM object name used in the rule.
+                              fieldName:
+                                type: string
+                                description: The CRM field evaluated in the rule condition.
+                              childObjectName:
+                                type: string
+                                description: If applicable, the child object name for a related CRM record.
+                              operator:
+                                type: string
+                                description: The operator used to evaluate the rule condition.
+                                enum:
+                                - equals
+                                - equalsnot
+                                - contains
+                                - containsnot
+                                - startswith
+                                - startswithnot
+                                - endswith
+                                - endswithnot
+                              value:
+                                type: string
+                                description: The value compared against the CRM field using the defined operator.
+                  tags:
+                    title: ContentTags
+                    type: object
+                    description: The tag configuration that defines which assets the rule affects.
+                    required:
+                    - all
+                    - any
+                    - none
+                    properties:
+                      all:
+                        type: array
+                        description: Tag PIDs — the asset must have **all** these tags to match.
+                        items:
+                          type: string
+                      any:
+                        type: array
+                        description: Tag PIDs — the asset must have **any** of these tags to match.
+                        items:
+                          type: string
+                      none:
+                        type: array
+                        description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                        items:
+                          type: string
+                  createdAt:
+                    type: string
+                    description: Timestamp when the rule was created, in `ISO-8601` UTC format.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp when the rule was last updated, in `ISO 8601` UTC format.
+                    format: date-time
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+  /crm/recommendations/rules/{ruleId}:
+    get:
+      operationId: get-recommendation-rule
+      summary: Get a single recommendation rule
+      description: 'Use this endpoint to retrieve the details of a specific recommendation rule by its unique ID.
+
+        Each rule defines how assets are recommended within a CRM instance based on conditions, operators, and associated tags.
+
+
+        This is useful when you need to:
+
+        - View the configuration of a specific recommendation rule
+
+        - Inspect conditions and tag criteria that determine which assets are recommended
+
+        - Debug or validate rule behavior in a CRM integration
+
+        - Retrieve rule metadata such as creation and update timestamps for auditing or version tracking'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        description: The Rule PID to retrieve.
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the requested recommendation rule.
+          content:
+            application/json:
+              schema:
+                title: RecommendationRule
+                type: object
+                required:
+                - id
+                - crmInstanceId
+                - conditions
+                - tags
+                - createdAt
+                - updatedAt
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier (PID) of the rule.
+                  crmInstanceId:
+                    type: string
+                    description: The CRM instance ID associated with the rule.
+                  conditions:
+                    type: array
+                    description: The list of rule conditions defining when the recommendation applies.
+                    items:
+                      title: RecommendationRuleCondition
+                      type: object
+                      description: The list of rule conditions defining when the recommendation applies.
+                      required:
+                      - items
+                      properties:
+                        items:
+                          type: array
+                          description: The assets that are recommended when the rule matches.
+                          items:
+                            title: RecommendationRuleItem
+                            type: object
+                            required:
+                            - objectName
+                            - fieldName
+                            - operator
+                            - value
+                            properties:
+                              objectName:
+                                type: string
+                                description: The CRM object name used in the rule.
+                              fieldName:
+                                type: string
+                                description: The CRM field evaluated in the rule condition.
+                              childObjectName:
+                                type: string
+                                description: If applicable, the child object name for a related CRM record.
+                              operator:
+                                type: string
+                                description: The operator used to evaluate the rule condition.
+                                enum:
+                                - equals
+                                - equalsnot
+                                - contains
+                                - containsnot
+                                - startswith
+                                - startswithnot
+                                - endswith
+                                - endswithnot
+                              value:
+                                type: string
+                                description: The value compared against the CRM field using the defined operator.
+                  tags:
+                    title: ContentTags
+                    type: object
+                    description: The tag configuration that defines which assets the rule affects.
+                    required:
+                    - all
+                    - any
+                    - none
+                    properties:
+                      all:
+                        type: array
+                        description: Tag PIDs — the asset must have **all** these tags to match.
+                        items:
+                          type: string
+                      any:
+                        type: array
+                        description: Tag PIDs — the asset must have **any** of these tags to match.
+                        items:
+                          type: string
+                      none:
+                        type: array
+                        description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                        items:
+                          type: string
+                  createdAt:
+                    type: string
+                    description: Timestamp when the rule was created, in `ISO-8601` UTC format.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp when the rule was last updated, in `ISO 8601` UTC format.
+                    format: date-time
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '404':
+          description: Not Found. Returned when the requested rule does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+    delete:
+      operationId: recommendation-rules-delete
+      summary: Deletes a recommendation rule
+      description: 'Use this endpoint to delete a specific recommendation rule by its unique Rule PID.
+
+        Deleting a rule removes it permanently from the system and it can no longer be used for asset recommendations.
+
+
+        This is useful when you need to:
+
+        - Remove outdated or invalid recommendation rules
+
+        - Clean up rules that are no longer relevant
+
+        - Ensure rules do not interfere with current CRM configurations
+
+        - Maintain a tidy and accurate recommendation ruleset'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        description: The Rule PID to delete.
+      responses:
+        '204':
+          description: The recommendation rule was successfully deleted and no longer exists in the system. No response body is returned.
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '404':
+          description: Not Found. Returned when the requested rule does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+    put:
+      operationId: update-recommendation-rule
+      summary: Updates a recommendation rule
+      description: 'Use this endpoint to update an existing recommendation rule by its unique ID. Updating a rule allows you to change its conditions, operators, tag logic, or recommended items so that content suggestions remain accurate and aligned with evolving CRM workflows.
+
+
+        This is useful when you need to:
+
+        - Modify rule conditions based on updated CRM fields or business logic
+
+        - Adjust tag requirements to refine which assets are recommended
+
+        - Update recommended items as content changes over time
+
+        - Maintain, tune, or troubleshoot CRM-driven content recommendations'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - in: path
+        name: ruleId
+        required: true
+        schema:
+          type: string
+        description: The Rule PID to update.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: CreateOrUpdateRecommendationRulePayload
+              type: object
+              required:
+              - crmInstanceId
+              - conditions
+              - tags
+              properties:
+                crmInstanceId:
+                  type: string
+                  description: The unique identifier (PID) of the CRM instance where the recommendation rule will be created.
+                conditions:
+                  type: array
+                  description: A list of conditions that define when the rule applies. Each condition specifies a CRM field, operator, and comparison value.
+                  items:
+                    title: RecommendationRuleCondition
+                    type: object
+                    description: The list of rule conditions defining when the recommendation applies.
+                    required:
+                    - items
+                    properties:
+                      items:
+                        type: array
+                        description: The assets that are recommended when the rule matches.
+                        items:
+                          title: RecommendationRuleItem
+                          type: object
+                          required:
+                          - objectName
+                          - fieldName
+                          - operator
+                          - value
+                          properties:
+                            objectName:
+                              type: string
+                              description: The CRM object name used in the rule.
+                            fieldName:
+                              type: string
+                              description: The CRM field evaluated in the rule condition.
+                            childObjectName:
+                              type: string
+                              description: If applicable, the child object name for a related CRM record.
+                            operator:
+                              type: string
+                              description: The operator used to evaluate the rule condition.
+                              enum:
+                              - equals
+                              - equalsnot
+                              - contains
+                              - containsnot
+                              - startswith
+                              - startswithnot
+                              - endswith
+                              - endswithnot
+                            value:
+                              type: string
+                              description: The value compared against the CRM field using the defined operator.
+                tags:
+                  title: ContentTags
+                  type: object
+                  description: The tag configuration that defines which assets the rule affects.
+                  required:
+                  - all
+                  - any
+                  - none
+                  properties:
+                    all:
+                      type: array
+                      description: Tag PIDs — the asset must have **all** these tags to match.
+                      items:
+                        type: string
+                    any:
+                      type: array
+                      description: Tag PIDs — the asset must have **any** of these tags to match.
+                      items:
+                        type: string
+                    none:
+                      type: array
+                      description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                      items:
+                        type: string
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated recommendation rule.
+          content:
+            application/json:
+              schema:
+                title: RecommendationRule
+                type: object
+                required:
+                - id
+                - crmInstanceId
+                - conditions
+                - tags
+                - createdAt
+                - updatedAt
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier (PID) of the rule.
+                  crmInstanceId:
+                    type: string
+                    description: The CRM instance ID associated with the rule.
+                  conditions:
+                    type: array
+                    description: The list of rule conditions defining when the recommendation applies.
+                    items:
+                      title: RecommendationRuleCondition
+                      type: object
+                      description: The list of rule conditions defining when the recommendation applies.
+                      required:
+                      - items
+                      properties:
+                        items:
+                          type: array
+                          description: The assets that are recommended when the rule matches.
+                          items:
+                            title: RecommendationRuleItem
+                            type: object
+                            required:
+                            - objectName
+                            - fieldName
+                            - operator
+                            - value
+                            properties:
+                              objectName:
+                                type: string
+                                description: The CRM object name used in the rule.
+                              fieldName:
+                                type: string
+                                description: The CRM field evaluated in the rule condition.
+                              childObjectName:
+                                type: string
+                                description: If applicable, the child object name for a related CRM record.
+                              operator:
+                                type: string
+                                description: The operator used to evaluate the rule condition.
+                                enum:
+                                - equals
+                                - equalsnot
+                                - contains
+                                - containsnot
+                                - startswith
+                                - startswithnot
+                                - endswith
+                                - endswithnot
+                              value:
+                                type: string
+                                description: The value compared against the CRM field using the defined operator.
+                  tags:
+                    title: ContentTags
+                    type: object
+                    description: The tag configuration that defines which assets the rule affects.
+                    required:
+                    - all
+                    - any
+                    - none
+                    properties:
+                      all:
+                        type: array
+                        description: Tag PIDs — the asset must have **all** these tags to match.
+                        items:
+                          type: string
+                      any:
+                        type: array
+                        description: Tag PIDs — the asset must have **any** of these tags to match.
+                        items:
+                          type: string
+                      none:
+                        type: array
+                        description: Tag PIDs — the asset must have **none** of these tags to match. Used only in combination with `all` or `any`.
+                        items:
+                          type: string
+                  createdAt:
+                    type: string
+                    description: Timestamp when the rule was created, in `ISO-8601` UTC format.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp when the rule was last updated, in `ISO 8601` UTC format.
+                    format: date-time
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '404':
+          description: Not Found. Returned when the requested rule does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+  /crm/shared-space-records/{sharedSpaceId}:
+    get:
+      operationId: shared-space-records-list
+      summary: Crm records related to specific shared space
+      description: 'Retrieve CRM records related to a specific Shared Space by its unique Shared Space ID.
+
+        This endpoint returns the history of all activities and CRM records associated with the given Shared Space.
+
+
+        This is useful when you need to:
+
+        - View all CRM records tied to a Shared Space
+
+        - Track the history of interactions and activities within a Shared Space
+
+        - Access associated account information if present
+
+        - Monitor and audit Shared Space usage in your CRM system'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        name: sharedSpaceId
+        in: path
+        required: true
+        description: ID of a Shared Space
+      responses:
+        '200':
+          description: OK. The request was successful. Returns a paginated list of CRM records associated with the Shared Space.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - items
+                properties:
+                  count:
+                    type: number
+                    description: The total number of CRM records retrieved.
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - type
+                      - name
+                      properties:
+                        id:
+                          type: string
+                          description: The unique ID of the CRM record.
+                        type:
+                          type: string
+                          description: The type of CRM record, typically represented as the API name.
+                        name:
+                          type: string
+                          description: The name of the CRM record.
+                        url:
+                          type: string
+                          description: The URL linking to the CRM record, if present.
+                        accountId:
+                          type: string
+                          description: The account ID associated with the CRM record, if present.
+              examples:
+                Example 1:
+                  value:
+                    count: 2
+                    items:
+                    - type: opportunity
+                      id: 0064x00000LITLNAA5
+                      name: Edna Frank
+                      url: https://company.my.salesforce.com/0064x00000LITLNAA5
+                      accountId: 0014x00000BQkwdAAD
+                    - id: 0014x00000BQkwdAAD
+                      type: account
+                      name: GenePoint
+                      url: https://company.my.salesforce.com/0014x00000BQkwdAAD
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+              example:
+                title: Forbidden
+                detail: You are not an admin
+                status: 403
+  /crm/share-records/{shareId}:
+    get:
+      operationId: share-records-list
+      summary: Crm records related to specific share
+      description: 'Retrieve CRM records related to a specific Share by its unique Share ID.
+
+        This endpoint returns the history of all activities and CRM records associated with the given Share.
+
+
+        This is useful when you need to:
+
+        - View all CRM records tied to a Share
+
+        - Track the history of interactions and activities for a specific Share
+
+        - Access associated account information if present
+
+        - Monitor and audit Share usage in your CRM system'
+      tags:
+      - crm
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        name: shareId
+        in: path
+        required: true
+        description: ID of a Share
+      responses:
+        '200':
+          description: OK. The request was successful. Returns a paginated list of CRM records associated with the Share.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - items
+                properties:
+                  count:
+                    type: number
+                    description: The total number of CRM records retrieved.
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - type
+                      - name
+                      properties:
+                        id:
+                          type: string
+                          description: The unique ID of the CRM record.
+                        type:
+                          type: string
+                          description: The type of CRM record, typically represented as the API name.
+                        name:
+                          type: string
+                          description: The name of the CRM record.
+                        url:
+                          type: string
+                          description: The URL linking to the CRM record, if present.
+                        accountId:
+                          type: string
+                          description: The account ID associated with the CRM record, if present.
+              examples:
+                Example 1:
+                  value:
+                    count: 2
+                    items:
+                    - type: opportunity
+                      id: 0064x00000LITLNAA5
+                      name: Edna Frank
+                      url: https://company.my.salesforce.com/0064x00000LITLNAA5
+                      accountId: 0014x00000BQkwdAAD
+                    - id: 0014x00000BQkwdAAD
+                      type: account
+                      name: GenePoint
+                      url: https://company.my.salesforce.com/0014x00000BQkwdAAD
+        '400':
+          description: Bad Request. Returned when the request payload is invalid or incomplete. The response provides structured error details to help identify and correct the issue.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                title: Error
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: A short summary of the error type. This is intended for engineers and technical users. It is always in English and not localized.
+                    example: Unauthorized
+                  detail:
+                    type: string
+                    description: A human-readable explanation of the specific reason for the failure.
+                    example: Authorization is either invalid or expired.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code returned by the server.
+                    example: 401
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '

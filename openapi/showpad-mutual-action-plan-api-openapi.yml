@@ -1,0 +1,1946 @@
+openapi: 3.2.0
+info:
+  title: Showpad Mutual Action Plan API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: mutual-action-plan
+  x-displayName: Mutual Action Plan
+  description: These are endpoints for managing Mutual Action Plans
+paths:
+  /mutual-action-plan:
+    post:
+      operationId: postMap
+      summary: Create MAP
+      description: 'Create a new Mutual Action Plan (MAP) associated with a specific context, such as a Shared Space or Shared Space Template. A MAP helps structure collaboration by defining shared goals, actions, and timelines between participants.
+
+
+        Use this endpoint when you need to:
+
+        - Create a MAP for a specific Shared Space or template context
+
+        - Initialize a new MAP based on an existing source MAP
+
+        - Programmatically manage MAP creation as part of a workflow or integration'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contextType:
+                  type: string
+                  enum:
+                  - SHARED-SPACE
+                  - SHARED-SPACE-TEMPLATE
+                  description: The type of context the Mutual Action Plan (MAP) is created for. This determines whether the MAP is associated with a Shared Space or a Shared Space Template.
+                contextId:
+                  type: string
+                  description: The unique identifier of the context (Shared Space or Shared Space Template) to which the MAP will be attached.
+                sourceMapId:
+                  type: string
+                  description: Optional identifier of an existing MAP to use as a starting point. When provided, the new MAP is created by copying the structure of the source MAP.
+              required:
+              - contextType
+              - contextId
+      responses:
+        '201':
+          description: Mutual Action Plan created successfully. The response returns the newly created MAP and its associated context.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - context
+                - createdAt
+                - updatedAt
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the Mutual Action Plan (MAP).
+                  context:
+                    type: object
+                    required:
+                    - type
+                    - id
+                    description: Context to which the Mutual Action Plan (MAP) belongs, including its type and identifier.
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                        - SHARED-SPACE
+                        - SHARED-SPACE-TEMPLATE
+                        description: The type of context the Mutual Action Plan (MAP) is associated with.
+                      id:
+                        type: string
+                        description: The unique identifier of the context (Shared Space or Shared Space Template).
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the Mutual Action Plan (MAP) was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the Mutual Action Plan (MAP) was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    get:
+      operationId: gesMaps
+      summary: Get list of MAPs
+      description: 'Retrieve a list of Mutual Action Plans (MAPs) available to the authenticated user. MAPs are returned based on access to their associated context, such as Shared Spaces. Administrators can retrieve all MAPs across the organization.
+
+
+        Use this endpoint when you need to:
+
+        - List MAPs associated with a specific Shared Space
+
+        - Filter MAPs by context to support targeted workflows
+
+        - Build dashboards or interfaces displaying MAP activity
+
+
+        Supports filtering by context and is useful for managing collaboration workflows and tracking shared plans across different contexts.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+          enum:
+          - SHARED-SPACE
+        required: true
+        description: Specifies the type of context to filter Mutal Action Plans (MAPs) by. Currently, only Shared Space contexts are supported.
+        name: contextType
+        in: query
+      - schema:
+          type: string
+        required: false
+        description: Optional filter to return only Mutual Action Plans (MAPs) associated with a specific context. When provided, only MAPs linked to this context ID are included in the response.
+        name: contextId
+        in: query
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the list of Mutual Action Plans (MAPs) accessible to the user based on context permissions.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - items
+                description: A list of Mutual Action Plans (MAPs) matching the request criteria.
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - context
+                      - createdAt
+                      - updatedAt
+                      additionalProperties: false
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier of the Mutual Action Plan (MAP).
+                        context:
+                          oneOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - SHARED-SPACE
+                              id:
+                                type: string
+                                description: The unique identifier of the associated context.
+                              title:
+                                type: string
+                                description: The title of the associated Shared Space.
+                            required:
+                            - type
+                            - id
+                            - title
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - SHARED-SPACE-TEMPLATE
+                              id:
+                                type: string
+                            required:
+                            - type
+                            - id
+                          description: The context to which the Mutual Action Plan is associated.
+                        createdAt:
+                          type: string
+                          description: Timestamp indicating when the Mutual Action Plan (MAP) was created.
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          description: Timestamp indicating when the Mutual Action Plan (MAP) was last updated.
+                          format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}:
+    delete:
+      operationId: deleteMap
+      summary: Delete MAP
+      description: 'Permanently delete a Mutual Action Plan (MAP) by its unique identifier. Once deleted, the MAP and all associated data, including milestones and actions, are permanently removed and cannot be recovered.
+
+
+        Use this endpoint when you need to:
+
+        - Remove a MAP that is no longer needed
+
+        - Clean up MAPs associated with a specific context
+
+        - Programmatically manage MAP lifecycle as part of a workflow or integration
+
+
+        This action is irreversible. Ensure the correct MAP identifier is provided before proceeding.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      responses:
+        '204':
+          description: The MAP was successfully deleted and no longer exists in the system. No response body is returned.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/participants:
+    get:
+      operationId: getParticipants
+      summary: Get Participants
+      description: 'Retrieve a list of participants associated with a specific Mutual Action Plan (MAP). Participants are the users who have been granted access to collaborate on the MAP.
+
+
+        Use this endpoint when you need to:
+
+        - View all participants associated with a specific MAP
+
+        - Identify collaborators and their roles within a MAP
+
+        - Build interfaces that display MAP membership and participation
+
+
+        Only participants belonging to the specified MAP are returned. Access is limited based on the authenticated user''s permissions.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the list of participants associated with the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - items
+                properties:
+                  items:
+                    type: array
+                    description: A list of participants associated with the specified Mutual Action Plan (MAP).
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - status
+                      - userId
+                      - email
+                      - avatar
+                      - firstName
+                      - lastName
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier of the participant.
+                        status:
+                          type: string
+                          enum:
+                          - ACTIVE
+                          - INACTIVE
+                          description: The current status of the participant within the MAP.
+                        userId:
+                          type:
+                          - string
+                          - 'null'
+                          description: The unique identifier of the user associated with this participant.
+                        email:
+                          type: string
+                          description: The email address of the participant.
+                        avatar:
+                          type:
+                          - string
+                          - 'null'
+                          description: URL of the participant's avatar image.
+                        firstName:
+                          type:
+                          - string
+                          - 'null'
+                          description: The first name of the participant.
+                        lastName:
+                          type:
+                          - string
+                          - 'null'
+                          description: The last name of the participant.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/participants/self:
+    get:
+      operationId: getParticipantSelf
+      summary: Get current participant
+      description: 'Retrieve the participant profile of the currently authenticated user within a specific Mutual Action Plan (MAP).
+
+
+        Use this endpoint when you need to:
+
+        - Retrieve your own participant details within a MAP
+
+        - Determine your role and status within a specific MAP
+
+        - Display the current user''s participation information in a MAP interface
+
+
+        Only the participant record associated with the authenticated user is returned. If the user is not a participant of the specified MAP, an error is returned.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the participant profile of the currently authenticated user within the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - status
+                - userId
+                - email
+                - avatar
+                - firstName
+                - lastName
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the participant.
+                  status:
+                    type: string
+                    enum:
+                    - ACTIVE
+                    - INACTIVE
+                    description: The current status of the participant within the MAP.
+                  userId:
+                    type:
+                    - string
+                    - 'null'
+                    description: The unique identifier of the user associated with this participant.
+                  email:
+                    type: string
+                    description: The email address of the participant.
+                  avatar:
+                    type:
+                    - string
+                    - 'null'
+                    description: URL of the participant's avatar image.
+                  firstName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The first name of the participant.
+                  lastName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The last name of the participant.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/participants/self/settings:
+    get:
+      operationId: getParticipantSettings
+      summary: Get Participant's Settings
+      description: 'Retrieve the notification settings for the currently authenticated user within a specific Mutual Action Plan (MAP).
+
+
+        Use this endpoint when you need to:
+
+        - Retrieve the current user''s notification preferences for a specific MAP
+
+        - Display notification settings in a user preferences interface
+
+        - Determine which notifications are enabled for the authenticated participant
+
+
+        Only the settings belonging to the authenticated user are returned. Settings are specific to the MAP identified by the provided identifier.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the notification settings for the currently authenticated user within the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - assignedActionNotifications
+                - completedActionNotifications
+                properties:
+                  assignedActionNotifications:
+                    type: boolean
+                    description: Indicates whether the participant receives notifications when an action is assigned to them.
+                  completedActionNotifications:
+                    type: boolean
+                    description: Indicates whether the participant receives notifications when an action is marked as completed.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    patch:
+      operationId: updateParticipantSettings
+      summary: Update Participant's Settings
+      description: 'Update the notification settings for the currently authenticated user within a specific Mutual Action Plan (MAP).
+
+
+        Use this endpoint when you need to:
+
+        - Enable or disable notifications for actions assigned to the current user
+
+        - Enable or disable notifications for actions marked as completed
+
+        - Programmatically manage notification preferences as part of a workflow or integration
+
+
+        Only the settings belonging to the authenticated user can be updated. At least one setting must be provided in the request body.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignedActionNotifications:
+                  type: boolean
+                  description: Indicates whether the participant receives notifications when an action is assigned to them.
+                completedActionNotifications:
+                  type: boolean
+                  description: Indicates whether the participant receives notifications when an action is marked as completed.
+              minProperties: 1
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated notification settings for the currently authenticated user within the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - assignedActionNotifications
+                - completedActionNotifications
+                properties:
+                  assignedActionNotifications:
+                    type: boolean
+                    description: Indicates whether the participant receives notifications when an action is assigned to them.
+                  completedActionNotifications:
+                    type: boolean
+                    description: Indicates whether the participant receives notifications when an action is marked as completed.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones:
+    post:
+      operationId: postMilestone
+      summary: Create Milestone
+      description: 'Create a new milestone within a specific Mutual Action Plan (MAP). Milestones help structure the MAP by grouping related actions under a shared goal or phase.
+
+
+        Use this endpoint when you need to:
+
+        - Add a new milestone to an existing MAP
+
+        - Structure collaboration by defining phases or goals within a MAP
+
+        - Programmatically manage milestone creation as part of a workflow or integration
+
+
+        The milestone is created within the MAP identified by the provided identifier. The new milestone is returned in the response upon successful creation.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  description: The title of the milestone. Must be between 1 and 50 characters.
+              required:
+              - title
+      responses:
+        '201':
+          description: Milestone created successfully. The response returns the newly created milestone within the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - createdAt
+                - updatedAt
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the milestone.
+                  title:
+                    type: string
+                    description: The title of the milestone.
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the milestone was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the milestone was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}:
+    delete:
+      operationId: deleteMilestone
+      summary: Delete Milestone
+      description: 'Permanently delete a milestone from a specific Mutual Action Plan (MAP) by its unique identifier. Once deleted, the milestone and all of its associated actions are permanently removed and cannot be recovered.
+
+
+        Use this endpoint when you need to:
+
+        - Remove a milestone that is no longer relevant to the MAP
+
+        - Clean up milestones and their associated actions within a MAP
+
+        - Programmatically manage milestone lifecycle as part of a workflow or integration
+
+
+        This action is irreversible. Ensure the correct milestone identifier is provided before proceeding.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      responses:
+        '204':
+          description: The milestone was successfully deleted and no longer exists in the system. No response body is returned.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    patch:
+      operationId: updateMilestone
+      summary: Update Milestone
+      description: 'Update an existing milestone within a specific Mutual Action Plan (MAP). Use this endpoint to modify the title or position of a milestone to reflect changes in the collaboration structure.
+
+
+        Use this endpoint when you need to:
+
+        - Update the title of an existing milestone
+
+        - Reorder milestones within a MAP
+
+        - Programmatically manage milestone updates as part of a workflow or integration
+
+
+        At least one field must be provided in the request body. The updated milestone is returned in the response upon successful update.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                  description: The title of the milestone. Must be between 1 and 50 characters.
+                position:
+                  type: number
+                  description: The position of the milestone within the MAP. When updated, all existing milestones with a position greater than or equal to the new position will be shifted down by one.
+              minProperties: 1
+      responses:
+        '200':
+          description: OK. The request was successful. Returns the updated milestone within the specified MAP.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - createdAt
+                - updatedAt
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the milestone.
+                  title:
+                    type: string
+                    description: The title of the milestone.
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the milestone was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the milestone was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions:
+    post:
+      operationId: postAction
+      summary: Create Action
+      description: 'Create a new action within a specific milestone of a Mutual Action Plan (MAP). Actions represent individual tasks or steps that need to be completed as part of a milestone.
+
+
+        Use this endpoint when you need to:
+
+        - Add a new action to an existing milestone
+
+        - Define tasks or steps that contribute to a milestone''s goal
+
+        - Programmatically manage action creation as part of a workflow or integration
+
+
+        The action is created within the milestone identified by the provided identifier. The new action is returned in the response upon successful creation.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                  description: The title of the action. Must be between 1 and the maximum allowed characters.
+                dueAt:
+                  type:
+                  - string
+                  - 'null'
+                  description: The due date and time of the action. Can be null or omitted if no due date is set.
+                  format: date-time
+              required:
+              - title
+      responses:
+        '201':
+          description: Action created successfully. The response returns the newly created action within the specified milestone.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - dueAt
+                - status
+                - createdAt
+                - updatedAt
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the action.
+                  title:
+                    type: string
+                    description: The title of the action.
+                  dueAt:
+                    type:
+                    - string
+                    - 'null'
+                    description: The due date and time of the action. Can be null if no due date is set.
+                    format: date-time
+                  status:
+                    type: string
+                    enum:
+                    - COMPLETED
+                    - NOT_COMPLETED
+                    description: The current status of the action.
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the action was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the action was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions/{actionId}:
+    delete:
+      operationId: deleteAction
+      summary: Delete Action
+      description: 'Permanently delete an action from a specific milestone within a Mutual Action Plan (MAP) by its unique identifier. Once deleted, the action and all of its associated assignees are permanently removed and cannot be recovered.
+
+
+        Use this endpoint when you need to:
+
+        - Remove an action that is no longer relevant to the milestone
+
+        - Clean up actions and their associated assignees within a milestone
+
+        - Programmatically manage action lifecycle as part of a workflow or integration
+
+
+        This action is irreversible. Ensure the correct action identifier is provided before proceeding.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the action.
+        name: actionId
+        in: path
+      responses:
+        '204':
+          description: The action was successfully deleted and no longer exists in the system. No response body is returned.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    patch:
+      operationId: updateAction
+      summary: Update Action
+      description: 'Update an existing action within a specific milestone in a Mutual Action Plan (MAP). Use this endpoint to modify the title, due date, or status of an action to reflect changes in the collaboration structure.
+
+
+        Use this endpoint when you need to:
+
+        - Update the title of an existing action
+
+        - Set or change the due date of an action
+
+        - Update the status of an action to reflect its current progress
+
+        - Programmatically manage action updates as part of a workflow or integration
+
+
+        At least one field must be provided in the request body. The updated action is returned in the response upon successful update.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the action.
+        name: actionId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  minLength: 1
+                  maxLength: 500
+                  description: The title of the action. Must be between 1 and the maximum allowed characters.
+                dueAt:
+                  type:
+                  - string
+                  - 'null'
+                  description: The due date and time of the action. Can be null or omitted if no due date is set.
+                  format: date-time
+                status:
+                  type: string
+                  enum:
+                  - COMPLETED
+                  - NOT_COMPLETED
+                milestoneId:
+                  type: string
+                position:
+                  type: number
+                  description: The position of the action within the milestone. When updated, all existing actions with a position greater than or equal to the new position will be shifted down by one.
+              minProperties: 1
+      responses:
+        '200':
+          description: OK. The request was successful. The response returns the updated action.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - dueAt
+                - status
+                - createdAt
+                - updatedAt
+                additionalProperties: false
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the action.
+                  title:
+                    type: string
+                    description: The title of the action.
+                  dueAt:
+                    type:
+                    - string
+                    - 'null'
+                    description: The due date and time of the action. Can be null if no due date is set.
+                    format: date-time
+                  status:
+                    type: string
+                    enum:
+                    - COMPLETED
+                    - NOT_COMPLETED
+                    description: The current status of the action.
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the action was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the action was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions/{actionId}/assignees:
+    post:
+      operationId: postAssignee
+      summary: Create Assignee
+      description: 'Assign a participant to a specific action within a milestone in a Mutual Action Plan (MAP). Once assigned, the participant will be associated with the action and can be notified of updates.
+
+
+        Use this endpoint when you need to:
+
+        - Assign a participant to an action to indicate ownership or responsibility
+
+        - Programmatically manage action assignments as part of a workflow or integration
+
+
+        The created assignee is returned in the response upon successful creation.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the action.
+        name: actionId
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                participantId:
+                  type: string
+                  description: The unique identifier of the participant to assign to the action.
+              required:
+              - participantId
+      responses:
+        '201':
+          description: Assignee created successfully. The response returns the newly created assignee within the specified action.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - participantId
+                - createdAt
+                - updatedAt
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier of the assignee.
+                  participantId:
+                    type: string
+                    description: Unique identifier of the participant assigned to the action.
+                  createdAt:
+                    type: string
+                    description: Timestamp indicating when the assignee was created.
+                    format: date-time
+                  updatedAt:
+                    type: string
+                    description: Timestamp indicating when the assignee was last updated.
+                    format: date-time
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /mutual-action-plan/{mutualActionPlanId}/milestones/{milestoneId}/actions/{actionId}/assignees/{assigneeId}:
+    delete:
+      operationId: deleteAssignee
+      summary: Delete Assignee
+      description: 'Permanently remove an assignee from a specific action within a milestone in a Mutual Action Plan (MAP). Once removed, the participant will no longer be associated with the action.
+
+
+        Use this endpoint when you need to:
+
+        - Remove a participant from an action when they are no longer responsible for it
+
+        - Programmatically manage action assignments as part of a workflow or integration
+
+
+        This action is irreversible. Ensure the correct assignee identifier is provided before proceeding.'
+      tags:
+      - mutual-action-plan
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the Mutual Action Plan (MAP).
+        name: mapId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the milestone.
+        name: milestoneId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the action.
+        name: actionId
+        in: path
+      - schema:
+          type: string
+        required: true
+        description: Unique identifier of the assignee.
+        name: assigneeId
+        in: path
+      responses:
+        '204':
+          description: The assignee was successfully deleted and no longer exists in the system. No response body is returned.
+        default:
+          description: An error occurred while processing the request. The response provides structured error details to help identify and resolve the issue.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    format: int32
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '

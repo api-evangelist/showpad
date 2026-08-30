@@ -1,0 +1,2259 @@
+openapi: 3.2.0
+info:
+  title: Showpad Userpermissions API
+  version: '3'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.showpad.biz/api/v3/
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+security:
+- oAuth: []
+- bearerAuth: []
+tags:
+- name: userpermissions
+  description: ''
+paths:
+  /userpermissions.json:
+    get:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: get_userpermissions
+      description: Generates a list of UserPermission items
+      summary: /userpermissions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      count:
+                        description: Total number of results.
+                        type: integer
+                        format: int32
+                        example: 20
+                      items:
+                        type: array
+                        description: List of resources.
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Unique identifier for the resource
+                              type: string
+                            resourcetype:
+                              description: The type of resource
+                              type: string
+                            createdAt:
+                              description: The date the tablet permission was created
+                              type: string
+                              format: date
+                            crm:
+                              description: Whether this permission enables the use of CRM
+                              type: boolean
+                            externalId:
+                              description: External ID of the tablet permission as used in the source application
+                              type: string
+                            fileCommenting:
+                              description: Whether this permission enables file commenting
+                              type: boolean
+                            name:
+                              description: Name of the Tablet Permission
+                              type: string
+                            personalCatalog:
+                              description: Whether this permission enables personal catalog viewing
+                              type: boolean
+                            updatedAt:
+                              description: The date the tablet permission was updated
+                              type: string
+                              format: date
+                            users:
+                              description: The users linked to this tablet permission
+                              type: string
+                              format: link
+                            webAccess:
+                              description: Whether this permission enables web access
+                              type: boolean
+                            smartPhoneAccess:
+                              description: Whether this permission enables smart phone access
+                              type: boolean
+                            personalContent:
+                              description: Whether this permission enables personal content
+                              type: boolean
+                            tagSearch:
+                              description: Whether this permission enables tag search
+                              type: boolean
+                            fileRating:
+                              description: Whether this permission enables file ratings
+                              type: boolean
+                            externalFileSystemImport:
+                              description: Whether this permission enables external file system import
+                              type: boolean
+                            advancedReporting:
+                              description: Whether this permission enables advanced reporting
+                              type: boolean
+                            salesforceIntegration:
+                              description: Whether this permission enables Salesforce Integration
+                              type: boolean
+                            salesEngagement:
+                              description: Whether this permission enables Sales engagement
+                              type: boolean
+                            locationSharing:
+                              description: What type of location sharing this user can undergo
+                              type: string
+                            collections:
+                              description: Whether to enable Collections
+                              type: boolean
+                            kioskMode:
+                              description: Whether kiosk mode is allowed
+                              type: boolean
+                            notifications:
+                              description: Whether receiving notifications is allowed
+                              type: boolean
+                            contactBrowser:
+                              description: Whether browsing contacts is allowed
+                              type: boolean
+                            contactExport:
+                              description: Whether exporting contacts is allowed
+                              type: boolean
+                            contactForm:
+                              description: Whether contact form is allowed
+                              type: boolean
+                            contactSync:
+                              description: Whether contact sync to the platform is allowed
+                              type: boolean
+                            channelTemplate:
+                              description: Whether this permission enables channel templates
+                              type: boolean
+                            canManageUsersAndGroups:
+                              description: Whether the user can manage users & user groups in the OP
+                              type: boolean
+                            canManageAssets:
+                              description: Whether the user can manage assets in the OP
+                              type: boolean
+                            canManageExperiences:
+                              description: Whether the user can manage experiences
+                              type: boolean
+                            canDeleteExperiences:
+                              description: Whether the user can delete experiences
+                              type: boolean
+                            canViewUsers:
+                              description: Whether the user can view users
+                              type: boolean
+                            canManageUsers:
+                              description: Whether the user can manage users
+                              type: boolean
+                            canContentReporting:
+                              description: Whether the user has access to content reporting in the OP
+                              type: boolean
+                            canTrainingReporting:
+                              description: Whether the user can has access to training & coaching reporting in the OP
+                              type: boolean
+                            canManageAnnouncements:
+                              description: Whether the user can manage announcements in the OP
+                              type: boolean
+                            canManageTags:
+                              description: Whether the user can can manage tags in the OP
+                              type: boolean
+                            canManageCoursesAndChecklists:
+                              description: Whether the user can can manage courses & checklists in the OP
+                              type: boolean
+                            canManageAiRoleplays:
+                              description: Whether user can manage AI roleplays
+                              type: boolean
+                            sharing:
+                              description: Whether the user has access to sharing
+                              type: boolean
+                            sharedSpaces:
+                              description: Whether the user has access to shared spaces
+                              type: boolean
+                            canManageContentProfiles:
+                              description: Whether user can manage content profiles
+                              type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: advancedReporting
+        description: Whether this permission enables advanced reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: channelTemplate
+        description: Whether this permission enables channel templates
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: collections
+        description: Whether to enable Collections
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactBrowser
+        description: Whether browsing contacts is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactExport
+        description: Whether exporting contacts is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactForm
+        description: Whether contact form is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactSync
+        description: Whether contact sync to the platform is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: crm
+        description: Whether this permission enables the use of CRM
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: externalFileSystemImport
+        description: Whether this permission enables external file system import
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalId
+        description: External ID of the tablet permission as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fileCommenting
+        description: Whether this permission enables file commenting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: fileRating
+        description: Whether this permission enables file ratings
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: kioskMode
+        description: Whether kiosk mode is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        description: Sets the maximum number of returned items. The maximum limit is set to 1000. For example, if 'limit' is 0, only 0 items will be retrieved.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 1000
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: post
+            type: string
+      - name: name
+        description: Name of the Tablet Permission
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: notifications
+        description: Whether receiving notifications is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: offset
+        description: Set the offset of the returned items.For example, if 'offset' is 5 and 'limit' is 10,  items 6 to 15 will be returned.
+        required: false
+        in: query
+        schema:
+          type: integer
+          format: int32
+          minimum: 0
+      - name: personalCatalog
+        description: Whether this permission enables personal catalog viewing
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: personalContent
+        description: Whether this permission enables personal content
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: salesEngagement
+        description: Whether this permission enables Sales engagement
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: salesforceIntegration
+        description: Whether this permission enables Salesforce Integration
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: smartPhoneAccess
+        description: Whether this permission enables smart phone access
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: sort
+        description: The field you want to sort on. Adding a '-' in front of the field name allows you to sort descending.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: tagSearch
+        description: Whether this permission enables tag search
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: webAccess
+        description: Whether this permission enables web access
+        required: false
+        in: query
+        schema:
+          type: boolean
+    post:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: post_userpermissions
+      description: Create a UserPermission item
+      summary: /userpermissions.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date the tablet permission was created
+                        type: string
+                        format: date
+                      crm:
+                        description: Whether this permission enables the use of CRM
+                        type: boolean
+                      externalId:
+                        description: External ID of the tablet permission as used in the source application
+                        type: string
+                      fileCommenting:
+                        description: Whether this permission enables file commenting
+                        type: boolean
+                      name:
+                        description: Name of the Tablet Permission
+                        type: string
+                      personalCatalog:
+                        description: Whether this permission enables personal catalog viewing
+                        type: boolean
+                      updatedAt:
+                        description: The date the tablet permission was updated
+                        type: string
+                        format: date
+                      users:
+                        description: The users linked to this tablet permission
+                        type: string
+                        format: link
+                      webAccess:
+                        description: Whether this permission enables web access
+                        type: boolean
+                      smartPhoneAccess:
+                        description: Whether this permission enables smart phone access
+                        type: boolean
+                      personalContent:
+                        description: Whether this permission enables personal content
+                        type: boolean
+                      tagSearch:
+                        description: Whether this permission enables tag search
+                        type: boolean
+                      fileRating:
+                        description: Whether this permission enables file ratings
+                        type: boolean
+                      externalFileSystemImport:
+                        description: Whether this permission enables external file system import
+                        type: boolean
+                      advancedReporting:
+                        description: Whether this permission enables advanced reporting
+                        type: boolean
+                      salesforceIntegration:
+                        description: Whether this permission enables Salesforce Integration
+                        type: boolean
+                      salesEngagement:
+                        description: Whether this permission enables Sales engagement
+                        type: boolean
+                      locationSharing:
+                        description: What type of location sharing this user can undergo
+                        type: string
+                      collections:
+                        description: Whether to enable Collections
+                        type: boolean
+                      kioskMode:
+                        description: Whether kiosk mode is allowed
+                        type: boolean
+                      notifications:
+                        description: Whether receiving notifications is allowed
+                        type: boolean
+                      contactBrowser:
+                        description: Whether browsing contacts is allowed
+                        type: boolean
+                      contactExport:
+                        description: Whether exporting contacts is allowed
+                        type: boolean
+                      contactForm:
+                        description: Whether contact form is allowed
+                        type: boolean
+                      contactSync:
+                        description: Whether contact sync to the platform is allowed
+                        type: boolean
+                      channelTemplate:
+                        description: Whether this permission enables channel templates
+                        type: boolean
+                      canManageUsersAndGroups:
+                        description: Whether the user can manage users & user groups in the OP
+                        type: boolean
+                      canManageAssets:
+                        description: Whether the user can manage assets in the OP
+                        type: boolean
+                      canManageExperiences:
+                        description: Whether the user can manage experiences
+                        type: boolean
+                      canDeleteExperiences:
+                        description: Whether the user can delete experiences
+                        type: boolean
+                      canViewUsers:
+                        description: Whether the user can view users
+                        type: boolean
+                      canManageUsers:
+                        description: Whether the user can manage users
+                        type: boolean
+                      canContentReporting:
+                        description: Whether the user has access to content reporting in the OP
+                        type: boolean
+                      canTrainingReporting:
+                        description: Whether the user can has access to training & coaching reporting in the OP
+                        type: boolean
+                      canManageAnnouncements:
+                        description: Whether the user can manage announcements in the OP
+                        type: boolean
+                      canManageTags:
+                        description: Whether the user can can manage tags in the OP
+                        type: boolean
+                      canManageCoursesAndChecklists:
+                        description: Whether the user can can manage courses & checklists in the OP
+                        type: boolean
+                      canManageAiRoleplays:
+                        description: Whether user can manage AI roleplays
+                        type: boolean
+                      sharing:
+                        description: Whether the user has access to sharing
+                        type: boolean
+                      sharedSpaces:
+                        description: Whether the user has access to shared spaces
+                        type: boolean
+                      canManageContentProfiles:
+                        description: Whether user can manage content profiles
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+                externalId:
+                  type: string
+              required:
+              - advancedReporting
+              - collections
+              - contactBrowser
+              - contactExport
+              - contactForm
+              - contactSync
+              - crm
+              - externalFileSystemImport
+              - fileCommenting
+              - fileRating
+              - kioskMode
+              - name
+              - notifications
+              - personalCatalog
+              - personalContent
+              - salesEngagement
+              - salesforceIntegration
+              - smartPhoneAccess
+              - tagSearch
+              - webAccess
+          application/json:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+                externalId:
+                  type: string
+              required:
+              - advancedReporting
+              - collections
+              - contactBrowser
+              - contactExport
+              - contactForm
+              - contactSync
+              - crm
+              - externalFileSystemImport
+              - fileCommenting
+              - fileRating
+              - kioskMode
+              - name
+              - notifications
+              - personalCatalog
+              - personalContent
+              - salesEngagement
+              - salesforceIntegration
+              - smartPhoneAccess
+              - tagSearch
+              - webAccess
+  /userpermissions/count.json:
+    get:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: get_userpermissions_count
+      description: Retrieve the number of UserPermission items
+      summary: /userpermissions/count.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: advancedReporting
+        description: Whether this permission enables advanced reporting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: channelTemplate
+        description: Whether this permission enables channel templates
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: collections
+        description: Whether to enable Collections
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactBrowser
+        description: Whether browsing contacts is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactExport
+        description: Whether exporting contacts is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactForm
+        description: Whether contact form is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: contactSync
+        description: Whether contact sync to the platform is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: crm
+        description: Whether this permission enables the use of CRM
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalFileSystemImport
+        description: Whether this permission enables external file system import
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: externalId
+        description: External ID of the tablet permission as used in the source application
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fileCommenting
+        description: Whether this permission enables file commenting
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: fileRating
+        description: Whether this permission enables file ratings
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: kioskMode
+        description: Whether kiosk mode is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: name
+        description: Name of the Tablet Permission
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: notifications
+        description: Whether receiving notifications is allowed
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: personalCatalog
+        description: Whether this permission enables personal catalog viewing
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: personalContent
+        description: Whether this permission enables personal content
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: salesEngagement
+        description: Whether this permission enables Sales engagement
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: salesforceIntegration
+        description: Whether this permission enables Salesforce Integration
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: smartPhoneAccess
+        description: Whether this permission enables smart phone access
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: tagSearch
+        description: Whether this permission enables tag search
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: webAccess
+        description: Whether this permission enables web access
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /userpermissions/description.json:
+    get:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: get_userpermissions_description
+      description: Generates information about the UserPermission model and available apis
+      summary: /userpermissions/description.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /userpermissions/{id}.json:
+    get:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: get_userpermissions_id
+      description: Retrieve UserPermission item with ID='id'
+      summary: /userpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date the tablet permission was created
+                        type: string
+                        format: date
+                      crm:
+                        description: Whether this permission enables the use of CRM
+                        type: boolean
+                      externalId:
+                        description: External ID of the tablet permission as used in the source application
+                        type: string
+                      fileCommenting:
+                        description: Whether this permission enables file commenting
+                        type: boolean
+                      name:
+                        description: Name of the Tablet Permission
+                        type: string
+                      personalCatalog:
+                        description: Whether this permission enables personal catalog viewing
+                        type: boolean
+                      updatedAt:
+                        description: The date the tablet permission was updated
+                        type: string
+                        format: date
+                      users:
+                        description: The users linked to this tablet permission
+                        type: string
+                        format: link
+                      webAccess:
+                        description: Whether this permission enables web access
+                        type: boolean
+                      smartPhoneAccess:
+                        description: Whether this permission enables smart phone access
+                        type: boolean
+                      personalContent:
+                        description: Whether this permission enables personal content
+                        type: boolean
+                      tagSearch:
+                        description: Whether this permission enables tag search
+                        type: boolean
+                      fileRating:
+                        description: Whether this permission enables file ratings
+                        type: boolean
+                      externalFileSystemImport:
+                        description: Whether this permission enables external file system import
+                        type: boolean
+                      advancedReporting:
+                        description: Whether this permission enables advanced reporting
+                        type: boolean
+                      salesforceIntegration:
+                        description: Whether this permission enables Salesforce Integration
+                        type: boolean
+                      salesEngagement:
+                        description: Whether this permission enables Sales engagement
+                        type: boolean
+                      locationSharing:
+                        description: What type of location sharing this user can undergo
+                        type: string
+                      collections:
+                        description: Whether to enable Collections
+                        type: boolean
+                      kioskMode:
+                        description: Whether kiosk mode is allowed
+                        type: boolean
+                      notifications:
+                        description: Whether receiving notifications is allowed
+                        type: boolean
+                      contactBrowser:
+                        description: Whether browsing contacts is allowed
+                        type: boolean
+                      contactExport:
+                        description: Whether exporting contacts is allowed
+                        type: boolean
+                      contactForm:
+                        description: Whether contact form is allowed
+                        type: boolean
+                      contactSync:
+                        description: Whether contact sync to the platform is allowed
+                        type: boolean
+                      channelTemplate:
+                        description: Whether this permission enables channel templates
+                        type: boolean
+                      canManageUsersAndGroups:
+                        description: Whether the user can manage users & user groups in the OP
+                        type: boolean
+                      canManageAssets:
+                        description: Whether the user can manage assets in the OP
+                        type: boolean
+                      canManageExperiences:
+                        description: Whether the user can manage experiences
+                        type: boolean
+                      canDeleteExperiences:
+                        description: Whether the user can delete experiences
+                        type: boolean
+                      canViewUsers:
+                        description: Whether the user can view users
+                        type: boolean
+                      canManageUsers:
+                        description: Whether the user can manage users
+                        type: boolean
+                      canContentReporting:
+                        description: Whether the user has access to content reporting in the OP
+                        type: boolean
+                      canTrainingReporting:
+                        description: Whether the user can has access to training & coaching reporting in the OP
+                        type: boolean
+                      canManageAnnouncements:
+                        description: Whether the user can manage announcements in the OP
+                        type: boolean
+                      canManageTags:
+                        description: Whether the user can can manage tags in the OP
+                        type: boolean
+                      canManageCoursesAndChecklists:
+                        description: Whether the user can can manage courses & checklists in the OP
+                        type: boolean
+                      canManageAiRoleplays:
+                        description: Whether user can manage AI roleplays
+                        type: boolean
+                      sharing:
+                        description: Whether the user has access to sharing
+                        type: boolean
+                      sharedSpaces:
+                        description: Whether the user has access to shared spaces
+                        type: boolean
+                      canManageContentProfiles:
+                        description: Whether user can manage content profiles
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - read_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: method
+        description: '''method'' can be used by HTTP clients who are not able to set certain HTTP verbs such as a DELETE of a PUT'
+        required: false
+        in: query
+        schema:
+          type: string
+          anyOf:
+          - title: get
+            type: string
+          - title: post
+            type: string
+          - title: put
+            type: string
+          - title: delete
+            type: string
+          - title: link
+            type: string
+          - title: unlink
+            type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+    put:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: put_userpermissions_id
+      description: Update the UserPermission item with ID='id'
+      summary: /userpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date the tablet permission was created
+                        type: string
+                        format: date
+                      crm:
+                        description: Whether this permission enables the use of CRM
+                        type: boolean
+                      externalId:
+                        description: External ID of the tablet permission as used in the source application
+                        type: string
+                      fileCommenting:
+                        description: Whether this permission enables file commenting
+                        type: boolean
+                      name:
+                        description: Name of the Tablet Permission
+                        type: string
+                      personalCatalog:
+                        description: Whether this permission enables personal catalog viewing
+                        type: boolean
+                      updatedAt:
+                        description: The date the tablet permission was updated
+                        type: string
+                        format: date
+                      users:
+                        description: The users linked to this tablet permission
+                        type: string
+                        format: link
+                      webAccess:
+                        description: Whether this permission enables web access
+                        type: boolean
+                      smartPhoneAccess:
+                        description: Whether this permission enables smart phone access
+                        type: boolean
+                      personalContent:
+                        description: Whether this permission enables personal content
+                        type: boolean
+                      tagSearch:
+                        description: Whether this permission enables tag search
+                        type: boolean
+                      fileRating:
+                        description: Whether this permission enables file ratings
+                        type: boolean
+                      externalFileSystemImport:
+                        description: Whether this permission enables external file system import
+                        type: boolean
+                      advancedReporting:
+                        description: Whether this permission enables advanced reporting
+                        type: boolean
+                      salesforceIntegration:
+                        description: Whether this permission enables Salesforce Integration
+                        type: boolean
+                      salesEngagement:
+                        description: Whether this permission enables Sales engagement
+                        type: boolean
+                      locationSharing:
+                        description: What type of location sharing this user can undergo
+                        type: string
+                      collections:
+                        description: Whether to enable Collections
+                        type: boolean
+                      kioskMode:
+                        description: Whether kiosk mode is allowed
+                        type: boolean
+                      notifications:
+                        description: Whether receiving notifications is allowed
+                        type: boolean
+                      contactBrowser:
+                        description: Whether browsing contacts is allowed
+                        type: boolean
+                      contactExport:
+                        description: Whether exporting contacts is allowed
+                        type: boolean
+                      contactForm:
+                        description: Whether contact form is allowed
+                        type: boolean
+                      contactSync:
+                        description: Whether contact sync to the platform is allowed
+                        type: boolean
+                      channelTemplate:
+                        description: Whether this permission enables channel templates
+                        type: boolean
+                      canManageUsersAndGroups:
+                        description: Whether the user can manage users & user groups in the OP
+                        type: boolean
+                      canManageAssets:
+                        description: Whether the user can manage assets in the OP
+                        type: boolean
+                      canManageExperiences:
+                        description: Whether the user can manage experiences
+                        type: boolean
+                      canDeleteExperiences:
+                        description: Whether the user can delete experiences
+                        type: boolean
+                      canViewUsers:
+                        description: Whether the user can view users
+                        type: boolean
+                      canManageUsers:
+                        description: Whether the user can manage users
+                        type: boolean
+                      canContentReporting:
+                        description: Whether the user has access to content reporting in the OP
+                        type: boolean
+                      canTrainingReporting:
+                        description: Whether the user can has access to training & coaching reporting in the OP
+                        type: boolean
+                      canManageAnnouncements:
+                        description: Whether the user can manage announcements in the OP
+                        type: boolean
+                      canManageTags:
+                        description: Whether the user can can manage tags in the OP
+                        type: boolean
+                      canManageCoursesAndChecklists:
+                        description: Whether the user can can manage courses & checklists in the OP
+                        type: boolean
+                      canManageAiRoleplays:
+                        description: Whether user can manage AI roleplays
+                        type: boolean
+                      sharing:
+                        description: Whether the user has access to sharing
+                        type: boolean
+                      sharedSpaces:
+                        description: Whether the user has access to shared spaces
+                        type: boolean
+                      canManageContentProfiles:
+                        description: Whether user can manage content profiles
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                externalId:
+                  type: string
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+          application/json:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                externalId:
+                  type: string
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+    post:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: post_userpermissions_id
+      description: Update the UserPermission item with ID='id'
+      summary: /userpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - response
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+                    properties:
+                      id:
+                        description: Unique identifier for the resource
+                        type: string
+                      resourcetype:
+                        description: The type of resource
+                        type: string
+                      createdAt:
+                        description: The date the tablet permission was created
+                        type: string
+                        format: date
+                      crm:
+                        description: Whether this permission enables the use of CRM
+                        type: boolean
+                      externalId:
+                        description: External ID of the tablet permission as used in the source application
+                        type: string
+                      fileCommenting:
+                        description: Whether this permission enables file commenting
+                        type: boolean
+                      name:
+                        description: Name of the Tablet Permission
+                        type: string
+                      personalCatalog:
+                        description: Whether this permission enables personal catalog viewing
+                        type: boolean
+                      updatedAt:
+                        description: The date the tablet permission was updated
+                        type: string
+                        format: date
+                      users:
+                        description: The users linked to this tablet permission
+                        type: string
+                        format: link
+                      webAccess:
+                        description: Whether this permission enables web access
+                        type: boolean
+                      smartPhoneAccess:
+                        description: Whether this permission enables smart phone access
+                        type: boolean
+                      personalContent:
+                        description: Whether this permission enables personal content
+                        type: boolean
+                      tagSearch:
+                        description: Whether this permission enables tag search
+                        type: boolean
+                      fileRating:
+                        description: Whether this permission enables file ratings
+                        type: boolean
+                      externalFileSystemImport:
+                        description: Whether this permission enables external file system import
+                        type: boolean
+                      advancedReporting:
+                        description: Whether this permission enables advanced reporting
+                        type: boolean
+                      salesforceIntegration:
+                        description: Whether this permission enables Salesforce Integration
+                        type: boolean
+                      salesEngagement:
+                        description: Whether this permission enables Sales engagement
+                        type: boolean
+                      locationSharing:
+                        description: What type of location sharing this user can undergo
+                        type: string
+                      collections:
+                        description: Whether to enable Collections
+                        type: boolean
+                      kioskMode:
+                        description: Whether kiosk mode is allowed
+                        type: boolean
+                      notifications:
+                        description: Whether receiving notifications is allowed
+                        type: boolean
+                      contactBrowser:
+                        description: Whether browsing contacts is allowed
+                        type: boolean
+                      contactExport:
+                        description: Whether exporting contacts is allowed
+                        type: boolean
+                      contactForm:
+                        description: Whether contact form is allowed
+                        type: boolean
+                      contactSync:
+                        description: Whether contact sync to the platform is allowed
+                        type: boolean
+                      channelTemplate:
+                        description: Whether this permission enables channel templates
+                        type: boolean
+                      canManageUsersAndGroups:
+                        description: Whether the user can manage users & user groups in the OP
+                        type: boolean
+                      canManageAssets:
+                        description: Whether the user can manage assets in the OP
+                        type: boolean
+                      canManageExperiences:
+                        description: Whether the user can manage experiences
+                        type: boolean
+                      canDeleteExperiences:
+                        description: Whether the user can delete experiences
+                        type: boolean
+                      canViewUsers:
+                        description: Whether the user can view users
+                        type: boolean
+                      canManageUsers:
+                        description: Whether the user can manage users
+                        type: boolean
+                      canContentReporting:
+                        description: Whether the user has access to content reporting in the OP
+                        type: boolean
+                      canTrainingReporting:
+                        description: Whether the user can has access to training & coaching reporting in the OP
+                        type: boolean
+                      canManageAnnouncements:
+                        description: Whether the user can manage announcements in the OP
+                        type: boolean
+                      canManageTags:
+                        description: Whether the user can can manage tags in the OP
+                        type: boolean
+                      canManageCoursesAndChecklists:
+                        description: Whether the user can can manage courses & checklists in the OP
+                        type: boolean
+                      canManageAiRoleplays:
+                        description: Whether user can manage AI roleplays
+                        type: boolean
+                      sharing:
+                        description: Whether the user has access to sharing
+                        type: boolean
+                      sharedSpaces:
+                        description: Whether the user has access to shared spaces
+                        type: boolean
+                      canManageContentProfiles:
+                        description: Whether user can manage content profiles
+                        type: boolean
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: Link
+        description: A comma-separated list of '&lt;resourceID&gt;; rel=&quot;ResourceType&quot;'
+        required: false
+        in: header
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: expand
+        description: Comma separated list of all expanded relationships that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: fields
+        description: Comma separated list of all fields that need to be retrieved.
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                externalId:
+                  type: string
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+          application/json:
+            schema:
+              type: object
+              properties:
+                advancedReporting:
+                  type: boolean
+                collections:
+                  type: boolean
+                contactBrowser:
+                  type: boolean
+                contactExport:
+                  type: boolean
+                contactForm:
+                  type: boolean
+                contactSync:
+                  type: boolean
+                crm:
+                  type: boolean
+                externalFileSystemImport:
+                  type: boolean
+                externalId:
+                  type: string
+                fileCommenting:
+                  type: boolean
+                fileRating:
+                  type: boolean
+                kioskMode:
+                  type: boolean
+                name:
+                  type: string
+                notifications:
+                  type: boolean
+                personalCatalog:
+                  type: boolean
+                personalContent:
+                  type: boolean
+                salesEngagement:
+                  type: boolean
+                salesforceIntegration:
+                  type: boolean
+                smartPhoneAccess:
+                  type: boolean
+                tagSearch:
+                  type: boolean
+                webAccess:
+                  type: boolean
+    delete:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: delete_userpermissions_id
+      description: Delete the UserPermission item with ID='id'
+      summary: /userpermissions/{id}.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+  /userpermissions/{id}/link.json:
+    post:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: link_userpermissions_id_link
+      description: Link the UserPermission item with ID='id'
+      summary: /userpermissions/{id}/link.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+  /userpermissions/{id}/unlink.json:
+    post:
+      deprecated: false
+      tags:
+      - userpermissions
+      operationId: unlink_userpermissions_id_unlink
+      description: Link the UserPermission item with ID='id'
+      summary: /userpermissions/{id}/unlink.json
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      code:
+                        type: integer
+                        format: int32
+                      message:
+                        type: string
+                      serverTime:
+                        type: string
+                        format: date-time
+                      lastUpdatedTime:
+                        type: string
+                        format: date-time
+                      requestRateLimit:
+                        type: integer
+                        format: int32
+                      requestRateLimitReset:
+                        type: integer
+                        format: int32
+                      requestsRemaining:
+                        type: integer
+                        format: int32
+                      location:
+                        type: string
+                        format: link
+                      userTimezone:
+                        type: object
+                        properties:
+                          offset:
+                            type: string
+                          name:
+                            type: string
+                  response:
+                    type: object
+      security:
+      - bearerAuth: []
+      - oAuth:
+        - write_user_management
+      parameters:
+      - name: id
+        description: ID of the UserPermission item
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: describe_apis
+        description: Describes the different api calls available together with the allowed parameters
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: describe_model
+        description: Describes the data model behind the resource including properties and their description
+        required: false
+        in: query
+        schema:
+          type: boolean
+      - name: suppress_response_codes
+        description: 'This forces the HTTP status code of the response to be set to 200 '
+        required: false
+        in: query
+        schema:
+          type: boolean
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+          application/json:
+            schema:
+              type: object
+              properties:
+                Link:
+                  type: string
+              required:
+              - Link
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: This is the Bearer token to identify the current requesting user. Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more in-depth explanation on Showpad authentication.
+    oAuth:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          scopes:
+            refresh_token: Allows the refresh of access tokens.
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).
+        authorizationCode:
+          authorizationUrl: https://{customer}.showpad.biz/api/v3/oauth2/authorize
+          tokenUrl: https://{customer}.showpad.biz/api/v3/oauth2/token
+          refresh_token: Allows the refresh of access tokens.
+          scopes:
+            read_user_management: Allows read access for user data (includes users, usergroups and user permissions).
+            write_user_management: Allows write access for user data (includes users, usergroups and user permissions).
+            read_contentprofile_management: Allows read access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            write_contentprofile_management: Allows write access for content profile-related resources (content profiles, assets, tags, tickets and comments).
+            read_division_management: Allows read access for division-related resources (divisions and division permissions).
+            write_division_management: Allows write accesss for division-related resources (divisions and division permissions).

@@ -1,0 +1,1695 @@
+openapi: 3.2.0
+info:
+  title: Showpad Shared Spaces Quick Actions API
+  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+
+    integrating their platform with Showpad API.
+
+
+    The base URL of this API is patterned as `https://{subdomain}.api.showpad.com/v4` where `{subdomain}` is the
+
+    provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
+
+    customer that has a `xyz-org` subdomain.
+
+    '
+  version: '4'
+  termsOfService: https://www.showpad.com/terms-of-service
+  contact:
+    name: Showpad
+    email: support@showpad.com
+    url: https://help.showpad.com/hc/en-us/requests/new
+  x-serviceName: Showpad API
+  x-logo:
+    url: ./Showpad-logo-vertical-blue.png
+    altText: Showpad Developer API
+  x-audience: external-partner
+servers:
+- url: https://{subdomain}.api.showpad.com/v4
+  description: Production server
+  x-environment: production
+  variables:
+    subdomain:
+      default: customer
+      description: Showpad customer subdomain
+tags:
+- name: shared-spaces-quick-actions
+  x-displayName: Shared Spaces Quick Actions
+  description: These are endpoints for managing Shared Spaces Quick Actions
+paths:
+  /shared-spaces/{shareId}/quick-actions:
+    get:
+      operationId: shared-spaces-quick-actions-list
+      summary: Get a list of Shared Space Quick Actions
+      description: List of Shared Space Quick Actions that are created for a Shared Space
+      tags:
+      - shared-spaces-quick-actions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: shareId
+        in: path
+        description: ID of the Shared Space
+      responses:
+        '200':
+          description: Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - count
+                - items
+                properties:
+                  count:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                      - id
+                      - title
+                      - url
+                      - sharedSpaceExtension
+                      properties:
+                        id:
+                          type: string
+                          description: The ID of the Quick Action
+                          example: d1a1c1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a
+                        title:
+                          type: string
+                          description: The title of the Quick Action that will be displayed in the Shared Space
+                          example: Schedule a meeting with John
+                        url:
+                          type: string
+                          description: URL to the external link/website to be embedded
+                          example: https://example.com/meet-with-john
+                        isInternal:
+                          type: boolean
+                          description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                          example: true
+                        sharedSpaceExtension:
+                          type: object
+                          required:
+                          - id
+                          - name
+                          - description
+                          properties:
+                            id:
+                              type: string
+                              description: The ID of the Shared Space Extension
+                              example: 01XXXXX4XXXXXCCXXXX6XXXXXXPK
+                            name:
+                              type: string
+                              description: Name of the Shared Space Extension
+                              example: Shared Space Meetings
+                            description:
+                              type: string
+                              description: Description of the Shared Space Extension
+                              example: Several integrations to schedule a meeting as part of a Shared Space
+                            icon:
+                              type:
+                              - string
+                              - 'null'
+                              description: URL pointing to the icon of the Shared Space Extension
+                              example: https://example.com/icon.png
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    post:
+      operationId: create-shared-space-quick-action
+      summary: Create a Shared Space Quick Action
+      description: Create a Shared Space Quick Action for a Shared Space
+      tags:
+      - shared-spaces-quick-actions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: shareId
+        in: path
+        description: ID of the Shared Space
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the Quick Action that will be displayed in the Shared Space
+                  example: Schedule a meeting with John
+                sharedSpaceExtensionId:
+                  type: string
+                  description: The ID of the Shared Space Extension
+                  example: 01XXXXX4XXXXXCCXXXX6XXXXXXPK
+                isInternal:
+                  type: boolean
+                  description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                  example: true
+                url:
+                  type: string
+                  description: URL to the external link/website to be embedded
+                  example: https://example.com/meet-with-john
+              required:
+              - title
+              - sharedSpaceExtensionId
+              - url
+      responses:
+        '201':
+          description: Shared Space Quick Action was successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - url
+                - sharedSpaceExtension
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the Quick Action
+                    example: d1a1c1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a
+                  title:
+                    type: string
+                    description: The title of the Quick Action that will be displayed in the Shared Space
+                    example: Schedule a meeting with John
+                  url:
+                    type: string
+                    description: URL to the external link/website to be embedded
+                    example: https://example.com/meet-with-john
+                  isInternal:
+                    type: boolean
+                    description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                    example: true
+                  sharedSpaceExtension:
+                    type: object
+                    required:
+                    - id
+                    - name
+                    - description
+                    properties:
+                      id:
+                        type: string
+                        description: The ID of the Shared Space Extension
+                        example: 01XXXXX4XXXXXCCXXXX6XXXXXXPK
+                      name:
+                        type: string
+                        description: Name of the Shared Space Extension
+                        example: Shared Space Meetings
+                      description:
+                        type: string
+                        description: Description of the Shared Space Extension
+                        example: Several integrations to schedule a meeting as part of a Shared Space
+                      icon:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL pointing to the icon of the Shared Space Extension
+                        example: https://example.com/icon.png
+        '400':
+          description: Bad Request. Invalid or missing payload.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+  /shared-spaces/{shareId}/quick-actions/{quickActionId}:
+    get:
+      operationId: get-shared-spaces-quick-action
+      summary: Get a Shared Space Quick Action
+      description: Get a Shared Space Quick Action details.
+      tags:
+      - shared-spaces-quick-actions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: shareId
+        in: path
+        description: ID of the Shared Space
+      - schema:
+          type: string
+        required: true
+        name: quickActionId
+        in: path
+        description: ID of the Quick Action created for a Shared Space
+      responses:
+        '200':
+          description: Request is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - url
+                - sharedSpaceExtension
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the Quick Action
+                    example: d1a1c1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a
+                  title:
+                    type: string
+                    description: The title of the Quick Action that will be displayed in the Shared Space
+                    example: Schedule a meeting with John
+                  url:
+                    type: string
+                    description: URL to the external link/website to be embedded
+                    example: https://example.com/meet-with-john
+                  isInternal:
+                    type: boolean
+                    description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                    example: true
+                  sharedSpaceExtension:
+                    type: object
+                    required:
+                    - id
+                    - name
+                    - description
+                    properties:
+                      id:
+                        type: string
+                        description: The ID of the Shared Space Extension
+                        example: 01XXXXX4XXXXXCCXXXX6XXXXXXPK
+                      name:
+                        type: string
+                        description: Name of the Shared Space Extension
+                        example: Shared Space Meetings
+                      description:
+                        type: string
+                        description: Description of the Shared Space Extension
+                        example: Several integrations to schedule a meeting as part of a Shared Space
+                      icon:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL pointing to the icon of the Shared Space Extension
+                        example: https://example.com/icon.png
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    patch:
+      operationId: update-shared-spaces-quick-action
+      summary: Update a Shared Space Quick Action
+      description: Update a Quick Action within a Shared Space
+      tags:
+      - shared-spaces-quick-actions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: shareId
+        in: path
+        description: ID of the Shared Space
+      - schema:
+          type: string
+        required: true
+        name: quickActionId
+        in: path
+        description: ID of the Quick Action created for a Shared Space
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: The title of the Quick Action that will be displayed in the Shared Space
+                  example: Schedule a meeting with John
+                url:
+                  type: string
+                  description: URL to the external link/website to be embedded
+                  example: https://example.com/meet-with-john
+                isInternal:
+                  type: boolean
+                  description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                  example: true
+      responses:
+        '200':
+          description: Shared Space Quick Action was successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - id
+                - title
+                - url
+                - sharedSpaceExtension
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the Quick Action
+                    example: d1a1c1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a
+                  title:
+                    type: string
+                    description: The title of the Quick Action that will be displayed in the Shared Space
+                    example: Schedule a meeting with John
+                  url:
+                    type: string
+                    description: URL to the external link/website to be embedded
+                    example: https://example.com/meet-with-john
+                  isInternal:
+                    type: boolean
+                    description: '`true` to only display the Quick Action to the Seller. `false` to display the Quick Action for both Buyer and Seller. If not passed - defaulted to `false`'
+                    example: true
+                  sharedSpaceExtension:
+                    type: object
+                    required:
+                    - id
+                    - name
+                    - description
+                    properties:
+                      id:
+                        type: string
+                        description: The ID of the Shared Space Extension
+                        example: 01XXXXX4XXXXXCCXXXX6XXXXXXPK
+                      name:
+                        type: string
+                        description: Name of the Shared Space Extension
+                        example: Shared Space Meetings
+                      description:
+                        type: string
+                        description: Description of the Shared Space Extension
+                        example: Several integrations to schedule a meeting as part of a Shared Space
+                      icon:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL pointing to the icon of the Shared Space Extension
+                        example: https://example.com/icon.png
+        '400':
+          description: Bad Request. Invalid or missing payload.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+    delete:
+      operationId: delete-shared-spaces-quick-action
+      summary: Delete a Shared Space Quick Action
+      description: Delete a Quick Action from a Shared Space
+      tags:
+      - shared-spaces-quick-actions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+        required: true
+        name: shareId
+        in: path
+        description: ID of the Shared Space
+      - schema:
+          type: string
+        required: true
+        name: quickActionId
+        in: path
+        description: ID of the Quick Action created for a Shared Space
+      responses:
+        '204':
+          description: Shared Space Quick Action was successfully deleted
+        '401':
+          description: Unauthorized. The request lacks valid authentication credentials, or the provided token has expired.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '403':
+          description: Forbidden. The server understood the request but refuses to authorize it. The authenticated user does not have the necessary permissions to perform this action.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        '404':
+          description: Not Found. Returned when the requested resource does not exist or the user does not have permission to access it.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+        default:
+          description: An error occurred. See the HTTP status code and problem object for more information.
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - title
+                - detail
+                - status
+                - type
+                properties:
+                  id:
+                    type: string
+                    pattern: ^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$
+                  title:
+                    type: string
+                    description: "A short summary of the problem type. Written in English and readable\n        for engineers (usually not suited for non-technical stakeholders and\n        not localized)."
+                    example: Invalid payload
+                  detail:
+                    type: string
+                    description: A human readable explanation specific to this occurrence of the problem
+                    example: Property value provided is not a valid.
+                  status:
+                    type: integer
+                    format: int32
+                    description: The HTTP status code generated by the origin server for this occurrence of the problem.
+                    minimum: 400
+                    maximum: 599
+                    example: 400
+                  meta:
+                    type: array
+                    description: Additional information to support the error
+                    items:
+                      type: object
+                      required:
+                      - name
+                      - reason
+                      - category
+                      description: Additional payload to support the encountered error.
+                      properties:
+                        name:
+                          type: string
+                          description: The name of the affected resource attribute.
+                          example: color
+                        reason:
+                          type: string
+                          description: The explanation of the problem.
+                          example: Value must be 'green', 'red' or 'blue'.
+                        category:
+                          type: string
+                          description: The error category.
+                          example: propertyRequired
+                  type:
+                    type: string
+                    pattern: ^(\/[a-z]+(-[a-z]+)*)+$
+                    description: URI reference of the error.
+                    example: /errors/not-found
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'This is the Bearer token to identify the current requesting user.
+
+        Please check out this [page](https://docs.api.showpad.com/docs/apis/concepts/authentication) for a more
+
+        in-depth explanation on Showpad authentication.
+
+        '
