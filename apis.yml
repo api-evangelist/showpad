@@ -138,6 +138,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Assets
+  tags_raw:
   - assets
   properties:
   - type: OpenAPI
@@ -164,6 +166,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Channels
+  tags_raw:
   - channels
   properties:
   - type: OpenAPI
@@ -190,6 +194,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Comments
+  tags_raw:
   - comments
   properties:
   - type: OpenAPI
@@ -218,6 +224,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - CRM
+  tags_raw:
   - crm
   properties:
   - type: OpenAPI
@@ -270,6 +278,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Divisions
+  tags_raw:
   - divisions
   properties:
   - type: OpenAPI
@@ -296,6 +306,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Export
+  tags_raw:
   - exports
   properties:
   - type: OpenAPI
@@ -322,6 +334,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Generic
+  tags_raw:
   - generic
   properties:
   - type: OpenAPI
@@ -348,6 +362,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Locale
+  tags_raw:
   - locale
   properties:
   - type: OpenAPI
@@ -400,6 +416,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Recommendations
+  tags_raw:
   - recommendations
   properties:
   - type: OpenAPI
@@ -504,6 +522,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Shares
+  tags_raw:
   - shares
   properties:
   - type: OpenAPI
@@ -530,6 +550,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Tag categories
+  tags_raw:
   - tag-categories
   properties:
   - type: OpenAPI
@@ -556,6 +578,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Tags
+  tags_raw:
   - tags
   properties:
   - type: OpenAPI
@@ -582,6 +606,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Themes
+  tags_raw:
   - themes
   properties:
   - type: OpenAPI
@@ -608,6 +634,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - Tickets
+  tags_raw:
   - tickets
   properties:
   - type: OpenAPI
@@ -634,6 +662,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - User Groups
+  tags_raw:
   - usergroups
   properties:
   - type: OpenAPI
@@ -660,6 +690,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - User Permissions
+  tags_raw:
   - userpermissions
   properties:
   - type: OpenAPI
@@ -686,6 +718,8 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
