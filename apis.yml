@@ -741,6 +741,8 @@ apis:
   - type: Documentation
     url: https://developer.showpad.com/docs/apis/users/SCIM
 common:
+  - type: Website
+    url: https://www.showpad.com/
   - type: CapabilityMap
     url: capabilities/showpad-capability-edges.yml
     name: Showpad Business Capability Map
