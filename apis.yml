@@ -656,62 +656,6 @@ apis:
     url: data-model/showpad-data-model.yml
   - type: Documentation
     url: https://developer.showpad.com/docs/apis/users/SCIM
-- aid: showpad:showpad-usergroups-api
-  name: Showpad Usergroups API
-  description: The usergroups API from Showpad — 14 operation(s) for usergroups.
-  humanURL: https://developer.showpad.com/docs/apis/
-  baseURL: https://{subdomain}.showpad.biz/api/v3
-  tags:
-  - User Groups
-  tags_raw:
-  - usergroups
-  properties:
-  - type: OpenAPI
-    url: openapi/showpad-usergroups-api-openapi.yml
-  - type: Documentation
-    url: https://developer.showpad.com/docs/apis/
-  - type: APIReference
-    url: https://developer.showpad.com/docs/apis/references/v3
-  - type: Authentication
-    url: https://developer.showpad.com/docs/apis/concepts/authentication
-  - type: Versioning
-    url: https://developer.showpad.com/docs/apis/concepts/versions
-  - type: APIReference
-    url: https://developer.showpad.com/docs/apis/references/v4
-  - type: ErrorCatalog
-    url: errors/showpad-problem-types.yml
-  - type: DataModel
-    url: data-model/showpad-data-model.yml
-  - type: Documentation
-    url: https://developer.showpad.com/docs/apis/users/SCIM
-- aid: showpad:showpad-userpermissions-api
-  name: Showpad Userpermissions API
-  description: The userpermissions API from Showpad — 6 operation(s) for userpermissions.
-  humanURL: https://developer.showpad.com/docs/apis/
-  baseURL: https://{subdomain}.showpad.biz/api/v3
-  tags:
-  - User Permissions
-  tags_raw:
-  - userpermissions
-  properties:
-  - type: OpenAPI
-    url: openapi/showpad-userpermissions-api-openapi.yml
-  - type: Documentation
-    url: https://developer.showpad.com/docs/apis/
-  - type: APIReference
-    url: https://developer.showpad.com/docs/apis/references/v3
-  - type: Authentication
-    url: https://developer.showpad.com/docs/apis/concepts/authentication
-  - type: Versioning
-    url: https://developer.showpad.com/docs/apis/concepts/versions
-  - type: APIReference
-    url: https://developer.showpad.com/docs/apis/references/v4
-  - type: ErrorCatalog
-    url: errors/showpad-problem-types.yml
-  - type: DataModel
-    url: data-model/showpad-data-model.yml
-  - type: Documentation
-    url: https://developer.showpad.com/docs/apis/users/SCIM
 - aid: showpad:showpad-users-api
   name: Showpad Users API
   description: The users API from Showpad — 22 operation(s) for users.
@@ -724,6 +668,58 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/showpad-users-api-openapi.yml
+  - type: Documentation
+    url: https://developer.showpad.com/docs/apis/
+  - type: APIReference
+    url: https://developer.showpad.com/docs/apis/references/v3
+  - type: Authentication
+    url: https://developer.showpad.com/docs/apis/concepts/authentication
+  - type: Versioning
+    url: https://developer.showpad.com/docs/apis/concepts/versions
+  - type: APIReference
+    url: https://developer.showpad.com/docs/apis/references/v4
+  - type: ErrorCatalog
+    url: errors/showpad-problem-types.yml
+  - type: DataModel
+    url: data-model/showpad-data-model.yml
+  - type: Documentation
+    url: https://developer.showpad.com/docs/apis/users/SCIM
+- aid: showpad:showpad-user-groups-api
+  name: Showpad User Groups API
+  description: The User Groups API from Showpad — 14 operation(s) for user groups.
+  humanURL: https://developer.showpad.com/docs/apis/reporting
+  baseURL: https://{subdomain}.showpad.biz/api/v3
+  tags:
+  - User Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/showpad-user-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developer.showpad.com/docs/apis/
+  - type: APIReference
+    url: https://developer.showpad.com/docs/apis/references/v3
+  - type: Authentication
+    url: https://developer.showpad.com/docs/apis/concepts/authentication
+  - type: Versioning
+    url: https://developer.showpad.com/docs/apis/concepts/versions
+  - type: APIReference
+    url: https://developer.showpad.com/docs/apis/references/v4
+  - type: ErrorCatalog
+    url: errors/showpad-problem-types.yml
+  - type: DataModel
+    url: data-model/showpad-data-model.yml
+  - type: Documentation
+    url: https://developer.showpad.com/docs/apis/users/SCIM
+- aid: showpad:showpad-user-permissions-api
+  name: Showpad User Permissions API
+  description: The User Permissions API from Showpad — 6 operation(s) for user permissions.
+  humanURL: https://developer.showpad.com/docs/apis/reporting
+  baseURL: https://{subdomain}.showpad.biz/api/v3
+  tags:
+  - User Permissions
+  properties:
+  - type: OpenAPI
+    url: openapi/showpad-user-permissions-api-openapi.yml
   - type: Documentation
     url: https://developer.showpad.com/docs/apis/
   - type: APIReference
