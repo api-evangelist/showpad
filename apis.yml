@@ -522,7 +522,7 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
-  - Shares
+  - Share
   tags_raw:
   - shares
   properties:
