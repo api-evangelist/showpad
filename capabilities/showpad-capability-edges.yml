@@ -14,7 +14,8 @@ capability_model:
 edge_count: 1
 edges:
 - tag: usergroups
-  spec_file: showpad-usergroups-api-openapi.yml
+  spec_file: showpad-user-groups-api-openapi.yml
+  reanchored_from: showpad-usergroups-api-openapi.yml
   capability_id: BC-620.20
   capability_id_l1: BC-620
   capability_name: Identity & Access Management
