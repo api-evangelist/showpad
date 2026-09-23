@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Showpad Themes API
-  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+  description: 'This OAS document is intended for developers or engineers who will be
 
     integrating their platform with Showpad API.
 
@@ -10,9 +10,7 @@ info:
 
     provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
 
-    customer that has a `xyz-org` subdomain.
-
-    '
+    customer that has a `xyz-org` subdomain.'
   version: '4'
   termsOfService: https://www.showpad.com/terms-of-service
   contact:
@@ -33,7 +31,7 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: themes
+- name: Themes
   x-displayName: Themes
   description: These are endpoints for managing Themes
 paths:
@@ -55,7 +53,7 @@ paths:
 
         This endpoint supports pagination constraints via limit and offset parameters and allows filtering.'
       tags:
-      - themes
+      - Themes
       security:
       - BearerAuth: []
       parameters:
@@ -432,7 +430,7 @@ paths:
 
         - Access asset URLs for logos and cover images.'
       tags:
-      - themes
+      - Themes
       security:
       - BearerAuth: []
       responses:

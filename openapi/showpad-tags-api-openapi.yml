@@ -28,19 +28,19 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: tags
+- name: Tags
   description: ''
 paths:
   /tags.json:
     get:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: get_tags
       description: 'Generates a list of Tag items.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getTags).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags.json
       responses:
         default:
@@ -237,12 +237,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: post_tags
       description: 'Create a Tag item.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postTags).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags.json
       responses:
         default:
@@ -434,7 +434,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: get_tags_count
       description: Retrieve the number of Tag items
       summary: /tags/count.json
@@ -528,7 +528,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: get_tags_description
       description: Generates information about the Tag model and available apis
       summary: /tags/description.json
@@ -598,7 +598,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: get_tags_id1_assets_id2
       description: Link or unlink an tag with ID = 'id1' to a asset with ID = 'id2'
       summary: /tags/{id1}/assets/{id2}.json
@@ -703,12 +703,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: link_tags_id1_assets_id2_link
       description: 'Link a tag with ID = ''id1'' to an asset with ID = ''id2''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id1}/assets/{id2}/link.json
       responses:
         default:
@@ -800,12 +800,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: unlink_tags_id1_assets_id2_unlink
       description: 'Unlink a tag with ID = ''id1'' from an asset with ID = ''id2''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id1}/assets/{id2}/unlink.json
       responses:
         default:
@@ -897,12 +897,12 @@ paths:
     get:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: get_tags_id
       description: 'Retrieve Tag item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getTag).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id}.json
       responses:
         default:
@@ -1073,7 +1073,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: put_tags_id
       description: Update the Tag item with ID='id'
       summary: /tags/{id}.json
@@ -1260,12 +1260,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: post_tags_id
       description: 'Update the Tag item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateTag).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id}.json
       responses:
         default:
@@ -1450,12 +1450,12 @@ paths:
     delete:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: delete_tags_id
       description: 'Delete the Tag item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/deleteTag).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id}.json
       responses:
         default:
@@ -1541,7 +1541,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: get_tags_id_assets
       description: Get all assets that belong to the tag with ID='id'
       summary: /tags/{id}/assets.json
@@ -2104,7 +2104,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - tags
+      - Tags
       operationId: post_tags_id_assets
       description: Add an asset to a tag with ID='id'
       summary: /tags/{id}/assets.json
@@ -2572,12 +2572,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: link_tags_id_link
       description: 'Link the Tag item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id}/link.json
       responses:
         default:
@@ -2682,12 +2682,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - tags
+      - Tags
       operationId: unlink_tags_id_unlink
       description: 'Link the Tag item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /tags/{id}/unlink.json
       responses:
         default:
@@ -2794,7 +2794,7 @@ paths:
       summary: List all Tags
       description: This endpoint retrieves all existing tags that are available for the requester.
       tags:
-      - tags
+      - Tags
       security:
       - BearerAuth: []
       parameters:
@@ -3055,7 +3055,7 @@ paths:
       summary: Create a tag
       description: This endpoint creates a new tag.
       tags:
-      - tags
+      - Tags
       security:
       - BearerAuth: []
       requestBody:
@@ -3445,7 +3445,7 @@ paths:
       summary: Retrieve a Tag
       description: This endpoint retrieves a single tag.
       tags:
-      - tags
+      - Tags
       security:
       - BearerAuth: []
       responses:
@@ -3573,7 +3573,7 @@ paths:
       summary: Update a Tag
       description: This endpoint updates a tag.
       tags:
-      - tags
+      - Tags
       security:
       - BearerAuth: []
       requestBody:
@@ -3968,7 +3968,7 @@ paths:
       summary: Delete a Tag
       description: This endpoint deletes a tag.
       tags:
-      - tags
+      - Tags
       security:
       - BearerAuth: []
       responses:

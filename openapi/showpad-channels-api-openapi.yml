@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: channels
+- name: Channels
   description: ''
 paths:
   /channels.json:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels
       description: Generates a list of Channel items
       summary: /channels.json
@@ -388,7 +388,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels
       description: Create a Channel item
       summary: /channels.json
@@ -682,7 +682,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_count
       description: Retrieve the number of Channel items
       summary: /channels/count.json
@@ -832,7 +832,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_description
       description: Generates information about the Channel model and available apis
       summary: /channels/description.json
@@ -894,7 +894,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_experience-types
       description: Get the list of installed experience types
       summary: /channels/experience-types.json
@@ -913,7 +913,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_experience-types_experiencetypeid_modules_modulename
       description: Get the module info of experience type
       summary: /channels/experience-types/{experienceTypeId}/modules/{moduleName}
@@ -932,7 +932,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_overview
       description: Get overview of channels
       summary: /channels/overview.json
@@ -1378,7 +1378,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id1_usergroups_id2
       description: Link or unlink a channel with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /channels/{id1}/usergroups/{id2}.json
@@ -1476,7 +1476,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: link_channels_id1_usergroups_id2_link
       description: Link a channel with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /channels/{id1}/usergroups/{id2}/link.json
@@ -1563,7 +1563,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: unlink_channels_id1_usergroups_id2_unlink
       description: Unlink a channel with ID = 'id1' from a usergroup with ID = 'id2'
       summary: /channels/{id1}/usergroups/{id2}/unlink.json
@@ -1650,7 +1650,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id1_users_id2
       description: Link or unlink a channel with ID = 'id1' to a user with ID = 'id2'
       summary: /channels/{id1}/users/{id2}.json
@@ -1745,7 +1745,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: link_channels_id1_users_id2_link
       description: Link a channel with ID = 'id1' to a user with ID = 'id2'
       summary: /channels/{id1}/users/{id2}/link.json
@@ -1832,7 +1832,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: unlink_channels_id1_users_id2_unlink
       description: Unlink a channel with ID = 'id1' from a user with ID = 'id2'
       summary: /channels/{id1}/users/{id2}/unlink.json
@@ -1919,7 +1919,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id
       description: Retrieve Channel item with ID='id'
       summary: /channels/{id}.json
@@ -2198,7 +2198,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: put_channels_id
       description: Update the Channel item with ID='id'
       summary: /channels/{id}.json
@@ -2499,7 +2499,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels_id
       description: Update the Channel item with ID='id'
       summary: /channels/{id}.json
@@ -2800,7 +2800,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: delete_channels_id
       description: Delete the Channel item with ID='id'
       summary: /channels/{id}.json
@@ -2880,7 +2880,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_assets
       description: Get all assets that belong to the channel with ID='id'
       summary: /channels/{id}/assets.json
@@ -3455,7 +3455,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_channelnodes
       description: Get all channel nodes that belong to the channel with ID='id'
       summary: /channels/{id}/channelnodes.json
@@ -3782,7 +3782,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels_id_duplicate
       description: Duplicate the channel item with ID='id'
       summary: /channels/{id}/duplicate.json
@@ -4030,7 +4030,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: link_channels_id_link
       description: Link the Channel item with ID='id'
       summary: /channels/{id}/link.json
@@ -4129,7 +4129,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_tag-categories
       description: Fetch the tag categories for an experience with ID='id'
       summary: /channels/{id}/tag-categories.json
@@ -4351,7 +4351,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels_id_tag-categories
       description: Update the tag categories for an experience with ID='id'
       summary: /channels/{id}/tag-categories.json
@@ -4589,7 +4589,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_tags
       description: Get tags for channel with ID='id'
       summary: /channels/{id}/tags.json
@@ -4668,7 +4668,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: unlink_channels_id_unlink
       description: Link the Channel item with ID='id'
       summary: /channels/{id}/unlink.json
@@ -4767,7 +4767,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_usergroups
       description: Get all usergroups that belong to the channel with ID='id'
       summary: /channels/{id}/usergroups.json
@@ -5027,7 +5027,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels_id_usergroups
       description: Add a group to the channel with ID='id'
       summary: /channels/{id}/usergroups.json
@@ -5254,7 +5254,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: get_channels_id_users
       description: Get all users that belong to the channel with ID='id'
       summary: /channels/{id}/users.json
@@ -5756,7 +5756,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - channels
+      - Channels
       operationId: post_channels_id_users
       description: Add a user to the channel with ID='id'
       summary: /channels/{id}/users.json

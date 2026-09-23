@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: tickets
+- name: Tickets
   description: ''
 paths:
   /tickets.json:
     get:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: get_tickets
       description: Generates a list of Ticket items
       summary: /tickets.json
@@ -267,7 +267,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: post_tickets_cancel
       description: Cancel the ticket
       summary: /tickets/cancel
@@ -322,7 +322,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: get_tickets_count
       description: Retrieve the number of Ticket items
       summary: /tickets/count.json
@@ -435,7 +435,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: get_tickets_description
       description: Generates information about the Ticket model and available apis
       summary: /tickets/description.json
@@ -497,7 +497,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: post_tickets_force-use
       description: Force using the related element on the ticket, only if the ticket has failed
       summary: /tickets/force-use
@@ -552,7 +552,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: get_tickets_ids_processingtime
       description: Retrieve processing time for Ticket items with IDs='ids'
       summary: /tickets/{ids}/processingtime.json
@@ -704,7 +704,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: get_tickets_id
       description: Retrieve Ticket item with ID='id'
       summary: /tickets/{id}.json
@@ -886,7 +886,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: delete_tickets_id
       description: Delete the Ticket item with ID='id'
       summary: /tickets/{id}.json
@@ -966,7 +966,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: post_tickets_id_cancel
       description: Cancel the ticket
       summary: /tickets/{id}/cancel
@@ -1046,7 +1046,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - tickets
+      - Tickets
       operationId: post_tickets_id_force-use
       description: Force using the related element on the ticket, only if the ticket has failed
       summary: /tickets/{id}/force-use

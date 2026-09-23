@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Showpad Tag Categories API
-  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+  description: 'This OAS document is intended for developers or engineers who will be
 
     integrating their platform with Showpad API.
 
@@ -10,9 +10,7 @@ info:
 
     provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
 
-    customer that has a `xyz-org` subdomain.
-
-    '
+    customer that has a `xyz-org` subdomain.'
   version: '4'
   termsOfService: https://www.showpad.com/terms-of-service
   contact:
@@ -33,7 +31,7 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: tag-categories
+- name: Tag categories
   x-displayName: Tag Categories
   description: These are endpoints for managing Tag Categories.
 paths:
@@ -43,7 +41,7 @@ paths:
       summary: List all Tag Category
       description: This endpoint retrieves all existing Tag Categories available for the requester.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       parameters:
@@ -282,7 +280,7 @@ paths:
       summary: Create a Tag Category
       description: This endpoint creates a new Tag Category resource.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       requestBody:
@@ -659,7 +657,7 @@ paths:
       summary: Retrieve a Tag Category
       description: This endpoint retrieves a single Tag Category resource.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       responses:
@@ -784,7 +782,7 @@ paths:
       summary: Update a Tag Category
       description: This endpoint updates an existing Tag Category's details.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       requestBody:
@@ -1205,7 +1203,7 @@ paths:
       summary: Delete a Tag Category
       description: This endpoint deletes a Tag Category resource.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       responses:
@@ -1412,7 +1410,7 @@ paths:
       summary: Update tags of a Tag Category
       description: This endpoint updates an existing Tag Category's Tags.
       tags:
-      - tag-categories
+      - Tag categories
       security:
       - BearerAuth: []
       requestBody:

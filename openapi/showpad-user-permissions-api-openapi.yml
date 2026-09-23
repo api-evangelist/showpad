@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: userpermissions
+- name: User Permissions
   description: ''
 paths:
   /userpermissions.json:
     get:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: get_userpermissions
       description: Generates a list of UserPermission items
       summary: /userpermissions.json
@@ -422,7 +422,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: post_userpermissions
       description: Create a UserPermission item
       summary: /userpermissions.json
@@ -786,7 +786,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: get_userpermissions_count
       description: Retrieve the number of UserPermission items
       summary: /userpermissions/count.json
@@ -992,7 +992,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: get_userpermissions_description
       description: Generates information about the UserPermission model and available apis
       summary: /userpermissions/description.json
@@ -1054,7 +1054,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: get_userpermissions_id
       description: Retrieve UserPermission item with ID='id'
       summary: /userpermissions/{id}.json
@@ -1299,7 +1299,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: put_userpermissions_id
       description: Update the UserPermission item with ID='id'
       summary: /userpermissions/{id}.json
@@ -1626,7 +1626,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: post_userpermissions_id
       description: Update the UserPermission item with ID='id'
       summary: /userpermissions/{id}.json
@@ -1953,7 +1953,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: delete_userpermissions_id
       description: Delete the UserPermission item with ID='id'
       summary: /userpermissions/{id}.json
@@ -2033,7 +2033,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: link_userpermissions_id_link
       description: Link the UserPermission item with ID='id'
       summary: /userpermissions/{id}/link.json
@@ -2132,7 +2132,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - userpermissions
+      - User Permissions
       operationId: unlink_userpermissions_id_unlink
       description: Link the UserPermission item with ID='id'
       summary: /userpermissions/{id}/unlink.json

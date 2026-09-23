@@ -28,19 +28,19 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: divisions
+- name: Divisions
   description: ''
 paths:
   /divisions.json:
     get:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions
       description: 'Generates a list of Division items.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getDivisions).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /divisions.json
       responses:
         default:
@@ -263,7 +263,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: post_divisions
       description: Create a Division item
       summary: /divisions.json
@@ -469,7 +469,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_count
       description: Retrieve the number of Division items
       summary: /divisions/count.json
@@ -573,7 +573,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_description
       description: Generates information about the Division model and available apis
       summary: /divisions/description.json
@@ -643,7 +643,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id1_usergroups_id2
       description: Link or unlink an division with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /divisions/{id1}/usergroups/{id2}.json
@@ -747,7 +747,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: link_divisions_id1_usergroups_id2_link
       description: Link an division with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /divisions/{id1}/usergroups/{id2}/link.json
@@ -842,7 +842,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: unlink_divisions_id1_usergroups_id2_unlink
       description: Unlink an division with ID = 'id1' from a usergroup with ID = 'id2'
       summary: /divisions/{id1}/usergroups/{id2}/unlink.json
@@ -937,12 +937,12 @@ paths:
     get:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id
       description: 'Retrieve Division item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getDivisionById).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /divisions/{id}.json
       responses:
         default:
@@ -1129,7 +1129,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: put_divisions_id
       description: Update the Division item with ID='id'
       summary: /divisions/{id}.json
@@ -1328,7 +1328,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: post_divisions_id
       description: Update the Division item with ID='id'
       summary: /divisions/{id}.json
@@ -1527,7 +1527,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: delete_divisions_id
       description: Delete the Division item with ID='id'
       summary: /divisions/{id}.json
@@ -1615,12 +1615,12 @@ paths:
     get:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_assets
       description: 'Get all assets that belong to the division with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postAssetsQuery) or this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getAssets).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version or this v4 version.'
       summary: /divisions/{id}/assets.json
       responses:
         default:
@@ -2193,9 +2193,14 @@ paths:
     post:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: post_divisions_id_assets
-      description: "Add an asset to the division with ID='id'.\n\n *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend\nswitching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postAssets)."
+      description: 'Add an asset to the division with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend
+
+        switching to this v4 version.'
       summary: /divisions/{id}/assets.json
       responses:
         default:
@@ -2663,7 +2668,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_comments
       description: Get all comments that belong to the division with ID='id'
       summary: /divisions/{id}/comments.json
@@ -2871,9 +2876,14 @@ paths:
     post:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: link_divisions_id_link
-      description: "Link the Division item with ID='id' to a user group.\n\n *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend\nusing a v4 endpoint whenever possible."
+      description: 'Link the Division item with ID=''id'' to a user group.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend
+
+        using a v4 endpoint whenever possible.'
       summary: /divisions/{id}/link.json
       responses:
         default:
@@ -2979,9 +2989,14 @@ paths:
     get:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_tags
-      description: "Get all tags that belong to the division with ID='id'.\n\n *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend\nswitching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getTags)."
+      description: 'Get all tags that belong to the division with ID=''id''.
+
+
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend
+
+        switching to this v4 version.'
       summary: /divisions/{id}/tags.json
       responses:
         default:
@@ -3212,12 +3227,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: post_divisions_id_tags
       description: 'Add a tag to the division with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateTag).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /divisions/{id}/tags.json
       responses:
         default:
@@ -3401,7 +3416,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_tickets
       description: Get all tickets that belong to the division with ID='id'
       summary: /divisions/{id}/tickets.json
@@ -3659,7 +3674,7 @@ paths:
     post:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: unlink_divisions_id_unlink
       description: 'Link the Division item with ID=''id''.
 
@@ -3770,7 +3785,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_usergroups
       description: Get all usergroups that belong to the division with ID='id'
       summary: /divisions/{id}/usergroups.json
@@ -4111,7 +4126,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - divisions
+      - Divisions
       operationId: post_divisions_id_usergroups
       description: Add a group to the division with ID='id'
       summary: /divisions/{id}/usergroups.json
@@ -4462,7 +4477,7 @@ paths:
     get:
       deprecated: true
       tags:
-      - divisions
+      - Divisions
       operationId: get_divisions_id_users
       description: 'Get all users that belong to the division with ID=''id''.
 
@@ -4922,7 +4937,7 @@ paths:
 
         Supports pagination for large datasets and is ideal for reporting, permission modeling, or building integrations that rely on Division hierarchy or availability.'
       tags:
-      - divisions
+      - Divisions
       security:
       - BearerAuth: []
       parameters:
@@ -5208,7 +5223,7 @@ paths:
 
         Returns the Division''s name, settings, and timestamps, making it useful for management, auditing, and system integrations.'
       tags:
-      - divisions
+      - Divisions
       security:
       - BearerAuth: []
       responses:

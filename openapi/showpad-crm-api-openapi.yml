@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Showpad CRM API
-  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+  description: 'This OAS document is intended for developers or engineers who will be
 
     integrating their platform with Showpad API.
 
@@ -10,9 +10,7 @@ info:
 
     provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
 
-    customer that has a `xyz-org` subdomain.
-
-    '
+    customer that has a `xyz-org` subdomain.'
   version: '4'
   termsOfService: https://www.showpad.com/terms-of-service
   contact:
@@ -33,7 +31,7 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: crm
+- name: CRM
   x-displayName: CRM
   description: These are endpoints for managing crm recommendation rules and fetching shares and shared spaces cmr records
 paths:
@@ -54,7 +52,7 @@ paths:
 
         - Manage pagination when working with a large number of rules.'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:
@@ -283,7 +281,7 @@ paths:
 
         Each rule includes conditions, operators, and tag logic (ALL, ANY, NONE) to determine which assets should be recommended.'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       requestBody:
@@ -531,7 +529,7 @@ paths:
 
         - Retrieve rule metadata such as creation and update timestamps for auditing or version tracking'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:
@@ -722,7 +720,7 @@ paths:
 
         - Maintain a tidy and accurate recommendation ruleset'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:
@@ -793,7 +791,7 @@ paths:
 
         - Maintain, tune, or troubleshoot CRM-driven content recommendations'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:
@@ -1069,7 +1067,7 @@ paths:
 
         - Monitor and audit Shared Space usage in your CRM system'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:
@@ -1217,7 +1215,7 @@ paths:
 
         - Monitor and audit Share usage in your CRM system'
       tags:
-      - crm
+      - CRM
       security:
       - BearerAuth: []
       parameters:

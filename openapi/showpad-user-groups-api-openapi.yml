@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: usergroups
+- name: User Groups
   description: ''
 paths:
   /usergroups.json:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups
       description: Generates a list of Usergroup items
       summary: /usergroups.json
@@ -285,7 +285,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: post_usergroups
       description: Create a Usergroup item
       summary: /usergroups.json
@@ -528,7 +528,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_count
       description: Retrieve the number of Usergroup items
       summary: /usergroups/count.json
@@ -620,7 +620,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_description
       description: Generates information about the Usergroup model and available apis
       summary: /usergroups/description.json
@@ -682,7 +682,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_id1_divisions_id2
       description: Link or unlink an usergroup with ID = 'id1' to a division with ID = 'id2'
       summary: /usergroups/{id1}/divisions/{id2}.json
@@ -780,7 +780,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: link_usergroups_id1_divisions_id2_link
       description: Link a usergroup with ID = 'id1' to a division with ID = 'id2'
       summary: /usergroups/{id1}/divisions/{id2}/link.json
@@ -867,7 +867,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: unlink_usergroups_id1_divisions_id2_unlink
       description: Unlink a usergroup with ID = 'id1' from a division with ID = 'id2'
       summary: /usergroups/{id1}/divisions/{id2}/unlink.json
@@ -954,7 +954,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_id1_users_id2
       description: Link or unlink an usergroup with ID = 'id1' to a user with ID = 'id2'
       summary: /usergroups/{id1}/users/{id2}.json
@@ -1051,7 +1051,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: link_usergroups_id1_users_id2_link
       description: Link a usergroup with ID = 'id1' to a user with ID = 'id2'
       summary: /usergroups/{id1}/users/{id2}/link.json
@@ -1137,7 +1137,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: unlink_usergroups_id1_users_id2_unlink
       description: Unlink a usergroup with ID = 'id1' from an user with ID = 'id2'
       summary: /usergroups/{id1}/users/{id2}/unlink.json
@@ -1223,7 +1223,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_id
       description: Retrieve Usergroup item with ID='id'
       summary: /usergroups/{id}.json
@@ -1445,7 +1445,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: put_usergroups_id
       description: Update the Usergroup item with ID='id'
       summary: /usergroups/{id}.json
@@ -1693,7 +1693,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: post_usergroups_id
       description: Update the Usergroup item with ID='id'
       summary: /usergroups/{id}.json
@@ -1941,7 +1941,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: delete_usergroups_id
       description: Delete the Usergroup item with ID='id'
       summary: /usergroups/{id}.json
@@ -2021,7 +2021,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_id_divisions
       description: Get all divisions that belong to the usergroup with ID='id'
       summary: /usergroups/{id}/divisions.json
@@ -2242,7 +2242,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: post_usergroups_id_divisions
       description: Add a division to a usergroup with ID='id'
       summary: /usergroups/{id}/divisions.json
@@ -2429,7 +2429,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: link_usergroups_id_link
       description: Link the Usergroup item with ID='id'
       summary: /usergroups/{id}/link.json
@@ -2528,7 +2528,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: unlink_usergroups_id_unlink
       description: Link the Usergroup item with ID='id'
       summary: /usergroups/{id}/unlink.json
@@ -2627,7 +2627,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: get_usergroups_id_users
       description: Get all users that belong to the usergroup with ID='id'
       summary: /usergroups/{id}/users.json
@@ -3117,7 +3117,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - usergroups
+      - User Groups
       operationId: post_usergroups_id_users
       description: Add an users to a usergroup with ID='id'
       summary: /usergroups/{id}/users.json

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Showpad Shares API
-  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+  description: 'This OAS document is intended for developers or engineers who will be
 
     integrating their platform with Showpad API.
 
@@ -10,9 +10,7 @@ info:
 
     provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
 
-    customer that has a `xyz-org` subdomain.
-
-    '
+    customer that has a `xyz-org` subdomain.'
   version: '4'
   termsOfService: https://www.showpad.com/terms-of-service
   contact:
@@ -33,7 +31,7 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: shares
+- name: Shares
   x-displayName: Shares
   description: These are endpoints for managing Shares
 paths:
@@ -41,9 +39,26 @@ paths:
     post:
       operationId: create-share
       summary: Create a Share
-      description: "Create a new Share to distribute one or more assets with external recipients via a downloadable or view-only link. \nShares can be customized with a title, expiration date, download permissions, and a visual theme.\n\nThis endpoint supports setting Share-level metadata, targeting specific asset pages, and restricting access to \nprotect sensitive content.\n\nUse this endpoint when you need to:\n\n* Share documents, media, or Collections with external users\n* Customize the look and feel of the Share\n* Control asset availability through download restrictions or expiration settings\n"
+      description: 'Create a new Share to distribute one or more assets with external recipients via a downloadable or view-only link.
+
+        Shares can be customized with a title, expiration date, download permissions, and a visual theme.
+
+
+        This endpoint supports setting Share-level metadata, targeting specific asset pages, and restricting access to
+
+        protect sensitive content.
+
+
+        Use this endpoint when you need to:
+
+
+        * Share documents, media, or Collections with external users
+
+        * Customize the look and feel of the Share
+
+        * Control asset availability through download restrictions or expiration settings'
       tags:
-      - shares
+      - Shares
       security:
       - BearerAuth: []
       requestBody:

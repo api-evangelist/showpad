@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: comments
+- name: Comments
   description: ''
 paths:
   /comments.json:
     get:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: get_comments
       description: Generates a list of Comment items
       summary: /comments.json
@@ -252,7 +252,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: post_comments
       description: Create a Comment item
       summary: /comments.json
@@ -445,7 +445,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: get_comments_count
       description: Retrieve the number of Comment items
       summary: /comments/count.json
@@ -550,7 +550,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: get_comments_description
       description: Generates information about the Comment model and available apis
       summary: /comments/description.json
@@ -612,7 +612,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: get_comments_id
       description: Retrieve Comment item with ID='id'
       summary: /comments/{id}.json
@@ -788,7 +788,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: put_comments_id
       description: Update the Comment item with ID='id'
       summary: /comments/{id}.json
@@ -982,7 +982,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: post_comments_id
       description: Update the Comment item with ID='id'
       summary: /comments/{id}.json
@@ -1176,7 +1176,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - comments
+      - Comments
       operationId: delete_comments_id
       description: Delete the Comment item with ID='id'
       summary: /comments/{id}.json

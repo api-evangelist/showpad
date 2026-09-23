@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: exports
+- name: Exports
   description: ''
 paths:
   /exports/asset-authors.json:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_asset-authors
       description: Export of asset-authors
       summary: /exports/asset-authors.json
@@ -126,7 +126,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_asset-countries
       description: Export of asset-countries
       summary: /exports/asset-countries.json
@@ -227,7 +227,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_asset-languages
       description: Export of asset-languages
       summary: /exports/asset-languages.json
@@ -328,7 +328,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_asset-tags
       description: Export of asset-tags
       summary: /exports/asset-tags.json
@@ -427,7 +427,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_assets
       description: Export of assets
       summary: /exports/assets.json
@@ -690,7 +690,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_channel-usergroups
       description: Export of channel-usergroups
       summary: /exports/channel-usergroups.json
@@ -789,7 +789,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_channel-users
       description: Export of channel-users
       summary: /exports/channel-users.json
@@ -888,7 +888,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_channels
       description: Export of channels
       summary: /exports/channels.json
@@ -1000,7 +1000,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_collectionitems
       description: Export of collectionitems
       summary: /exports/collectionitems.json
@@ -1138,7 +1138,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_collections
       description: Export of collections
       summary: /exports/collections.json
@@ -1262,7 +1262,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_contacts
       description: Export of contacts
       summary: /exports/contacts.json
@@ -1374,7 +1374,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_devices
       description: Export of devices
       summary: /exports/devices.json
@@ -1499,7 +1499,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_division-usergroups
       description: Export of division-usergroups
       summary: /exports/division-usergroups.json
@@ -1598,7 +1598,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_divisions
       description: Export of divisions
       summary: /exports/divisions.json
@@ -1722,7 +1722,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_events
       description: Export of events
       summary: /exports/events.json
@@ -1971,7 +1971,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_sharedspace-items
       description: Export of sharedspace-items
       summary: /exports/sharedspace-items.json
@@ -2108,7 +2108,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_sharedspaceparticipants
       description: Export of sharedspaceparticipants
       summary: /exports/sharedspaceparticipants.json
@@ -2282,7 +2282,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_sharedspaces
       description: Export of sharedspaces
       summary: /exports/sharedspaces.json
@@ -2439,7 +2439,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_shares
       description: Export of shares
       summary: /exports/shares.json
@@ -2579,7 +2579,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_tagcategories
       description: Export of tagcategories
       summary: /exports/tagcategories.json
@@ -2690,7 +2690,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_tagcategory-tags
       description: Export of tagcategory-tags
       summary: /exports/tagcategory-tags.json
@@ -2789,7 +2789,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_tags
       description: Export of tags
       summary: /exports/tags.json
@@ -2888,7 +2888,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_user-usergroups
       description: Export of user-usergroups
       summary: /exports/user-usergroups.json
@@ -2987,7 +2987,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_usergroups
       description: Export of usergroups
       summary: /exports/usergroups.json
@@ -3094,7 +3094,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - exports
+      - Exports
       operationId: get_exports_users
       description: Export of users
       summary: /exports/users.json

@@ -20,16 +20,18 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: generic
+- name: Generic
   description: ''
 paths:
   /{id}.json:
     get:
       deprecated: false
       tags:
-      - generic
+      - Generic
       operationId: get_id
-      description: "Retrieve a resource using the 'id' parameter, where 'id' represents the PID associated with any resource. \nThe system will intelligently identify the resource type and provide the corresponding resource as the output.\n"
+      description: 'Retrieve a resource using the ''id'' parameter, where ''id'' represents the PID associated with any resource.
+
+        The system will intelligently identify the resource type and provide the corresponding resource as the output.'
       summary: /{id}.json
       responses:
         '403':

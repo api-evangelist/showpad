@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Showpad Locale API
-  description: 'This [OAS](https://swagger.io/specification/) document is intended for developers or engineers who will be
+  description: 'This OAS document is intended for developers or engineers who will be
 
     integrating their platform with Showpad API.
 
@@ -10,9 +10,7 @@ info:
 
     provided subdomain of the customer, i.e., `https://xyz-org.api.showpad.com/v4` will be the API base URL of a
 
-    customer that has a `xyz-org` subdomain.
-
-    '
+    customer that has a `xyz-org` subdomain.'
   version: '4'
   termsOfService: https://www.showpad.com/terms-of-service
   contact:
@@ -33,7 +31,7 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: locale
+- name: Locale
   x-displayName: Locale
   description: These are endpoints for fetching available Languages and Countries information.
 paths:
@@ -55,7 +53,7 @@ paths:
 
         Ideal for localization workflows and system integrations that depend on standardized language identifiers.'
       tags:
-      - locale
+      - Locale
       security:
       - BearerAuth: []
       responses:
@@ -99,7 +97,7 @@ paths:
 
         - Power localization workflows that depend on standardized country identifiers'
       tags:
-      - locale
+      - Locale
       security:
       - BearerAuth: []
       responses:

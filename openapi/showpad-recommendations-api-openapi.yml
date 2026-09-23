@@ -20,14 +20,14 @@ security:
 - oAuth: []
 - bearerAuth: []
 tags:
-- name: recommendations
+- name: Recommendations
   description: ''
 paths:
   /recommendations/assets/new:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_assets_new
       description: Newly available assets
       summary: /recommendations/assets/new
@@ -211,7 +211,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_assets_popular
       description: 'This endpoint returns assets that consistently perform well based on long-term engagement metrics such as views, shares, or downloads. The results reflect sustained interest and usefulness over time.
 
@@ -418,7 +418,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_assets_trending
       description: 'Retrieve assets with rising engagement based on recent user activity, such as views or shares. This endpoint identifies content that is currently being interacted with more frequently, making it useful for surfacing timely and relevant materials.
 
@@ -623,7 +623,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_assets_updated
       description: Recently updated assets
       summary: /recommendations/assets/updated
@@ -807,7 +807,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_experiences_new
       description: New experiences
       summary: /recommendations/experiences/new
@@ -969,7 +969,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - recommendations
+      - Recommendations
       operationId: get_recommendations_experiences_popular
       description: Popular experiences
       summary: /recommendations/experiences/popular

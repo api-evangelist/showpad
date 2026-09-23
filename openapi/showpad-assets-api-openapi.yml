@@ -28,19 +28,19 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: assets
+- name: Assets
   description: ''
 paths:
   /assets.json:
     get:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: get_assets
       description: 'Generates a list of Asset items.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getAssets).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets.json
       security:
       - bearerAuth: []
@@ -606,12 +606,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: post_assets
       description: 'Create a Asset item.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postAssets) or this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/postAssetFiles).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version or this v4 version.'
       summary: /assets.json
       responses:
         default:
@@ -1090,7 +1090,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: get_assets_count
       description: Retrieve the number of Asset items
       summary: /assets/count.json
@@ -1325,7 +1325,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: get_assets_description
       description: Generates information about the Asset model and available apis
       summary: /assets/description.json
@@ -1395,12 +1395,12 @@ paths:
     get:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: get_assets_id1_tags_id2
       description: 'Link or unlink an asset with ID = ''id1'' to a tag with ID = ''id2''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id1}/tags/{id2}.json
       responses:
         default:
@@ -1503,12 +1503,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: link_assets_id1_tags_id2_link
       description: 'Link an asset with ID = ''id1'' to a tag with ID = ''id2''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id1}/tags/{id2}/link.json
       responses:
         default:
@@ -1600,12 +1600,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: unlink_assets_id1_tags_id2_unlink
       description: 'Unlink an asset with ID = ''id1'' from a tag with ID = ''id2''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id1}/tags/{id2}/unlink.json
       responses:
         default:
@@ -1697,12 +1697,12 @@ paths:
     get:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: get_assets_id
       description: 'Retrieve Asset item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id}.json
       responses:
         default:
@@ -2097,7 +2097,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: put_assets_id
       description: Update the Asset item with ID='id'
       summary: /assets/{id}.json
@@ -2569,12 +2569,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: post_assets_id
       description: 'Update the Asset item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id}.json
       responses:
         default:
@@ -3044,12 +3044,12 @@ paths:
     delete:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: delete_assets_id
       description: 'Delete the Asset item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/deleteAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id}.json
       responses:
         default:
@@ -3135,7 +3135,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: get_assets_id_comments
       description: Get all comments that belong to the asset with ID='id'
       summary: /assets/{id}/comments.json
@@ -3355,7 +3355,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: post_assets_id_comments
       description: Add a comment to the asset with ID='id'
       summary: /assets/{id}/comments.json
@@ -3544,12 +3544,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: link_assets_id_link
       description: 'Link the Asset item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id}/link.json
       responses:
         default:
@@ -3654,7 +3654,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: get_assets_id_tags
       description: Get all tags that belong to the asset with ID='id'
       summary: /assets/{id}/tags.json
@@ -3859,7 +3859,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - assets
+      - Assets
       operationId: post_assets_id_tags
       description: Add a tag to the asset with ID='id'
       summary: /assets/{id}/tags.json
@@ -4041,12 +4041,12 @@ paths:
     post:
       deprecated: true
       tags:
-      - assets
+      - Assets
       operationId: unlink_assets_id_unlink
       description: 'Link the Asset item with ID=''id''.
 
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/updateAsset).'
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.'
       summary: /assets/{id}/unlink.json
       responses:
         default:
@@ -4165,7 +4165,7 @@ paths:
 
         Supports pagination for large datasets and is ideal for asset syncing, reporting, or content discovery use cases.'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       parameters:
@@ -4813,7 +4813,7 @@ paths:
       description: 'This endpoint creates a new asset record in Showpad. An asset represents a digital resource such as a document, image, video, or URL. Creating an asset involves providing its metadata, assigning it to a Division, and optionally setting additional properties such as tags, countries, languages, authors, sharing permissions, and expiration details.
 
 
-        Note: The asset file (binary content) is not uploaded through this endpoint. Once the asset has been created successfully, you must upload the file by creating an asset file (see [Create an asset file](https://developer.showpad.com/docs/apis/references/v4#/operations/postAssetFiles)).
+        Note: The asset file (binary content) is not uploaded through this endpoint. Once the asset has been created successfully, you must upload the file by creating an asset file (see Create an asset file).
 
 
         Assets can be created as either:
@@ -4825,7 +4825,7 @@ paths:
 
         The request requires authentication and appropriate content management permissions for the specified Division.'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       requestBody:
@@ -5821,9 +5821,68 @@ paths:
     post:
       operationId: postAssetsQuery
       summary: Query assets using ShowQL
-      description: "This endpoint enables you to query your asset library using [ShowQL](https://developer.showpad.com/docs/apis/content/showql), a Showpad domain-specific language (DSL) that allows for flexible and complex filtering of assets based on metadata, tags, languages, countries, and more.\nUse this endpoint when you need to: \n- Retrieve a precise set of assets using complex filter logic\n- Search by metadata, custom fields, tags, or localized attributes\n- Page through large result sets with consistent performance using cursor-based pagination \n#### Iterating over results\nThere are two ways to paginate through the results of a ShowQL query: offset-based and cursor-based pagination. The method you choose depends on the expected number of results and performance considerations. Only one pagination strategy can be used at a time. Providing both an `offset` and a `cursor` in the same request is not supported.\n- **Offset-based pagination** - Use for fewer than 10,000 results<br /><br />To fetch the first page of results, either omit the `offset` property or set it to `0`. The `limit` property controls the maximum number of assets returned per page. If its omitted, the default value is applied.<br /><br />To fetch the next page of results, calculate the new offset by adding the number of items returned in the previous page to the current offset:<br /><br /> `offset = offset + items.length`<br /><br />Pagination should stop when the next offset value would be greater than or equal to the `count` value returned in the response.<br /><br />**Note**:<ul><li>If the number of remaining results is fewer than the `limit`, only the remaining items will be returned.</li><li>If the `offset` exceeds the number of available results, an empty `items` array will be returned.</li><li>Attempting to retrieve more than 10,000 results using offset-based pagination will result in a <strong>400 (Bad Request)</strong> response.</li></ul> \n\n- **Cursor-based pagination** - Use for more than 10,000 results<br /><br />To fetch the first page, omit the `cursor` property.<br /><br />Each response includes a `next` property containing a cursor string. To retrieve the next page, set the `cursor` property in your request to this `next` value. Continue this process until `next` is `null`, which indicates there are no more results.<br /><br />The `limit` property can be used to control the number of assets returned per page.<br /><br />Important considerations:<ul><li>**Do not change the sort order or filtering criteria** between cursor-based requests, as doing so may result in inconsistent or unexpected pagination behavior.</li><li>Cursors may become invalid if large changes occur in the underlying data between paginated requests.</li></ul>\n"
+      description: 'This endpoint enables you to query your asset library using ShowQL, a Showpad domain-specific language (DSL) that allows for flexible and complex filtering of assets based on metadata, tags, languages, countries, and more.
+
+        Use this endpoint when you need to:
+
+        - Retrieve a precise set of assets using complex filter logic
+
+        - Search by metadata, custom fields, tags, or localized attributes
+
+        - Page through large result sets with consistent performance using cursor-based pagination
+
+        #### Iterating over results
+
+        There are two ways to paginate through the results of a ShowQL query: offset-based and cursor-based pagination. The method you choose depends on the expected number of results and performance considerations. Only one pagination strategy can be used at a time. Providing both an `offset` and a `cursor` in the same request is not supported.
+
+        - **Offset-based pagination** - Use for fewer than 10,000 results
+
+
+        To fetch the first page of results, either omit the `offset` property or set it to `0`. The `limit` property controls the maximum number of assets returned per page. If its omitted, the default value is applied.
+
+
+        To fetch the next page of results, calculate the new offset by adding the number of items returned in the previous page to the current offset:
+
+
+        `offset = offset + items.length`
+
+
+        Pagination should stop when the next offset value would be greater than or equal to the `count` value returned in the response.
+
+
+        **Note**:
+
+
+        If the number of remaining results is fewer than the `limit`, only the remaining items will be returned.
+
+
+        If the `offset` exceeds the number of available results, an empty `items` array will be returned.
+
+
+        Attempting to retrieve more than 10,000 results using offset-based pagination will result in a 400 (Bad Request) response.
+
+
+        - **Cursor-based pagination** - Use for more than 10,000 results
+
+
+        To fetch the first page, omit the `cursor` property.
+
+
+        Each response includes a `next` property containing a cursor string. To retrieve the next page, set the `cursor` property in your request to this `next` value. Continue this process until `next` is `null`, which indicates there are no more results.
+
+
+        The `limit` property can be used to control the number of assets returned per page.
+
+
+        Important considerations:
+
+
+        **Do not change the sort order or filtering criteria** between cursor-based requests, as doing so may result in inconsistent or unexpected pagination behavior.
+
+
+        Cursors may become invalid if large changes occur in the underlying data between paginated requests.'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       requestBody:
@@ -6491,7 +6550,7 @@ paths:
 
         - Confirm the current state of an asset before performing an update or action.'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       responses:
@@ -6995,7 +7054,7 @@ paths:
 
         - Adjust sharing permissions or visibility settings'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       requestBody:
@@ -8060,7 +8119,7 @@ paths:
 
         - Clean up assets that are no longer in use or have expired'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       responses:
@@ -8286,7 +8345,7 @@ paths:
 
         - Paginate through large sets of files associated with a single asset'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       parameters:
@@ -8510,9 +8569,47 @@ paths:
     post:
       operationId: postAssetFiles
       summary: Create an Asset File
-      description: "This endpoint attaches a new binary file to an existing asset. Use this endpoint when you need to:\n- Add a new file to an existing asset\n- Replace or update the binary content while keeping metadata intact\n- Verify file integrity with a checksum\n- Upload large files using a temporary upload link\n\nAttaching a new binary file happens in two steps:\n\nStep 1: Request an upload link.\n- Send a `POST` request with the `assetId` in the path.\n- Optionally provide a new `fileName` or a Base64-encoded `contentMD5`` checksum for validation.\n- The response body includes:\n  - `uploadMeta`: Information required to perform the upload\n  - `uploadUrl`: A temporary signed link where the binary file must be uploaded\n  - `suggestedContentType`: The `Content-Type` header value required for the upload\n\nStep 2: Upload the file.\n- Send a `PUT` request to the `uploadUrl`.\n- Use the `suggestedContentType` header, and include the `Content-MD5` header if you provided a checksum.\n- If the checksum doesn’t match, you’ll get a `400` error.\n\nOnce the file is uploaded, Showpad processes it. After processing, the uploaded file becomes the `currentFile` for the asset."
+      description: 'This endpoint attaches a new binary file to an existing asset. Use this endpoint when you need to:
+
+        - Add a new file to an existing asset
+
+        - Replace or update the binary content while keeping metadata intact
+
+        - Verify file integrity with a checksum
+
+        - Upload large files using a temporary upload link
+
+
+        Attaching a new binary file happens in two steps:
+
+
+        Step 1: Request an upload link.
+
+        - Send a `POST` request with the `assetId` in the path.
+
+        - Optionally provide a new `fileName` or a Base64-encoded `contentMD5`` checksum for validation.
+
+        - The response body includes:
+
+        - `uploadMeta`: Information required to perform the upload
+
+        - `uploadUrl`: A temporary signed link where the binary file must be uploaded
+
+        - `suggestedContentType`: The `Content-Type` header value required for the upload
+
+
+        Step 2: Upload the file.
+
+        - Send a `PUT` request to the `uploadUrl`.
+
+        - Use the `suggestedContentType` header, and include the `Content-MD5` header if you provided a checksum.
+
+        - If the checksum doesn’t match, you’ll get a `400` error.
+
+
+        Once the file is uploaded, Showpad processes it. After processing, the uploaded file becomes the `currentFile` for the asset.'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       responses:
@@ -8908,7 +9005,7 @@ paths:
 
         - Confirm creation and update timestamps for version tracking'
       tags:
-      - assets
+      - Assets
       security:
       - BearerAuth: []
       responses:

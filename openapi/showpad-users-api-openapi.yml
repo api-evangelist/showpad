@@ -28,20 +28,20 @@ servers:
       default: customer
       description: Showpad customer subdomain
 tags:
-- name: users
+- name: Users
   description: ''
 paths:
   /users.json:
     get:
       deprecated: true
       tags:
-      - users
+      - Users
       operationId: get_users
       description: 'Generates a list of User items.
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getUsers).
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.
 
-        For more detailed information on when to use V3 or V4, please refer to [User Management](https://developer.showpad.com/docs/apis/users/user-management).'
+        For more detailed information on when to use V3 or V4, please refer to User Management.'
       summary: /users.json
       responses:
         default:
@@ -542,7 +542,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: post_users
       description: Create a User item
       summary: /users.json
@@ -1075,7 +1075,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_count
       description: Retrieve the number of User items
       summary: /users/count.json
@@ -1256,7 +1256,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_description
       description: Generates information about the User model and available apis
       summary: /users/description.json
@@ -1326,7 +1326,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_invite
       description: Send an invite to all users who have a pending invitation
       summary: /users/invite.json
@@ -1676,7 +1676,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_me
       description: Generates information about the current API user
       summary: /users/me.json
@@ -2034,7 +2034,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_me_recommendations
       description: Get recommendations for the current user
       summary: /users/me/recommendations.json
@@ -2069,7 +2069,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_me_tickets
       description: Get tickets for the current user
       summary: /users/me/tickets.json
@@ -2104,7 +2104,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id1_usergroups_id2
       description: Link or unlink an user with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /users/{id1}/usergroups/{id2}.json
@@ -2209,7 +2209,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: link_users_id1_usergroups_id2_link
       description: Link a user with ID = 'id1' to a usergroup with ID = 'id2'
       summary: /users/{id1}/usergroups/{id2}/link.json
@@ -2303,7 +2303,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: unlink_users_id1_usergroups_id2_unlink
       description: Unlink a user with ID = 'id1' from an usergroup with ID = 'id2'
       summary: /users/{id1}/usergroups/{id2}/unlink.json
@@ -2397,13 +2397,13 @@ paths:
     get:
       deprecated: true
       tags:
-      - users
+      - Users
       operationId: get_users_id
       description: 'Retrieve User item with ID=''id''.
 
-        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this [v4 version](https://developer.showpad.com/docs/apis/references/v4#/operations/getUserById).
+        *Note*: This endpoint continues to function, but future improvements will only be available in v4. We recommend switching to this v4 version.
 
-        For more detailed information on when to use V3 or V4, please refer to [User Management](https://developer.showpad.com/docs/apis/users/user-management).'
+        For more detailed information on when to use V3 or V4, please refer to User Management.'
       summary: /users/{id}.json
       responses:
         default:
@@ -2787,7 +2787,7 @@ paths:
     put:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: put_users_id
       description: Update the User item with ID='id'
       summary: /users/{id}.json
@@ -3303,7 +3303,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: post_users_id
       description: Update the User item with ID='id'
       summary: /users/{id}.json
@@ -3820,7 +3820,7 @@ paths:
     delete:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: delete_users_id
       description: Delete the User item with ID='id'
       summary: /users/{id}.json
@@ -3908,7 +3908,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_channels
       description: Get all channels that belong to the user with ID='id'
       summary: /users/{id}/channels.json
@@ -4274,7 +4274,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_divisionpermissions
       description: Get all division permissions that belong to the user with ID='id'
       summary: /users/{id}/divisionpermissions.json
@@ -4619,7 +4619,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: post_users_id_divisionpermissions
       description: Add a division permission to a user with ID='id'
       summary: /users/{id}/divisionpermissions.json
@@ -4903,7 +4903,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_divisions
       description: Get all divisions that belong to the user with ID='id'
       summary: /users/{id}/divisions.json
@@ -5133,7 +5133,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_email-preferences
       description: Get the email preference that belongs to the current user
       summary: /users/{id}/email-preferences.json
@@ -5257,7 +5257,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: post_users_id_email-preferences
       description: Get the email preference that belongs to the current user
       summary: /users/{id}/email-preferences.json
@@ -5381,7 +5381,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_externalservices
       description: Get the external service that belongs to the current user
       summary: /users/{id}/externalservices.json
@@ -5562,7 +5562,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_invite
       description: Send an invitation email to a single user
       summary: /users/{id}/invite.json
@@ -5596,7 +5596,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: link_users_id_link
       description: Link the User item with ID='id'
       summary: /users/{id}/link.json
@@ -5703,7 +5703,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: unlink_users_id_unlink
       description: Link the User item with ID='id'
       summary: /users/{id}/unlink.json
@@ -5810,7 +5810,7 @@ paths:
     get:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: get_users_id_usergroups
       description: Get all usergroups that belong to the user with ID='id'
       summary: /users/{id}/usergroups.json
@@ -6058,7 +6058,7 @@ paths:
     post:
       deprecated: false
       tags:
-      - users
+      - Users
       operationId: post_users_id_usergroups
       description: Add a usergroup to a user with ID='id'
       summary: /users/{id}/usergroups.json
@@ -6297,11 +6297,9 @@ paths:
 
         **Note:** This API endpoint only support basic `GET` functionality in this version (`v4`). Please refer to version 3
 
-        (`/v3`) for more advanced operations.
-
-        '
+        (`/v3`) for more advanced operations.'
       tags:
-      - users
+      - Users
       security:
       - BearerAuth: []
       parameters:
@@ -6563,11 +6561,9 @@ paths:
 
         **Note:** This API endpoint only support basic `GET` functionality in this version (`v4`). Please refer to version 3
 
-        (`/v3`) for more advanced operations.
-
-        '
+        (`/v3`) for more advanced operations.'
       tags:
-      - users
+      - Users
       security:
       - BearerAuth: []
       responses:

@@ -1,0 +1,71 @@
+{
+  "provider": "showpad",
+  "sources": [
+    "_original/showpad-v3-openapi-original.yml",
+    "_original/showpad-v4-openapi-original.yml"
+  ],
+  "outputs": [
+    "showpad-assets-api-openapi.yml",
+    "showpad-channels-api-openapi.yml",
+    "showpad-comments-api-openapi.yml",
+    "showpad-divisionpermissions-api-openapi.yml",
+    "showpad-divisions-api-openapi.yml",
+    "showpad-exports-api-openapi.yml",
+    "showpad-generic-api-openapi.yml",
+    "showpad-recommendations-api-openapi.yml",
+    "showpad-tags-api-openapi.yml",
+    "showpad-tickets-api-openapi.yml",
+    "showpad-usergroups-api-openapi.yml",
+    "showpad-userpermissions-api-openapi.yml",
+    "showpad-users-api-openapi.yml",
+    "showpad-crm-api-openapi.yml",
+    "showpad-locale-api-openapi.yml",
+    "showpad-mutual-action-plan-api-openapi.yml",
+    "showpad-shared-space-templates-api-openapi.yml",
+    "showpad-shared-spaces-api-openapi.yml",
+    "showpad-shared-spaces-quick-actions-api-openapi.yml",
+    "showpad-shares-api-openapi.yml",
+    "showpad-tag-categories-api-openapi.yml",
+    "showpad-themes-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "showpad-v3-openapi-original.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "showpad-v4-openapi-original.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "tag 'assets' spans 2 source specs (showpad-v3-openapi-original.yml, showpad-v4-openapi-original.yml): per-path servers applied",
+    "tag 'divisions' spans 2 source specs (showpad-v3-openapi-original.yml, showpad-v4-openapi-original.yml): per-path servers applied",
+    "tag 'tags' spans 2 source specs (showpad-v3-openapi-original.yml, showpad-v4-openapi-original.yml): per-path servers applied",
+    "tag 'users' spans 2 source specs (showpad-v3-openapi-original.yml, showpad-v4-openapi-original.yml): per-path servers applied",
+    "superseded outputs removed: showpad-user-groups-api-openapi.yml, showpad-user-permissions-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 25 total)"
+  ],
+  "skipped": [
+    "showpad-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-channels-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-crm-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-divisionpermissions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-divisions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-exports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-generic-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-locale-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-mutual-action-plan-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-recommendations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-shared-space-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-shared-spaces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-shared-spaces-quick-actions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-shares-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-tag-categories-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-themes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-tickets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-user-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-user-permissions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "showpad-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
