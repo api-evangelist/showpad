@@ -634,9 +634,10 @@ apis:
   humanURL: https://developer.showpad.com/docs/apis/
   baseURL: https://{subdomain}.showpad.biz/api/v3
   tags:
-  - Tickets
+  - Ticketing
   tags_raw:
   - tickets
+  - Tickets
   properties:
   - type: OpenAPI
     url: openapi/showpad-tickets-api-openapi.yml
