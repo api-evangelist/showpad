@@ -84,3 +84,32 @@ notes:
     Plan names in the developer documentation ("Ultimate", "Enterprise add-on") do not fully
     match the marketing page ("Professional", "Advanced", "Expert"), which suggests the
     packaging was renamed and the developer docs were not fully updated.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  units:
+  - seat
+  plans:
+  - name: Professional
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - seat
+    periods: []
+  - name: Advanced
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - seat
+    periods: []
+  - name: Expert
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - seat
+    periods: []
