@@ -5,6 +5,7 @@ checked:
 - https://fivetran.com/docs/connectors/partner-built-program
 - https://github.com/meltano/hub
 - https://zapier.com/api/v4/apps/
+- microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
 source:
 - okta/integrations/okta-integration-edges.yml
@@ -114,3 +115,22 @@ edges:
     builder: 'community (Meltano Hub variant maintainers: z3z1ma)'
   detected_by: sweep-data-integration.py
   first_seen: '2026-10-18'
+- partner_name: Microsoft Teams (own)
+  partner: microsoft-teams
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://appsource.microsoft.com/en-us/product/office/WA200011662
+  mirror_of: microsoft-teams/integrations/microsoft-teams-integration-edges.yml
+  apps:
+  - Showpad for Microsoft Teams
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: Microsoft Teams app
+  publisher_verified:
+  - Microsoft 365 Publisher Attestation
