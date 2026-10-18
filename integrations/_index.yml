@@ -65,7 +65,7 @@
     - connectors/applications/showpad
     vendor_link: https://www.showpad.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: showpad-meltano
   label: Meltano
@@ -94,7 +94,7 @@
     quality:
     - silver
     builder: 'community (Meltano Hub variant maintainers: z3z1ma)'
-  status: pending-partner-spec
+  status: not-a-workflow
   arazzo: null
 - slug: showpad-microsoft-teams-own
   label: Microsoft Teams (own)
